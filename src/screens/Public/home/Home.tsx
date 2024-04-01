@@ -8,6 +8,7 @@ export const Home = () => {
 
   const {categoryControllerFindAll} = useCategoryHook()
   const [category, setCategory] = useState([]);
+  //@ts-ignore
   const [error, setError] = useState('');
   useEffect(() => {
     const fetchCategory = async () => {
