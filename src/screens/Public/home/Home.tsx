@@ -106,7 +106,7 @@ export const Home = () => {
               backgroundRepeat: "no-repeat",
               backgroundSize: "contain",
             }} className="flex justify-center items-center h-full w-full ">
-              <p className=" w-64 md:text-sm text-[12px] mb-64 min-[420px]:mb-0">
+              <p className=" w-64 md:text-sm text-[12px] mb-48 min-[420px]:mb-0">
                 There are many variations of passages of Lorem Ipsum available There are many variations of passages of Lorem Ipsum available. There are many variations of passages of Lorem Ipsum available There are many variations of passages of Lorem Ipsum available. There are many variations of passages of Lorem Ipsum available There are many variations of passages of Lorem Ipsum available
               </p>
             </div>
