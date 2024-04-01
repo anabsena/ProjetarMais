@@ -8,6 +8,8 @@ export const Home = () => {
 
   const {categoryControllerFindAll} = useCategoryHook()
   const [category, setCategory] = useState([]);
+  
+  
   useEffect(() => {
     const fetchCategory = async () => {
       try {
@@ -15,10 +17,10 @@ export const Home = () => {
         console.log(response);
         if (response.status === 200) {
           //@ts-ignore
-          setCategory(response.data.data.slice(0, 6)); // Limit to maximum 8 categories
-        } else {
-        }
+          setCategory(response.data.data)
+        } 
       } catch (error) {
+        
       }
     };
 
