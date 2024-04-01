@@ -1,8 +1,33 @@
 import { HiArrowSmRight, HiOutlineOfficeBuilding } from "react-icons/hi";
 import HeaderHome from "../../../components/HeaderHome";
 import { Button } from "../../../components/ui/button";
+import useCategoryHook from "../../../hooks/useCategoryHook";
+import { useEffect, useState } from "react";
 
 export const Home = () => {
+
+  const {categoryControllerFindAll} = useCategoryHook()
+  const [category, setCategory] = useState([]);
+  useEffect(() => {
+    const fetchCategory = async () => {
+      try {
+        const response = await categoryControllerFindAll('', 1, 10);
+        console.log(response)
+        if (response.status === 200) {
+          //@ts-ignore
+          setCategory(response.data.data);
+          //@ts-ignore
+          console.log(response.data.data.id);
+        } else {
+          console.error("Error fetching categories:", response.message);
+        }
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+
+    fetchCategory();
+  }, []);
   return (
     <div className=" bg-[#F2F4FF]">
       <div className="w-full relative min-h-screen overflow-hidden">
