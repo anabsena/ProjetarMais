@@ -1,4 +1,4 @@
-import { HiArrowSmRight } from "react-icons/hi";
+import { HiArrowSmRight, HiOutlineOfficeBuilding } from "react-icons/hi";
 import HeaderHome from "../../../components/HeaderHome";
 import { Button } from "../../../components/ui/button";
 
@@ -166,12 +166,29 @@ export const Home = () => {
         backgroundImage: "url('img/bg-mais.svg')",
         backgroundRepeat: "repeat",
         backgroundSize: "cover",
-      }} className="flex justify-center items-center  min-h-screen w-full z-10">
+      }} className="flex flex-col justify-start items-center  min-h-screen w-full z-10">
         <div className="flex flex-col w-auto items-center mt-4 z-30 ">
           <h1 className="uppercase text-[#2F2E59] font-bold text-4xl px-4" style={{ fontFamily: "Adam, sans-serif" }}>
             O que fazemos de melhor
           </h1>
           <img src="img/separador-title.svg" alt="" className="mb-8 w-full" />
+        </div>
+        <div className="grid grid-cols-4 w-full gap-4  p-4 ">
+          <div className="bg-[#9BA1D1] p-2 w-full h-full rounded-xl ">
+            <div className="border-2 border-[#F4E393] p-8 w-full rounded-lg flex flex-col items-center gap-4">
+              <HiOutlineOfficeBuilding className="text-8xl" />
+              <h1 className="text-2xl">Projetos comerciais</h1>
+            </div>
+          </div>
+        </div>
+        <Button className="px-12 flex items-center gap-2" variant={"inverseTwo"} size={"lg"}>Saber mais <HiArrowSmRight /></Button>
+        <div className="w-full p-4 mt-4">
+          <div className="flex flex-col  items-start mt-4 z-30 ">
+            <h1 className="uppercase text-[#2F2E59] font-bold text-4xl " style={{ fontFamily: "Adam, sans-serif" }}>
+              Projetos
+            </h1>
+            <img src="img/separador-title-project.svg" alt=""  />
+          </div>
         </div>
       </div>
     </div>
