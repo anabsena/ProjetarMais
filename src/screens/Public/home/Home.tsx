@@ -1,8 +1,8 @@
-import { HiArrowSmRight, HiOutlineChevronDoubleDown } from "react-icons/hi";
+import { HiArrowSmRight } from "react-icons/hi";
 import HeaderHome from "../../../components/HeaderHome";
 import { Button } from "../../../components/ui/button";
 
-export const Home = (): JSX.Element => {
+export const Home = () => {
   return (
     <div className=" bg-[#F2F4FF]">
       <div className="w-full relative min-h-screen overflow-hidden">

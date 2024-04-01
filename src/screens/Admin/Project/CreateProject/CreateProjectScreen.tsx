@@ -13,7 +13,6 @@ const CreateProjectScreen = () => {
   const [categories, setCategories] = useState([]);
   const [projectCategoryId, setProjectCategoryId] = useState('');
   const [selectedCategory, setSelectedCategory] = useState("");
-  const [submitting, setSubmitting] = useState(false);
   const [namePlaceholder, setNamePlaceholder] = useState("Nome do projeto");
   const [descriptionPlaceholder, setDescriptionPlaceholder] = useState("Descrição");
   const [especificDetailsPlaceholder, setEspecificDetailsPlaceholder] = useState("Detalhes específicos");
@@ -21,7 +20,7 @@ const CreateProjectScreen = () => {
   const [imageUrls, setImageUrls] = useState([]);
   const { projectControllerCreate } = useProjectHook();
   const { categoryControllerFindAll } = useCategoryHook();
-  const {photoControllerCreate} = usePhotoHook()
+  const { photoControllerCreate } = usePhotoHook()
 
   const createProject = async () => {
     const allDetails = [especificDetails, ...details];
@@ -47,6 +46,7 @@ const CreateProjectScreen = () => {
     const fetchCategories = async () => {
       try {
         const response = await categoryControllerFindAll('', 1, 10);
+        //@ts-ignore
         setCategories(response.data.data);
       } catch (err) {
         console.error("Erro ao buscar categorias:", err);
@@ -54,54 +54,58 @@ const CreateProjectScreen = () => {
     };
     fetchCategories();
   }, []);
-
+  //@ts-ignore
   const handleFocus = (setState) => {
     setState("");
   };
-
+  //@ts-ignore
   const handleBlur = (setState, value) => {
     if (!value) {
+      //@ts-ignore
       setState((prev) => prev);
     }
   };
-  
+
   const addDetailInput = () => {
     setDetails([...details, ""]);
   };
-  
+  //@ts-ignore
   const removeDetailInput = (indexToRemove) => {
     const updatedDetails = details.filter((_, index) => index !== indexToRemove);
     setDetails(updatedDetails);
   };
-  
+  //@ts-ignore
   const handleDetailChange = (index, value) => {
     const updatedDetails = [...details];
     updatedDetails[index] = value;
     setDetails(updatedDetails);
   };
-
+  //@ts-ignore
   const handleImageChange = (e) => {
     const files = e.target.files;
+    //@ts-ignore
     const urls = Array.from(files).map((file) => URL.createObjectURL(file));
     setSelectedImages(Array.from(files));
+    //@ts-ignore
     setImageUrls(urls);
   };
-
+  //@ts-ignore
   const removeImage = (indexToRemove) => {
     const updatedUrls = imageUrls.filter((_, index) => index !== indexToRemove);
     const updatedImages = selectedImages.filter((_, index) => index !== indexToRemove);
-    
+
     setImageUrls(updatedUrls);
     setSelectedImages(updatedImages);
   };
 
   const handleSubmit = async () => {
     const projectId = await createProject();
+    //@ts-ignore
     if (projectId) {
       await photosProject(projectId);
     }
   }
-
+  //@ts-ignore
   const handleCategoryChange = (e) => {
     setSelectedCategory(e.target.value);
     setProjectCategoryId(e.target.value);
@@ -160,7 +164,7 @@ const CreateProjectScreen = () => {
                 onBlur={(e) => handleBlur(setEspecificDetailsPlaceholder, e.target.value)}
                 autoComplete="off"
               />
-              <Button  onClick={addDetailInput}><HiOutlinePlus className="text-xl" /></Button>
+              <Button onClick={addDetailInput}><HiOutlinePlus className="text-xl" /></Button>
             </div>
 
             {details.map((detail, index) => (
@@ -171,10 +175,10 @@ const CreateProjectScreen = () => {
                   value={detail}
                   onChange={(e) => handleDetailChange(index, e.target.value)}
                   onFocus={() => handleFocus(setEspecificDetailsPlaceholder)}
-                  onBlur={(e)=> handleBlur(setEspecificDetailsPlaceholder, e.target.value)}
+                  onBlur={(e) => handleBlur(setEspecificDetailsPlaceholder, e.target.value)}
                   className="p-4 bg-transparent border border-primary rounded-xl text-primary w-full"
                 />
-                <Button  onClick={() => removeDetailInput(index)} variant={"destructive"}><HiOutlineMinus className="text-xl"/></Button>
+                <Button onClick={() => removeDetailInput(index)} variant={"destructive"}><HiOutlineMinus className="text-xl" /></Button>
               </div>
             ))}
           </div>
@@ -189,7 +193,9 @@ const CreateProjectScreen = () => {
             >
               <option value="">Selecione uma categoria</option>
               {categories.map((cat) => (
+                //@ts-ignore
                 <option key={cat.id} value={cat.id}>
+                  {/* @ts-ignore */}
                   {cat.name}
                 </option>
               ))}

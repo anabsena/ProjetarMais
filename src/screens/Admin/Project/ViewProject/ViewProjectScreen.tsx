@@ -2,20 +2,20 @@ import { useEffect } from "react"
 import useProjectHook from "../../../../hooks/useProjectHook"
 import useQuery from "../../../../hooks/useQuery"
 
-const ViewProjectScreen = ()=>{
+const ViewProjectScreen = () => {
 
-    const {projectControllerFindOne}= useProjectHook()
-    const query=useQuery()
-const projectId = query.get('id');
-    useEffect(()=>{
+    const { projectControllerFindOne } = useProjectHook()
+    const query = useQuery()
+    const projectId = query.get('id');
+    useEffect(() => {
         const fecthProject = async () => {
-            
+            //@ts-ignore
             const response = await projectControllerFindOne(projectId)
-            console.log('project',response)
+            console.log('project', response)
         }
         fecthProject()
-    },[])
-    return(
+    }, [])
+    return (
         <div>
             oi
         </div>

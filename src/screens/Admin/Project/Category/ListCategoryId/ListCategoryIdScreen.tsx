@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import useCategoryHook from "../../../../../hooks/useCategoryHook";
-import { HiOutlineDotsVertical, HiOutlinePencilAlt, HiOutlinePhotograph, HiOutlinePlus, HiOutlineTag, HiOutlineXCircle, HiSearch } from "react-icons/hi";
+import { HiOutlineDotsVertical, HiOutlinePencilAlt, HiOutlinePhotograph, HiOutlinePlus, HiOutlineXCircle, HiSearch } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../../../../../components/ui/button";
 
@@ -18,10 +18,12 @@ const ListCategoryIdScreen = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
+        //@ts-ignore
         const response = await categoryControllerFindOne(categoryId);
         if (response.status === 200) {
           //@ts-ignore
           setProjects(response.data.Project);
+          //@ts-ignore
           console.log('projetos', response.data.Project);
         } else {
           console.error("Error fetching projects:", response.message);
@@ -56,19 +58,19 @@ const ListCategoryIdScreen = () => {
       </h1>
       <div className="flex items-center gap-2 w-full justify-end">
         <Button onClick={() => navigate(`/new-project?categoryId=${categoryId}`)}><HiOutlinePlus />Novo projeto</Button>
-        <input 
-          type="text" 
-          placeholder="Pesquisar" 
-          value={searchTerm} 
-          onChange={handleSearchChange} 
-          className="p-2 bg-transparent border border-secondary text-secondary rounded-xl focus:outline-none" 
+        <input
+          type="text"
+          placeholder="Pesquisar"
+          value={searchTerm}
+          onChange={handleSearchChange}
+          className="p-2 bg-transparent border border-secondary text-secondary rounded-xl focus:outline-none"
         />
-        <HiSearch className="text-primary text-3xl"/>
+        <HiSearch className="text-primary text-3xl" />
       </div>
       {projects.map((project: any) => (
         <div key={project.id} className="bg-gradient-to-r cursor-pointer from-[#636BA6] to-[#1E1D40] w-full rounded-xl p-4 flex gap-4 mt-4 items-center justify-between">
           <div className="flex gap-4 ">
-            <HiOutlinePhotograph className="text-6xl text-[#D9B341]"/>
+            <HiOutlinePhotograph className="text-6xl text-[#D9B341]" />
             <div>
               <h1 className="text-xl text-[#F2F4FF] font-bold" style={{ fontFamily: "Adam, sans-serif" }}>
                 Nome: {project.name}
@@ -79,9 +81,10 @@ const ListCategoryIdScreen = () => {
             </div>
           </div>
           <div className="relative">
-            <HiOutlineDotsVertical 
+            <HiOutlineDotsVertical
               className="text-4xl text-[#EDD253] cursor-pointer"
               onClick={() => {
+                //@ts-ignore
                 if (showModal && selectedProject && selectedProject.id === project.id) {
                   handleCloseModal();
                 } else {
@@ -89,18 +92,19 @@ const ListCategoryIdScreen = () => {
                 }
               }}
             />
+            {/* @ts-ignore */}
             {showModal && selectedProject && selectedProject.id === project.id && (
               <div className="absolute right-0 mt-2 w-48 bg-[#1E1D40] rounded-xl shadow-lg z-10 border border-[#D9B341]">
                 <div className="flex flex-col gap-4 p-2">
-                  <h1 className="flex gap-2 items-center"><HiOutlinePencilAlt className="text-xl text-[#D9B341]"/>Editar</h1>
-                  <h1 className="flex gap-2 items-center"><HiOutlineXCircle className="text-xl text-[#D9B341]"/>Excluir</h1>
+                  <h1 className="flex gap-2 items-center"><HiOutlinePencilAlt className="text-xl text-[#D9B341]" />Editar</h1>
+                  <h1 className="flex gap-2 items-center"><HiOutlineXCircle className="text-xl text-[#D9B341]" />Excluir</h1>
                 </div>
               </div>
             )}
           </div>
         </div>
       ))}
-      
+
     </div>
   );
 };

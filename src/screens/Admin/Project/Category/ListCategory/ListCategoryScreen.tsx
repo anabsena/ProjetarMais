@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import useCategoryHook from "../../../../../hooks/useCategoryHook";
-import { HiOutlineDotsVertical, HiOutlinePencilAlt, HiOutlinePhotograph, HiOutlinePlus, HiOutlineTag, HiOutlineXCircle, HiSearch } from "react-icons/hi";
+import { HiOutlineDotsVertical, HiOutlinePencilAlt, HiOutlinePlus, HiOutlineTag, HiOutlineXCircle, HiSearch } from "react-icons/hi";
 
 import { useNavigate } from "react-router-dom";
 import { Button } from "../../../../../components/ui/button";
@@ -9,6 +9,7 @@ const ListCategoryScreen = () => {
   const { categoryControllerFindAll } = useCategoryHook();
 
   const [category, setCategory] = useState([]);
+  //@ts-ignore
   const [categoryId, setCategoryId] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -25,7 +26,9 @@ const ListCategoryScreen = () => {
         if (response.status === 200) {
           //@ts-ignore
           setCategory(response.data.data);
+          //@ts-ignore
           setCategoryId(response.data.data.id);
+          //@ts-ignore
           console.log(response.data.data.id);
         } else {
           console.error("Error fetching categories:", response.message);
@@ -60,6 +63,7 @@ const ListCategoryScreen = () => {
   const handleClickNewCategory = () => {
     navigate('/new-category');
   };
+  //@ts-ignore
   const handleCategoryClick = (categoryId) => {
     navigate(`/categoryId?id=${categoryId}`);
   };
@@ -83,20 +87,20 @@ const ListCategoryScreen = () => {
       </h1>
       <div className="flex items-center gap-2 w-full justify-end">
         <Button onClick={handleClickNewCategory}><HiOutlinePlus />Nova categoria</Button>
-        <input 
-          type="text" 
-          placeholder="Pesquisar" 
-          value={searchTerm} 
-          onChange={handleSearchChange} 
-          className="p-2 bg-transparent border border-secondary text-secondary rounded-xl focus:outline-none" 
+        <input
+          type="text"
+          placeholder="Pesquisar"
+          value={searchTerm}
+          onChange={handleSearchChange}
+          className="p-2 bg-transparent border border-secondary text-secondary rounded-xl focus:outline-none"
         />
-        <HiSearch className="text-primary text-3xl"/>
+        <HiSearch className="text-primary text-3xl" />
       </div>
       {currentCategories.map((category: any) => (
         //@ts-ignore
-        <div key={category.id}  onClick={() => handleCategoryClick(category.id)} className="bg-gradient-to-r cursor-pointer from-[#B4B9E0] to-[#636BA6] w-full rounded-xl p-4 flex gap-4 mt-4 items-center justify-between">
+        <div key={category.id} onClick={() => handleCategoryClick(category.id)} className="bg-gradient-to-r cursor-pointer from-[#B4B9E0] to-[#636BA6] w-full rounded-xl p-4 flex gap-4 mt-4 items-center justify-between">
           <div className="flex gap-4 ">
-            <HiOutlineTag className="text-6xl text-[#08081A]"/>
+            <HiOutlineTag className="text-6xl text-[#08081A]" />
             <div>
               <h1 className="text-xl text-secondary font-bold" style={{ fontFamily: "Adam, sans-serif" }}>
                 {/* @ts-ignore */}
@@ -109,7 +113,7 @@ const ListCategoryScreen = () => {
             </div>
           </div>
           <div className="relative">
-            <HiOutlineDotsVertical 
+            <HiOutlineDotsVertical
               className="text-4xl text-[#EDD253] cursor-pointer"
               onClick={() => {
                 //@ts-ignore
@@ -124,8 +128,8 @@ const ListCategoryScreen = () => {
             {showModal && selectedCategory && selectedCategory.id === category.id && (
               <div className="absolute right-0 mt-2 w-48 bg-[#1E1D40] rounded-xl shadow-lg z-10 border border-[#D9B341]">
                 <div className="flex flex-col gap-4 p-2">
-                  <h1 className="flex gap-2 items-center"><HiOutlinePencilAlt className="text-xl text-[#D9B341]"/>Editar</h1>
-                  <h1 className="flex gap-2 items-center"><HiOutlineXCircle className="text-xl text-[#D9B341]"/>Excluir</h1>
+                  <h1 className="flex gap-2 items-center"><HiOutlinePencilAlt className="text-xl text-[#D9B341]" />Editar</h1>
+                  <h1 className="flex gap-2 items-center"><HiOutlineXCircle className="text-xl text-[#D9B341]" />Excluir</h1>
                 </div>
               </div>
             )}
@@ -135,9 +139,9 @@ const ListCategoryScreen = () => {
       {totalPages > 1 && (
         <div className="mt-4">
           {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-            <button 
-              key={page} 
-              onClick={() => paginate(page)} 
+            <button
+              key={page}
+              onClick={() => paginate(page)}
               className={`mx-1 p-2 rounded-md ${currentPage === page ? 'bg-[#636BA6] text-white' : 'bg-[#1E1D40] text-[#F2F4FF]'}`}
             >
               {page}
