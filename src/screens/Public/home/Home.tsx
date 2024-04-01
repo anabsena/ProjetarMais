@@ -77,8 +77,14 @@ export const Home = () => {
 
 
       </div>
-      <div className="w-full min-h-screen xl:flex items-center justify-center hidden  relative">
-        <div className="w-full flex absolute left-0">
+      <div className="w-full min-h-screen xl:flex-row items-start xl:items-center justify-start xl:justify-center flex flex-col relative">
+        <div className="flex flex-col w-full items-center xl:hidden mt-4">
+          <h1 className="uppercase text-[#2F2E59] font-bold text-4xl " style={{ fontFamily: "Adam, sans-serif" }}>
+            Sobre nós
+          </h1>
+          <img src="img/separador-title.svg" alt="" className="mb-8" />
+        </div>
+        <div className="w-full absolute left-0 hidden xl:flex">
           <h1 className="uppercase text-[#2F2E59] font-bold text-6xl flex flex-col leading-10 justify-center items-center pl-4" style={{ fontFamily: "Adam, sans-serif" }}>
             <span>S</span><br />
             <span>O</span><br />
@@ -90,31 +96,23 @@ export const Home = () => {
             <span>S</span>
           </h1>
         </div>
-        <div className="flex w-full h-full items-center justify-center gap-10 3xl:gap-16">
-          <img src="img/Img-escritorio.png" className="z-30 w-1/2" alt="" />
-          <img src="img/bg-sobre.svg" className="w-2/5 absolute right-0 top-1/4" alt="" />
-          <p className="z-30 w-72 3xl:w-96 xl:mt-32 2xl:mt-64 text-sm">
-            There are many variations of passages of Lorem Ipsum available There are many variations of passages of Lorem Ipsum available. There are many variations of passages of Lorem Ipsum available There are many variations of passages of Lorem Ipsum available. There are many variations of passages of Lorem Ipsum available There are many variations of passages of Lorem Ipsum available
-          </p>
-        </div>
-      </div>
-      <div className="w-full min-h-screen flex flex-col items-center relative xl:hidden p-4 ">
-        <div className="flex flex-col items-center">
-          <h1 className="uppercase text-[#2F2E59] font-bold text-4xl mt-24" style={{ fontFamily: "Adam, sans-serif" }}>
-            Sobre nós
-          </h1>
-          <img src="img/separador-title.svg" alt="" />
-        </div>
-        <div className="flex flex-col w-full h-full items-center justify-center gap-10 ">
-          <img src="img/Img-escritorio.png" className="z-30 w-full mt-16" alt="" />
-          <img src="img/bg-sobre.svg" className="w-full absolute top-1/2" alt="" />
-          <div className="z-30 w-full flex justify-start pl-10 ">
-
-
-            <p className=" w-56 text-[12px] ">
-              There are many variations of passages of Lorem Ipsum available There are many variations of passages of Lorem Ipsum available. There are many variations of passages of Lorem Ipsum available There are many variations of passages of Lorem Ipsum available. There are many variations of passages of Lorem Ipsum available There are many variations of passages of Lorem Ipsum available
-            </p>
+        <div className="flex flex-col w-full h-full items-end justify-center md:items-start xl:items-center md:justify-start xl:justify-center md:pl-4">
+          <div className="p-4  md:w-3/5 xl:w-1/2 z-30 xl:mr-96 2xl:mr-64">
+            <img src="img/Img-escritorio.png" className=" " alt="" />
           </div>
+          <div className="w-full h-96 min-[320px]:h-[600px] sm:w-[700px] sm:h-[700px] md:absolute md:right-0 z-10">
+            <div style={{
+              backgroundImage: "url('img/bg-sobre.svg')",
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "contain",
+            }} className="flex justify-center items-center h-full w-full ">
+              <p className=" w-64 md:text-sm text-[12px] mb-64 min-[420px]:mb-0">
+                There are many variations of passages of Lorem Ipsum available There are many variations of passages of Lorem Ipsum available. There are many variations of passages of Lorem Ipsum available There are many variations of passages of Lorem Ipsum available. There are many variations of passages of Lorem Ipsum available There are many variations of passages of Lorem Ipsum available
+              </p>
+            </div>
+          </div>
+
+
         </div>
       </div>
       <div className="w-full sm:h-56 relative flex justify-center">
