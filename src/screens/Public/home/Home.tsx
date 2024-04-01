@@ -8,21 +8,20 @@ export const Home = () => {
 
   const {categoryControllerFindAll} = useCategoryHook()
   const [category, setCategory] = useState([]);
+  const [error, setError] = useState('');
   useEffect(() => {
     const fetchCategory = async () => {
       try {
         const response = await categoryControllerFindAll('', 1, 10);
-        console.log(response)
+        console.log(response);
         if (response.status === 200) {
           //@ts-ignore
-          setCategory(response.data.data);
-          //@ts-ignore
-          console.log(response.data.data.id);
+          setCategory(response.data.data.slice(0, 6)); // Limit to maximum 8 categories
         } else {
-          console.error("Error fetching categories:", response.message);
+          setError("Error fetching categories: " + response.message);
         }
       } catch (error) {
-        console.error("Error fetching categories:", error);
+        setError("Error fetching categories: " + error);
       }
     };
 
@@ -191,30 +190,98 @@ export const Home = () => {
         backgroundImage: "url('img/bg-mais.svg')",
         backgroundRepeat: "repeat",
         backgroundSize: "cover",
-      }} className="flex flex-col justify-start items-center  min-h-screen w-full z-10">
+      }} className="flex flex-col justify-start items-center  min-h-screen w-full gap-8 z-10">
         <div className="flex flex-col w-auto items-center mt-4 z-30 ">
           <h1 className="uppercase text-[#2F2E59] font-bold text-4xl px-4" style={{ fontFamily: "Adam, sans-serif" }}>
             O que fazemos de melhor
           </h1>
           <img src="img/separador-title.svg" alt="" className="mb-8 w-full" />
         </div>
-        <div className="grid grid-cols-4 w-full gap-4  p-4 ">
-          <div className="bg-[#9BA1D1] p-2 w-full h-full rounded-xl ">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full gap-4  px-32 ">
+        {category.map((category)=>(        
+          // @ts-ignore
+          <div key={category.id} className="bg-[#9BA1D1] p-2 w-full h-full rounded-xl ">
             <div className="border-2 border-[#F4E393] p-8 w-full rounded-lg flex flex-col items-center gap-4">
               <HiOutlineOfficeBuilding className="text-8xl" />
-              <h1 className="text-2xl">Projetos comerciais</h1>
+              {/* @ts-ignore */}
+              <h1 className="text-2xl">{category.name}</h1>
             </div>
           </div>
+          ))}
         </div>
         <Button className="px-12 flex items-center gap-2" variant={"inverseTwo"} size={"lg"}>Saber mais <HiArrowSmRight /></Button>
-        <div className="w-full p-4 mt-4">
+        <div className="w-full p-4 mt-4 ">
           <div className="flex flex-col  items-start mt-4 z-30 ">
             <h1 className="uppercase text-[#2F2E59] font-bold text-4xl " style={{ fontFamily: "Adam, sans-serif" }}>
               Projetos
             </h1>
-            <img src="img/separador-title-project.svg" alt=""  />
+            <img src="img/separador-title-project.svg" className="mb-8" alt=""  />
           </div>
+          <div className="grid  grid-cols-1 lg:grid-cols-3  h-48 px-32 gap-12">
+            <div className="bg-[#2F2E59] rounded-lg"></div>
+            <div className="bg-[#9BA1D1] rounded-lg"></div>
+            <div className="bg-[#2F2E59] rounded-lg"></div>
+          </div>
+          </div>
+          <Button variant={"inverseTwo"} size={"lg"}>Ver todos <HiArrowSmRight /></Button>
+          <div>
         </div>
+      </div>
+      <div style={{
+        backgroundImage: "url('img/bg-fale-conosco.svg')",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+      }} className="flex flex-col justify-center items-center  min-h-screen w-full z-10">
+ <div className="flex flex-col w-full items-start mt-8 pl-8 z-30 ">
+            <h1 className="uppercase text-white  text-4xl " style={{ fontFamily: "Adam, sans-serif" }}>
+              Fale conosco
+            </h1>
+            <img src="img/separador-title-project.svg" className="mb-8" alt=""  />
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 p-8 gap-8 ">
+            <div className="grid grid-cols-2 gap-20 items-center" style={{ fontFamily: "Mulish, sans-serif" }}>
+              <h1 className="col-span-2 text-[#DADDF2] text-4xl ">Conte suas ideias e transforme os seus sonhos em realidade!</h1>
+              
+                <div className="col-span-1">
+                  <h1 className="text-[#EDD253]">Telefone</h1>
+                  <p className="text-[#CACEED]">(43)99999-9999</p>
+                  <p className="text-[#CACEED]">(43)99999-9999</p>
+                </div>
+                <div className="col-span-1">
+                  <h1 className="text-[#EDD253]">Email</h1>
+                  <p className="text-[#CACEED] uppercase">projetarmais@gmail.com</p>
+                </div>
+                <div className="col-span-2">
+                  <h1 className="text-[#EDD253]">Endereço</h1>
+                  <p className="text-[#CACEED]">Rua João Wyclif, 111, Sala 408 - Gleba Fazenda Palhano, Londrina - PR, CEP: 86.050-450</p>
+                </div>
+              
+            </div>
+            <div className="flex flex-col items-center gap-4">
+              <input type="text"
+              id="email"
+              placeholder="Email"
+              className="p-4 bg-transparent border border-[#B4B9E0] w-[80%] rounded-xl focus:outline-none"
+              autoComplete="off" />
+              <input type="text" 
+              placeholder="Email"
+              className="p-4 bg-transparent border border-[#B4B9E0] w-[80%] rounded-xl focus:outline-none"/>
+               
+          
+          <textarea
+            id="description"
+            placeholder="Descrição "
+            rows={6}
+            className="p-4 bg-transparent border border-[#B4B9E0] w-[80%] rounded-xl focus:outline-none"
+            
+          />
+          <div className="w-[80%] flex justify-end">
+
+          <Button variant={"inverseTwo"} size={"lg"}>Enviar <HiArrowSmRight /></Button>
+          </div>
+            </div>
+          </div>
       </div>
     </div>
   );
