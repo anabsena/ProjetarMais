@@ -162,6 +162,18 @@ export const Home = () => {
           </div>
         </div>
       </div>
+      <div style={{
+        backgroundImage: "url('img/bg-mais.svg')",
+        backgroundRepeat: "repeat",
+        backgroundSize: "cover",
+      }} className="flex justify-center items-center  min-h-screen w-full z-10">
+        <div className="flex flex-col w-auto items-center mt-4 z-30 ">
+          <h1 className="uppercase text-[#2F2E59] font-bold text-4xl px-4" style={{ fontFamily: "Adam, sans-serif" }}>
+            O que fazemos de melhor
+          </h1>
+          <img src="img/separador-title.svg" alt="" className="mb-8 w-full" />
+        </div>
+      </div>
     </div>
   );
 };
