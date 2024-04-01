@@ -5,7 +5,6 @@ const ApiService = {
     fetchData<Response = unknown, Request = Record<string, unknown>>(
         param: AxiosRequestConfig<Request>
     ) {
-        console.log('aqui')
         return new Promise<AxiosResponse<Response>>((resolve, reject) => {
             BaseService(param)
                 .then((response: AxiosResponse<Response>) => {

@@ -9,6 +9,7 @@ import axios, {
 
 // Crie uma instância Axios personalizada
 const apiInterceptorInstance: AxiosInstance = axios.create({
+    //@ts-ignore
     baseURL: import.meta.env.VITE_BASE_API, // Substitua pela URL da sua API
 })
 

@@ -6,6 +6,7 @@ import apiInterceptorInstance from './interceptor'
 
 
 const configuration = new Configuration({
+    //@ts-ignore
     basePath: import.meta.env.VITE_BASE_API
 })
 

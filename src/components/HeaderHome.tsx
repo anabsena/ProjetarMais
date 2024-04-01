@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Button } from "./ui/button";
-import { FaBars, FaTimes } from 'react-icons/fa'; // Importando os ícones do menu hamburguer e fechar
 import { HiMenuAlt3, HiOutlineX } from 'react-icons/hi';
 
 const HeaderHome = () => {
   const [scrolled, setScrolled] = useState(false);
-  const [isOpen, setIsOpen] = useState(false); // Estado para controlar a exibição do menu hamburguer
+  const [isOpen, setIsOpen] = useState(false); 
 
   useEffect(() => {
     const handleScroll = () => {

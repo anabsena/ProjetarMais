@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { HiOutlineFolderOpen, HiOutlineMenuAlt1, HiOutlineOfficeBuilding, HiOutlinePhotograph, HiOutlineUser, HiOutlineX } from "react-icons/hi";
+import { HiOutlineFolderOpen, HiOutlineMenuAlt1, HiOutlineOfficeBuilding, HiOutlineUser, HiOutlineX } from "react-icons/hi";
 import { Link } from "react-router-dom";
 
 export const Menu = () => {
