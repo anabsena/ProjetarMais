@@ -9,7 +9,7 @@ export const Home = () => {
   const {categoryControllerFindAll} = useCategoryHook()
   const [category, setCategory] = useState([]);
   //@ts-ignore
-  const [error, setError] = useState('');
+  // const [error, setError] = useState('');
   useEffect(() => {
     const fetchCategory = async () => {
       try {
@@ -19,10 +19,10 @@ export const Home = () => {
           //@ts-ignore
           setCategory(response.data.data.slice(0, 6)); // Limit to maximum 8 categories
         } else {
-          setError("Error fetching categories: " + response.message);
+          // setError("Error fetching categories: " + response.message);
         }
       } catch (error) {
-        setError("Error fetching categories: " + error);
+        // setError("Error fetching categories: " + error);
       }
     };
 
