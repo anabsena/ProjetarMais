@@ -31,7 +31,7 @@ const SignIn = () => {
           <h1 style={{ fontFamily: "Adam, sans-serif" }} className="uppercase text-4xl font-bold">
             Seja bem vindo(a) administrador(a)
           </h1>
-          <p className="font-thin text-xl" style={{ fontFamily: "Adam, sans-serif" }}>Insira seu login para continuara</p>
+          <p className="font-thin text-xl" style={{ fontFamily: "Adam, sans-serif" }}>Insira seu login para continuar</p>
           {message &&
             <div className="w-full flex justify-center">
               <Alert variant={"destructive"} className="absolute top-20 w-auto">
