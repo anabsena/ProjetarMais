@@ -9,55 +9,60 @@ import { Home } from "../screens";
 import NewUser from "../screens/Admin/User/NewUser/NewUser"
 import ViewProject from "../screens/Admin/Project/ViewProject/ViewProject";
 import AboutUs from "../screens/Public/AboutUs/AboutUs";
+import Contact from "../screens/Public/Contact/Contact";
 
 export default function PrivateRoute() {
   return {
     children: [
-        {
-            path: "*",
-            element: <Navigate to="/home" />,
-          },
-          {
-            path: '/projects',
-            element: <ListProjects />,
-          },
-          {
-            path: '/admin',
-            element: <ListAdmin />,
-          },
-          {
-            path: '/new-project',
-            element: <CreateProject />,
-          },
-          {
-            path: '/new-category',
-            element: <CreateCategory/>,
-          },
-          {
-            path: '/categorys',
-            element: <ListCategory/>,
-          },
-          {
-            path: '/categoryId',
-            element: <ListCategoryId/>,
-          },
-          {
-            path: '/home',
-            element: <Home/>,
-          },
-          {
-            path: '/new-user',
-            element: <NewUser/>,
-          },
-          {
-            path: '/project',
-            element: <ViewProject/>,
-          },
-          {
-            path: '/sobre-nos',
-            element: <AboutUs/>,
-          }
-      
+      {
+        path: "*",
+        element: <Navigate to="/home" />,
+      },
+      {
+        path: '/projects',
+        element: <ListProjects />,
+      },
+      {
+        path: '/admin',
+        element: <ListAdmin />,
+      },
+      {
+        path: '/new-project',
+        element: <CreateProject />,
+      },
+      {
+        path: '/new-category',
+        element: <CreateCategory />,
+      },
+      {
+        path: '/categorys',
+        element: <ListCategory />,
+      },
+      {
+        path: '/categoryId',
+        element: <ListCategoryId />,
+      },
+      {
+        path: '/home',
+        element: <Home />,
+      },
+      {
+        path: '/new-user',
+        element: <NewUser />,
+      },
+      {
+        path: '/project',
+        element: <ViewProject />,
+      },
+      {
+        path: '/sobre-nos',
+        element: <AboutUs />,
+      },
+      {
+        path: '/contato',
+        element: <Contact />,
+      }
+
     ]
   };
 }
