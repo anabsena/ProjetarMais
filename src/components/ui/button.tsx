@@ -20,7 +20,6 @@ const buttonVariants = cva(
         link: "text-primary underline-offset-4 hover:underline",
         inverse: 'text-secondary bg-white font-medium border rounded-xl px-2 shadow-inner border-secondary',
         inverseTwo: 'text-[#2F2E59] bg-gradient-to-r from-yellow-400 to-yellow-500 font-medium rounded-xl shadow-inner '
-
       },
       size: {
         default: "h-10 px-4 py-2",
@@ -47,8 +46,9 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const Comp = asChild ? Slot : "button";
     return (
       <Comp
-        className={cn(buttonVariants({ variant, size, className }))}
+        className={cn(buttonVariants({ variant, size, className }), "font-Mulish")}
         ref={ref}
+        style={{ fontFamily: "Mulish, sans-serif" }}
         {...props}
       />
     );

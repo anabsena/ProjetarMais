@@ -1,13 +1,36 @@
 import { HiArrowSmRight, HiOutlineOfficeBuilding } from "react-icons/hi";
 import HeaderHome from "../../../components/HeaderHome";
 import { Button } from "../../../components/ui/button";
+import useCategoryHook from "../../../hooks/useCategoryHook";
+import { useEffect, useState } from "react";
 
 export const Home = () => {
+
+  const { categoryControllerFindAll } = useCategoryHook()
+  const [category, setCategory] = useState([]);
+
+
+  useEffect(() => {
+    const fetchCategory = async () => {
+      try {
+        const response = await categoryControllerFindAll('', 1, 10);
+        console.log(response);
+        if (response.status === 200) {
+          //@ts-ignore
+          setCategory(response.data.data)
+        }
+      } catch (error) {
+
+      }
+    };
+
+    fetchCategory();
+  }, []);
   return (
     <div className=" bg-[#F2F4FF]">
       <div className="w-full relative min-h-screen overflow-hidden">
         <HeaderHome />
-        <div className="w-full relative hidden lg:flex h-full">
+        <div id="home" className="w-full relative hidden lg:flex h-full">
           <div className="w-full absolute top-0 left-0 z-10">
             <img src="img/bg-initial.svg" className="h-full w-full object-cover" alt="" />
           </div>
@@ -29,8 +52,8 @@ export const Home = () => {
             </div>
             <div className="w-full absolute flex justify-center bottom-8">
               <div className="flex gap-2 ">
-                <img src="img/icon-whatsapp.png" alt="" />
-                <img src="img/icon-instagram.png" alt="" />
+                <a href="https://wa.me/5543998008930"  target="_blank" rel="noopener noreferrer"><img src="img/icon-whatsapp.png" alt="" /></a>
+                <a href="https://www.instagram.com/projetarmais.arq/" target="_blank" rel="noopener noreferrer"><img src="img/icon-instagram.png" alt="" /></a>
               </div>
             </div>
           </div>
@@ -166,28 +189,96 @@ export const Home = () => {
         backgroundImage: "url('img/bg-mais.svg')",
         backgroundRepeat: "repeat",
         backgroundSize: "cover",
-      }} className="flex flex-col justify-start items-center  min-h-screen w-full z-10">
+      }} className="flex flex-col justify-start items-center  min-h-screen w-full gap-8 z-10">
         <div className="flex flex-col w-auto items-center mt-4 z-30 ">
           <h1 className="uppercase text-[#2F2E59] font-bold text-4xl px-4" style={{ fontFamily: "Adam, sans-serif" }}>
             O que fazemos de melhor
           </h1>
           <img src="img/separador-title.svg" alt="" className="mb-8 w-full" />
         </div>
-        <div className="grid grid-cols-4 w-full gap-4  p-4 ">
-          <div className="bg-[#9BA1D1] p-2 w-full h-full rounded-xl ">
-            <div className="border-2 border-[#F4E393] p-8 w-full rounded-lg flex flex-col items-center gap-4">
-              <HiOutlineOfficeBuilding className="text-8xl" />
-              <h1 className="text-2xl">Projetos comerciais</h1>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full gap-4  px-32 ">
+          {category.map((category) => (
+            // @ts-ignore
+            <div key={category.id} className="bg-[#9BA1D1] p-2 w-full h-full rounded-xl ">
+              <div className="border-2 border-[#F4E393] p-8 w-full rounded-lg flex flex-col items-center gap-4">
+                <HiOutlineOfficeBuilding className="text-8xl" />
+                {/* @ts-ignore */}
+                <h1 className="text-2xl">{category.name}</h1>
+              </div>
             </div>
-          </div>
+          ))}
         </div>
         <Button className="px-12 flex items-center gap-2" variant={"inverseTwo"} size={"lg"}>Saber mais <HiArrowSmRight /></Button>
-        <div className="w-full p-4 mt-4">
+        <div className="w-full p-4 mt-4 ">
           <div className="flex flex-col  items-start mt-4 z-30 ">
             <h1 className="uppercase text-[#2F2E59] font-bold text-4xl " style={{ fontFamily: "Adam, sans-serif" }}>
               Projetos
             </h1>
-            <img src="img/separador-title-project.svg" alt=""  />
+            <img src="img/separador-title-project.svg" className="mb-8" alt="" />
+          </div>
+          <div className="grid  grid-cols-1 lg:grid-cols-3  h-48 px-32 gap-12">
+            <div className="bg-[#2F2E59] rounded-lg"></div>
+            <div className="bg-[#9BA1D1] rounded-lg"></div>
+            <div className="bg-[#2F2E59] rounded-lg"></div>
+          </div>
+        </div>
+        <Button variant={"inverseTwo"} size={"lg"}>Ver todos <HiArrowSmRight /></Button>
+        <div>
+        </div>
+      </div>
+      <div style={{
+        backgroundImage: "url('img/bg-fale-conosco.svg')",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+      }} className="flex flex-col justify-center items-center  min-h-screen w-full z-10">
+        <div className="flex flex-col w-full items-start mt-8 pl-8 z-30 ">
+          <h1 className="uppercase text-white  text-4xl " style={{ fontFamily: "Adam, sans-serif" }}>
+            Fale conosco
+          </h1>
+          <img src="img/separador-title-project.svg" className="mb-8" alt="" />
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 p-8 gap-8 ">
+          <div className="grid grid-cols-2 gap-20 items-center" style={{ fontFamily: "Mulish, sans-serif" }}>
+            <h1 className="col-span-2 text-[#DADDF2] text-4xl ">Conte suas ideias e transforme os seus sonhos em realidade!</h1>
+
+            <div className="col-span-1">
+              <h1 className="text-[#EDD253]">Telefone</h1>
+              <p className="text-[#CACEED]">(43)99999-9999</p>
+              <p className="text-[#CACEED]">(43)99999-9999</p>
+            </div>
+            <div className="col-span-1">
+              <h1 className="text-[#EDD253]">Email</h1>
+              <p className="text-[#CACEED] uppercase">projetarmais@gmail.com</p>
+            </div>
+            <div className="col-span-2">
+              <h1 className="text-[#EDD253]">Endereço</h1>
+              <p className="text-[#CACEED]">Rua João Wyclif, 111, Sala 408 - Gleba Fazenda Palhano, Londrina - PR, CEP: 86.050-450</p>
+            </div>
+
+          </div>
+          <div className="flex flex-col items-center gap-4">
+            <input type="text"
+              id="email"
+              placeholder="Email"
+              className="p-4 bg-transparent border border-[#B4B9E0] w-[80%] rounded-xl focus:outline-none"
+              autoComplete="off" />
+            <input type="text"
+              placeholder="Email"
+              className="p-4 bg-transparent border border-[#B4B9E0] w-[80%] rounded-xl focus:outline-none" />
+
+
+            <textarea
+              id="description"
+              placeholder="Descrição "
+              rows={6}
+              className="p-4 bg-transparent border border-[#B4B9E0] w-[80%] rounded-xl focus:outline-none"
+
+            />
+            <div className="w-[80%] flex justify-end">
+
+              <Button variant={"inverseTwo"} size={"lg"}>Enviar <HiArrowSmRight /></Button>
+            </div>
           </div>
         </div>
       </div>

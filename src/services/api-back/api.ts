@@ -260,17 +260,17 @@ export interface ProjectResponse {
      */
     'especificDetails'?: string;
     /**
-     * 
-     * @type {Array<ResponsePhotoDto>}
-     * @memberof ProjectResponse
-     */
-    'Photo'?: Array<ResponsePhotoDto>;
-    /**
      * Categoria id
      * @type {string}
      * @memberof ProjectResponse
      */
     'projectCategoryId'?: string;
+    /**
+     * 
+     * @type {Array<ResponsePhotoDto>}
+     * @memberof ProjectResponse
+     */
+    'ProjectPhotos'?: Array<ResponsePhotoDto>;
 }
 /**
  * 
@@ -378,17 +378,17 @@ export interface ResponseProjectDto {
      */
     'especificDetails': string;
     /**
-     * 
-     * @type {Array<ResponsePhotoDto>}
-     * @memberof ResponseProjectDto
-     */
-    'Photo': Array<ResponsePhotoDto>;
-    /**
      * Categoria id
      * @type {string}
      * @memberof ResponseProjectDto
      */
     'projectCategoryId': string;
+    /**
+     * 
+     * @type {Array<ResponsePhotoDto>}
+     * @memberof ResponseProjectDto
+     */
+    'ProjectPhotos': Array<ResponsePhotoDto>;
 }
 /**
  * 
@@ -1410,14 +1410,14 @@ export const ProjectApiAxiosParamCreator = function (configuration?: Configurati
          * 
          * @summary Get all projects
          * @param {string} [name] 
-         * @param {number} [page] 
-         * @param {number} [perPage] 
-         * @param {string} [description] 
          * @param {string} [especificDetails] 
+         * @param {string} [description] 
+         * @param {any} [perPage] 
+         * @param {any} [page] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        projectControllerFindAll: async (name?: string, page?: number, perPage?: number, description?: string, especificDetails?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        projectControllerFindAll: async (name?: string, especificDetails?: string, description?: string, perPage?: any, page?: any, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/project/project`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1438,20 +1438,20 @@ export const ProjectApiAxiosParamCreator = function (configuration?: Configurati
                 localVarQueryParameter['name'] = name;
             }
 
-            if (page !== undefined) {
-                localVarQueryParameter['page'] = page;
-            }
-
-            if (perPage !== undefined) {
-                localVarQueryParameter['perPage'] = perPage;
+            if (especificDetails !== undefined) {
+                localVarQueryParameter['especificDetails'] = especificDetails;
             }
 
             if (description !== undefined) {
                 localVarQueryParameter['description'] = description;
             }
 
-            if (especificDetails !== undefined) {
-                localVarQueryParameter['especificDetails'] = especificDetails;
+            if (perPage !== undefined) {
+                localVarQueryParameter['perPage'] = perPage;
+            }
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
             }
 
 
@@ -1572,15 +1572,15 @@ export const ProjectApiFp = function(configuration?: Configuration) {
          * 
          * @summary Get all projects
          * @param {string} [name] 
-         * @param {number} [page] 
-         * @param {number} [perPage] 
-         * @param {string} [description] 
          * @param {string} [especificDetails] 
+         * @param {string} [description] 
+         * @param {any} [perPage] 
+         * @param {any} [page] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async projectControllerFindAll(name?: string, page?: number, perPage?: number, description?: string, especificDetails?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProjectsResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.projectControllerFindAll(name, page, perPage, description, especificDetails, options);
+        async projectControllerFindAll(name?: string, especificDetails?: string, description?: string, perPage?: any, page?: any, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProjectsResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.projectControllerFindAll(name, especificDetails, description, perPage, page, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -1630,15 +1630,15 @@ export const ProjectApiFactory = function (configuration?: Configuration, basePa
          * 
          * @summary Get all projects
          * @param {string} [name] 
-         * @param {number} [page] 
-         * @param {number} [perPage] 
-         * @param {string} [description] 
          * @param {string} [especificDetails] 
+         * @param {string} [description] 
+         * @param {any} [perPage] 
+         * @param {any} [page] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        projectControllerFindAll(name?: string, page?: number, perPage?: number, description?: string, especificDetails?: string, options?: any): AxiosPromise<ProjectsResponse> {
-            return localVarFp.projectControllerFindAll(name, page, perPage, description, especificDetails, options).then((request) => request(axios, basePath));
+        projectControllerFindAll(name?: string, especificDetails?: string, description?: string, perPage?: any, page?: any, options?: any): AxiosPromise<ProjectsResponse> {
+            return localVarFp.projectControllerFindAll(name, especificDetails, description, perPage, page, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1687,16 +1687,16 @@ export class ProjectApi extends BaseAPI {
      * 
      * @summary Get all projects
      * @param {string} [name] 
-     * @param {number} [page] 
-     * @param {number} [perPage] 
-     * @param {string} [description] 
      * @param {string} [especificDetails] 
+     * @param {string} [description] 
+     * @param {any} [perPage] 
+     * @param {any} [page] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProjectApi
      */
-    public projectControllerFindAll(name?: string, page?: number, perPage?: number, description?: string, especificDetails?: string, options?: AxiosRequestConfig) {
-        return ProjectApiFp(this.configuration).projectControllerFindAll(name, page, perPage, description, especificDetails, options).then((request) => request(this.axios, this.basePath));
+    public projectControllerFindAll(name?: string, especificDetails?: string, description?: string, perPage?: any, page?: any, options?: AxiosRequestConfig) {
+        return ProjectApiFp(this.configuration).projectControllerFindAll(name, especificDetails, description, perPage, page, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

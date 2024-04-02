@@ -40,6 +40,7 @@ function useProjectHook() {
     perPage?: number
   ) => {
     try {
+      //@ts-ignore
       const response = await projectApi.projectControllerFindAll(name, page, perPage);
 
       const { data, status, statusText} = response
