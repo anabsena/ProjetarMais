@@ -4,7 +4,6 @@ import { Button } from "../../../components/ui/button";
 import useCategoryHook from "../../../hooks/useCategoryHook";
 import { useEffect, useState } from "react";
 import Footer from "../../../components/Footer";
-import Contact from "../Contact/Contact";
 import ContactScreen from "../Contact/ContactScreen";
 
 export const Home = () => {
