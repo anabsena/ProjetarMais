@@ -8,13 +8,14 @@ import ListCategoryId from "../screens/Admin/Project/Category/ListCategoryId/Lis
 import { Home } from "../screens";
 import NewUser from "../screens/Admin/User/NewUser/NewUser"
 import ViewProject from "../screens/Admin/Project/ViewProject/ViewProject";
+import AboutUs from "../screens/Public/AboutUs/AboutUs";
 
 export default function PrivateRoute() {
   return {
     children: [
         {
             path: "*",
-            element: <Navigate to="/admin" />,
+            element: <Navigate to="/home" />,
           },
           {
             path: '/projects',
@@ -51,6 +52,10 @@ export default function PrivateRoute() {
           {
             path: '/project',
             element: <ViewProject/>,
+          },
+          {
+            path: '/sobre-nos',
+            element: <AboutUs/>,
           }
       
     ]

@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import { Button } from "./ui/button";
 import { HiMenuAlt3, HiOutlineX } from 'react-icons/hi';
+import { Link, useNavigate } from 'react-router-dom';
 
 const HeaderHome = () => {
   const [scrolled, setScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false); 
+  const navigate = useNavigate()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -21,6 +23,9 @@ const HeaderHome = () => {
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
+  };
+  const handleLinkAboutClick = () => {
+    navigate('/sobre-nos');
   };
 
   return (
@@ -42,9 +47,9 @@ const HeaderHome = () => {
             {isOpen && (
               <div className="fixed top-0 right-0 w-2/3 h-2/3 bg-[#22222B] bg-opacity-95 flex flex-col items-center justify-center rounded-l-full transition-transform duration-300 transform translate-x-0">
                 <HiOutlineX className="text-white absolute top-4 right-4 text-4xl cursor-pointer" onClick={toggleMenu} />
-                <h1 className="text-white text-xl mb-4 cursor-pointer">Home</h1>
-                <h1 className="text-white text-xl mb-4 cursor-pointer">Sobre nós</h1>
-                <h1 className="text-white text-xl mb-4 cursor-pointer">Projetos</h1>
+                <a href="#home" className="text-white text-xl mb-4 cursor-pointer">Home</a>
+            <a href="#sobre" className="text-white text-xl mb-4 cursor-pointer">Sobre nós</a>
+            <a href="#projetos" className="text-white text-xl mb-4 cursor-pointer">Projetos</a>
                 <Button variant={"inverseTwo"} size={"lg"}>Contato</Button>
                 <div className='flex flex-col items-end justify-center mt-12 absolute bottom-20 right-1'>
                   <h1 className="text-white text-sm">(43)99999-9999</h1>
@@ -65,9 +70,9 @@ const HeaderHome = () => {
         <div className='flex w-full px-4 justify-between items-center text-xl'>
           <img src="img/Logo.png" className="h-24 w-24" alt="" />
           <div className='flex  items-center gap-12'>
-            <h1 className="">Home</h1>
-            <h1 className="">Sobre nós</h1>
-            <h1 className="">Projetos</h1>
+          <a href="/home">Home</a>
+        <Link to="/sobre-nos" onClick={handleLinkAboutClick}>Sobre nós</Link>
+        <a href="#projetos">Projetos</a>
             <Button variant={"inverseTwo"} size={"lg"}>Contato</Button>
           </div>
         </div>
