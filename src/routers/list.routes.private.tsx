@@ -10,6 +10,7 @@ import NewUser from "../screens/Admin/User/NewUser/NewUser"
 import ViewProject from "../screens/Admin/Project/ViewProject/ViewProject";
 import AboutUs from "../screens/Public/AboutUs/AboutUs";
 import Contact from "../screens/Public/Contact/Contact";
+import Services from "../screens/Public/Sevices/Services";
 
 export default function PrivateRoute() {
   return {
@@ -61,6 +62,10 @@ export default function PrivateRoute() {
       {
         path: '/contato',
         element: <Contact />,
+      },
+      {
+        path: '/serviços',
+        element: <Services/>,
       }
 
     ]

@@ -53,6 +53,7 @@ const HeaderHome = () => {
                 <HiOutlineX className="text-white absolute top-4 right-4 text-4xl cursor-pointer" onClick={toggleMenu} />
                 <a href="/home" className="text-white text-xl mb-4 cursor-pointer">Home</a>
                 <a href="/sobre-nos" className="text-white text-xl mb-4 cursor-pointer">Sobre nós</a>
+                <a href="/serviços" className="text-white text-xl mb-4 cursor-pointer">Serviços</a>
                 <a href="#projetos" className="text-white text-xl mb-4 cursor-pointer">Projetos</a>
                 <Button variant={"inverseTwo"} size={"lg"} onClick={handleLinkContactClick}>Contato</Button>
                 <div className='flex flex-col items-end justify-center mt-12 absolute bottom-20 right-1'>
@@ -77,6 +78,7 @@ const HeaderHome = () => {
             <div className='flex  items-center gap-12'>
               <a href="/home">Home</a>
               <Link to="/sobre-nos" onClick={handleLinkAboutClick}>Sobre nós</Link>
+              <a href="/serviços">Serviços</a>
               <a href="#projetos">Projetos</a>
               <Button variant={"inverseTwo"} size={"lg"} onClick={handleLinkContactClick}>Contato</Button>
             </div>
