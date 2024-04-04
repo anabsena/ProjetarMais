@@ -74,7 +74,7 @@ const HeaderHome = () => {
             <h1 className="uppercase text-white">projetarmais@gmail.com</h1>
           </div>
           <div className='flex w-full px-4 justify-between items-center text-xl'>
-            <Link to='/home'><img src="img/Logo.svg" className="h-24 w-24" alt="" /></Link>
+            <Link to='/home'><img src="img/Logo.svg" className="h-16 w-16" alt="" /></Link>
             <div className='flex  items-center gap-12'>
               <a href="/home">Home</a>
               <Link to="/sobre-nos" onClick={handleLinkAboutClick}>Sobre nós</Link>

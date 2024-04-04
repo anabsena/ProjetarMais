@@ -7,7 +7,7 @@ const AboutUs = () => {
     return (
         <div className=" bg-[#F2F4FF]">
             <div className="w-full relative min-h-screen overflow-hidden ">
-                <div className="  lg:bg-[#9BA1D1]/40  lg:w-full lg:h-36">
+                <div className="   lg:bg-[#545C99]  lg:w-full lg:h-28">
 
                     <HeaderHome />
                 </div>
