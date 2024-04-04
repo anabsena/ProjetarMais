@@ -36,16 +36,17 @@ function useProjectHook() {
 }
   const projectControllerFindAll = async (
     name?: string,
+    especificDetails?: string,
+    description?: string,
     page?: number,
     perPage?: number
   ) => {
     try {
       //@ts-ignore
-      const response = await projectApi.projectControllerFindAll(name, page, perPage);
+      const response = await projectApi.projectControllerFindAll(name, especificDetails ,description, perPage, page);
+      console.log('hook', response)
 
       const { data, status, statusText} = response
-
-     
 
       return {
         status: status,

@@ -18,7 +18,7 @@ const ListProjectsScreen = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const response = await projectControllerFindAll('', 1, 10);
+        const response = await projectControllerFindAll('','', '', 1, 10);
         if (response.status === 200) {
           //@ts-ignore
           setProjects(response.data.data);

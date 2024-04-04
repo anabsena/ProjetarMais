@@ -21,7 +21,7 @@ const CreateCategoryScreen = () => {
     try {
       const response = await categoryControllerCreate(name, description);
 
-      if (response?.status === 'success') {
+      if (response?.status === 201) {
         console.log(response);
         navigate('/categorys');
       } else {

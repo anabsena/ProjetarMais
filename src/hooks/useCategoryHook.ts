@@ -4,24 +4,32 @@ function useCategoryHook() {
   const categoryControllerCreate = async (name: string, description: string) => {
     try {
       const response = await categoryApi.categoryControllerCreate({ name, description });
-
+  
       const { data, status, statusText } = response;
-
+  
       return {
         status: status,
         message: statusText,
         data: data,
       };
     } catch (error: any) {
-      console.error("Error creating category:", error);
-
-      return {
-        status: "error",
-        message: error.message,
-        data: null,
-      };
+      if (error.response && error.response.status === 409) {
+        return {
+          status: "error",
+          message: "Categoria já existe",
+          data: null,
+        };
+      } else {
+        console.error("Error creating category:", error);
+        return {
+          status: "error",
+          message: error.message,
+          data: null,
+        };
+      }
     }
   };
+  
 
   const categoryControllerFindAll = async (
     name: string,
