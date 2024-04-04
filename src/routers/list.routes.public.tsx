@@ -5,6 +5,7 @@ import SignIn from "../screens/Admin/loginAdmin/SignIn";
 import AboutUs from "../screens/Public/AboutUs/AboutUs";
 import Contact from "../screens/Public/Contact/Contact";
 import Services from "../screens/Public/Sevices/Services";
+import ProjectAll from "../screens/Public/Project/ProjectAll";
 
 
 export default function PublicRoute() {
@@ -33,6 +34,10 @@ export default function PublicRoute() {
       {
         path: '/serviços',
         element: <Services />,
+      },
+      {
+        path: '/projetos',
+        element: <ProjectAll />,
       }
 
 
