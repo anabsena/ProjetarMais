@@ -5,11 +5,17 @@ import useCategoryHook from "../../../hooks/useCategoryHook";
 import { useEffect, useState } from "react";
 import Footer from "../../../components/Footer";
 import ContactScreen from "../Contact/ContactScreen";
+import useProjectHook from "../../../hooks/useProjectHook";
+import { useNavigate } from "react-router-dom";
 
 export const Home = () => {
 
   const { categoryControllerFindAll } = useCategoryHook()
   const [category, setCategory] = useState([]);
+  const[projects, setProjects] = useState([]);
+  const [photoOne, setPhotoOne] = useState<string[]>([]);
+  const {projectControllerFindAll} = useProjectHook()
+  const navigate = useNavigate()
 
 
   useEffect(() => {
@@ -25,9 +31,48 @@ export const Home = () => {
 
       }
     };
+    const fetchProjects = async () => {
+      try {
+        const response = await projectControllerFindAll('', '', '', 1, 10);
+        if (response.status === 200) {
+          //@ts-ignore
+          const lastThreeProjects = response.data.data.slice(-3);
+    
+          const photoUrls = lastThreeProjects.map((photo) => {
+            //@ts-ignore
+            const photoFirst = photo.ProjectPhotos[0].photos.data;
+            const buffer = new Uint8Array(photoFirst);
+            const blob = new Blob([buffer], { type: 'image/png' });
+            const url = URL.createObjectURL(blob);
+            return url;
+          });
+    
+          setPhotoOne(photoUrls);
+          //@ts-ignore
+          setProjects(lastThreeProjects);
+          //@ts-ignore
+          console.log(lastThreeProjects);
+        } else {
+          console.error("Error fetching projects:", response.message);
+        }
+      } catch (error) {
+        console.error("Error fetching projects:", error);
+      }
+    };
 
     fetchCategory();
+    fetchProjects()
   }, []);
+
+  const handleClickViewAllProjects = () => {
+    navigate('/projetos')
+  }
+  const handleClickViewAllCateorys = () => {
+    navigate('/serviços')
+  }
+  const handleClickViewAboutUs = () => {
+    navigate('/sobre-nos')
+  }
   return (
     <div className=" bg-[#F2F4FF]">
       <div className="w-full relative min-h-screen overflow-hidden">
@@ -182,7 +227,7 @@ export const Home = () => {
             </div>
 
           </div>
-          <Button variant={"inverseTwo"} size={"lg"}>Saiba mais <HiArrowSmRight /></Button>
+          <Button variant={"inverseTwo"} size={"lg"} onClick={handleClickViewAboutUs}>Saiba mais <HiArrowSmRight /></Button>
           <div>
 
           </div>
@@ -211,7 +256,7 @@ export const Home = () => {
             </div>
           ))}
         </div>
-        <Button className="px-12 flex items-center gap-2" variant={"inverseTwo"} size={"lg"}>Saber mais <HiArrowSmRight /></Button>
+        <Button className="px-12 flex items-center gap-2" variant={"inverseTwo"} size={"lg"} onClick={handleClickViewAllCateorys}>Saber mais <HiArrowSmRight /></Button>
         <div className="w-full p-4 mt-4 ">
           <div className="flex flex-col  items-start mt-4 z-30 ">
             <h1 className="uppercase text-[#2F2E59] font-bold text-4xl " style={{ fontFamily: "Adam, sans-serif" }}>
@@ -219,13 +264,19 @@ export const Home = () => {
             </h1>
             <img src="img/separador-title-project.svg" className="mb-8" alt="" />
           </div>
-          <div className="grid  grid-cols-1 lg:grid-cols-3 h-48 md:px-32 gap-12">
-            <div className="bg-[#2F2E59] rounded-lg"></div>
-            <div className="bg-[#9BA1D1] rounded-lg"></div>
-            <div className="bg-[#2F2E59] rounded-lg"></div>
-          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-3 2xl:grid-cols-4 h-64 md:px-32 gap-12">
+                    {projects.map((index) => (
+                            <div className="rounded-lg overflow-hidden">
+                                <img
+                                    src={photoOne[index]}
+                                    className='w-full h-64 object-cover'
+                                    alt=""
+                                />
+                            </div>
+                    ))}
+                </div>
         </div>
-        <Button variant={"inverseTwo"} size={"lg"}>Ver todos <HiArrowSmRight /></Button>
+        <Button variant={"inverseTwo"} onClick={handleClickViewAllProjects} size={"lg"}>Ver todos <HiArrowSmRight /></Button>
         <div>
         </div>
       </div>

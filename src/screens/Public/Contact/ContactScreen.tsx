@@ -14,7 +14,7 @@ const ContactScreen = () => {
         </h1>
         <img src="img/separador-title-project.svg" className="mb-8" alt="" />
       </div>
-      <div className=" gap-2 mt-6 absolute top-24 right-8 hidden lg:flex">
+      <div className=" gap-2 mt-6 absolute top-12 right-8 hidden lg:flex">
         <a href="https://wa.me/5543998008930" target="_blank" rel="noopener noreferrer"><img src="img/icon-whatsapp.png" className="w-16 h-16" alt="" /></a>
         <a href="https://www.instagram.com/projetarmais.arq/" target="_blank" rel="noopener noreferrer"> <img src="img/icon-instagram.png" className="w-16 h-16" alt="" /></a>
       </div>

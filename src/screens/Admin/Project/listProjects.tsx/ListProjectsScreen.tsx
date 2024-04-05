@@ -8,6 +8,7 @@ const ListProjectsScreen = () => {
   const { projectControllerFindAll } = useProjectHook();
 
   const [projects, setProjects] = useState([]);
+
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [projectsPerPage] = useState(10);
