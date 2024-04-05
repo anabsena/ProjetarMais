@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import useProjectHook from "../../../hooks/useProjectHook";
 import { Button } from "../../../components/ui/button";
 import { HiArrowSmRight, HiSearch } from "react-icons/hi";
+import { useNavigate } from "react-router-dom";
 
 interface Projects {
     id: string;
@@ -19,7 +20,8 @@ export const ProjectAllScreen = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const [projectsPerPage] = useState(10);
-
+    const navigate = useNavigate();
+   
     const clipPathStyle = { clipPath: 'polygon(0% 0%, 100% 100%, 80% 100%, 0% 100%)' };
 
     useEffect(() => {
@@ -27,10 +29,11 @@ export const ProjectAllScreen = () => {
             try {
                 const response = await projectControllerFindAll('', '', '', 1, 10);
                 if (response.status === 200) {
+                    console.log('aa', response.data?.data)
                     //@ts-ignore
                     const mappedProjects = response.data.data.map((project) => ({
                         ...project,
-                        details: '',  // Defina a propriedade 'details' conforme necessário
+                        details: '',
                     }));
 
                     setProjects(mappedProjects);
@@ -75,16 +78,19 @@ export const ProjectAllScreen = () => {
     const indexOfFirstProject = indexOfLastProject - projectsPerPage;
     const currentProjects = filteredProjects.slice(indexOfFirstProject, indexOfLastProject);
     const totalPages = Math.ceil(filteredProjects.length / projectsPerPage);
-
+    const handleClickViewProject = (projectId:string) => {
+        navigate(`/projetos/projeto?id=${projectId}`);
+    };
     return (
         <div className="flex flex-col items-center mb-4">
+            <img src="img/icon-arq.svg" className="absolute top-28 right-0" alt="" />
             <div className="flex flex-col w-full items-start mt-28 lg:my-8 z-30 ">
                 <h1 className="uppercase text-[#2F2E59] text-4xl px-4" style={{ fontFamily: "Mulish, sans-serif" }}>
                     Projetos
                 </h1>
                 <img src="img/separador-title-project.svg" alt="" className="" />
             </div>
-            
+
             <div className="grid grid-cols-1 lg:grid-cols-3 2xl:grid-cols-4 h-auto md:px-32 gap-12 flex-grow">
                 <div className="flex items-center gap-2 lg:col-span-3 2xl:col-span-4 justify-end mb-4">
                     <input
@@ -111,13 +117,13 @@ export const ProjectAllScreen = () => {
                             <div className="absolute top-0 left-0 bg-[#9BA1D1] bg-opacity-90 text-white p-2 w-full h-full rounded-lg flex flex-col justify-end items-start gap-4"
                                 style={{ ...clipPathStyle, fontFamily: "Mulish, sans-serif" }}>
                                 <span className="w-1/2 text-lg"> {project.name}</span>
-                                <Button variant={"inverseTwo"} className="mb-4">Ver mais<HiArrowSmRight /></Button>
+                                <Button variant={"inverseTwo"} className="mb-4" onClick={() => handleClickViewProject(project.id)}>Ver mais<HiArrowSmRight /></Button>
                             </div>
                         )}
                     </div>
                 ))}
             </div>
-            
+
             {totalPages > 1 && (
                 <div className="mt-4">
                     {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (

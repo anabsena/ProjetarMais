@@ -6,6 +6,7 @@ import AboutUs from "../screens/Public/AboutUs/AboutUs";
 import Contact from "../screens/Public/Contact/Contact";
 import Services from "../screens/Public/Sevices/Services";
 import ProjectAll from "../screens/Public/Project/ProjectAll";
+import ProjectId from "../screens/Public/Project/ProjectId/ProjectId";
 
 
 export default function PublicRoute() {
@@ -38,6 +39,10 @@ export default function PublicRoute() {
       {
         path: '/projetos',
         element: <ProjectAll />,
+      },
+      {
+        path: '/projetos/projeto',
+        element: <ProjectId />,
       }
 
 

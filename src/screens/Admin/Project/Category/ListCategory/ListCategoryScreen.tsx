@@ -9,8 +9,6 @@ const ListCategoryScreen = () => {
   const { categoryControllerFindAll } = useCategoryHook();
 
   const [category, setCategory] = useState([]);
-  //@ts-ignore
-  const [categoryId, setCategoryId] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [categoriesPerPage] = useState(10);
@@ -26,8 +24,6 @@ const ListCategoryScreen = () => {
         if (response.status === 200) {
           //@ts-ignore
           setCategory(response.data.data);
-          //@ts-ignore
-          setCategoryId(response.data.data.id);
           //@ts-ignore
           console.log(response.data.data.id);
         } else {
