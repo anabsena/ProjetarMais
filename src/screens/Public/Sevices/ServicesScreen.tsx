@@ -3,6 +3,7 @@ import { Button } from "../../../components/ui/button";
 import { HiOutlineHomeModern } from "react-icons/hi2";
 import { useEffect, useState } from "react";
 import useCategoryHook from "../../../hooks/useCategoryHook";
+import { useNavigate } from "react-router-dom";
 
 interface Category {
   id: string;
@@ -13,6 +14,7 @@ interface Category {
 const ServicesScreen = () => {
   const [categories, setCategory] = useState<Category[]>([]);
   const { categoryControllerFindAll } = useCategoryHook();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCategory = async () => {
@@ -32,6 +34,10 @@ const ServicesScreen = () => {
   const getBackgroundColor = (id: string) => {
     const index = categories.findIndex(category => category.id === id);
     return Number(index + 1) % 2 === 0 ? true : false; // alternar entre azul e branco
+  };
+
+  const handleClickProject = (categoryId: string) => {
+    navigate(`/serviços/projeto?id=${categoryId}`);
   };
 
   return (
@@ -57,7 +63,7 @@ const ServicesScreen = () => {
               <div className="w-full flex justify-center h-full items-center z-30" style={{ fontFamily: "Mulish, sans-serif" }}>
                 <p className="lg:w-1/2 text-center md:text-lg">{category.description}</p>
               </div>
-              <Button variant={"inverseTwo"} size={"lg"} className="absolute bottom-8 right-8">
+              <Button variant={"inverseTwo"} size={"lg"} onClick={() => handleClickProject(category.id)} className="absolute bottom-8 right-8">
                 Ver Projetos <HiArrowSmRight />
               </Button>
             </div>
@@ -79,7 +85,7 @@ const ServicesScreen = () => {
               <div className="w-full flex justify-center h-full items-center z-30" style={{ fontFamily: "Mulish, sans-serif" }}>
                 <p className="lg:w-1/2 text-center md:text-lg">{category.description}</p>
               </div>
-              <Button variant={"inverseTwo"} size={"lg"} className="absolute bottom-8 left-8">
+              <Button variant={"inverseTwo"} size={"lg"} onClick={() => handleClickProject(category.id)} className="absolute bottom-8 left-8">
                 Ver Projetos <HiArrowSmRight />
               </Button>
             </div>

@@ -13,6 +13,7 @@ import Contact from "../screens/Public/Contact/Contact";
 import Services from "../screens/Public/Sevices/Services";
 import ProjectAll from "../screens/Public/Project/ProjectAll";
 import ProjectId from "../screens/Public/Project/ProjectId/ProjectId";
+import ProjectCategory from "../screens/Public/Project/ProjectCategory/ProjectCategory";
 
 export default function PrivateRoute() {
   return {
@@ -76,6 +77,10 @@ export default function PrivateRoute() {
       {
         path: '/projetos/projeto',
         element: <ProjectId />,
+      },
+      {
+        path: '/serviços/projeto',
+        element: <ProjectCategory />,
       }
 
     ]
