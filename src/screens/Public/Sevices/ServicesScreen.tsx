@@ -4,6 +4,8 @@ import { HiOutlineHomeModern } from "react-icons/hi2";
 import { useEffect, useState } from "react";
 import useCategoryHook from "../../../hooks/useCategoryHook";
 import { useNavigate } from "react-router-dom";
+import LoadingSpinner from "../../../components/loading";
+ // Importando o componente de loading
 
 interface Category {
   id: string;
@@ -15,6 +17,7 @@ const ServicesScreen = () => {
   const [categories, setCategory] = useState<Category[]>([]);
   const { categoryControllerFindAll } = useCategoryHook();
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchCategory = async () => {
@@ -22,14 +25,16 @@ const ServicesScreen = () => {
         const response = await categoryControllerFindAll("", 1, 10);
         if(response.data?.data){
           setCategory(response.data.data);
+          setIsLoading(false);
         }
       } catch (error) {
         console.log(error);
+        setIsLoading(false);
       }
     };
 
     fetchCategory();
-  }, []);
+  }, [categoryControllerFindAll]);
 
   const getBackgroundColor = (id: string) => {
     const index = categories.findIndex(category => category.id === id);
@@ -39,6 +44,10 @@ const ServicesScreen = () => {
   const handleClickProject = (categoryId: string) => {
     navigate(`/serviços/projeto?id=${categoryId}`);
   };
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <div>
@@ -63,7 +72,7 @@ const ServicesScreen = () => {
               <div className="w-full flex justify-center h-full items-center z-30" style={{ fontFamily: "Mulish, sans-serif" }}>
                 <p className="lg:w-1/2 text-center md:text-lg">{category.description}</p>
               </div>
-              <Button variant={"inverseTwo"} size={"lg"} onClick={() => handleClickProject(category.id)} className="absolute bottom-8 right-8">
+              <Button variant={"inverseTwo"} size={"lg"} onClick={() => handleClickProject(category.id)} className="absolute bottom-8 right-8 z-40">
                 Ver Projetos <HiArrowSmRight />
               </Button>
             </div>
@@ -85,7 +94,7 @@ const ServicesScreen = () => {
               <div className="w-full flex justify-center h-full items-center z-30" style={{ fontFamily: "Mulish, sans-serif" }}>
                 <p className="lg:w-1/2 text-center md:text-lg">{category.description}</p>
               </div>
-              <Button variant={"inverseTwo"} size={"lg"} onClick={() => handleClickProject(category.id)} className="absolute bottom-8 left-8">
+              <Button variant={"inverseTwo"} size={"lg"} onClick={() => handleClickProject(category.id)} className="absolute bottom-8 left-8 z-40">
                 Ver Projetos <HiArrowSmRight />
               </Button>
             </div>

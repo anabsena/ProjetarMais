@@ -5,7 +5,7 @@ import { ProjectAllScreen } from "./ProjectAllScreen"
 
 const ProjectAll = () => {
   return (
-    <div className="bg-[#F2F4FF]">
+    <div className="bg-[#F2F4FF] ">
     <div className=" lg:bg-[#545C99]  lg:w-full lg:h-28">
       <HeaderHome />
     </div>

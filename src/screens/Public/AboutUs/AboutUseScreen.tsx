@@ -1,6 +1,23 @@
-import { Button } from "../../../components/ui/button"
+import LoadingSpinner from "../../../components/loading";
+import { Button } from "../../../components/ui/button";
+import { useEffect, useState } from "react";
 
 const AboutUsScreen = () => {
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        // Simulando um carregamento, ajuste conforme sua necessidade
+        const timer = setTimeout(() => {
+            setIsLoading(false);
+        }, 2000); // Carregamento simulado de 2 segundos
+
+        return () => clearTimeout(timer);
+    }, []);
+
+    if (isLoading) {
+        return <LoadingSpinner />;
+    }
+
     return (
         <div className="w-full flex flex-col justify-center items-center">
             <div className="flex flex-col w-auto items-center mt-28 lg:mt-4 z-30 ">
@@ -11,14 +28,11 @@ const AboutUsScreen = () => {
             </div>
             <img src="img/Img-escritorio.png" className="w-10/12 " alt="" />
             <div className="bg-[#CACEED] w-full md:h-[70vh] flex flex-col gap-4 lg:gap-0 items-start p-4 relative mt-8 text-[#2F2E59]">
-
                 <img src="img/Logo.svg" className="absolute top-1 right-1 w-64 hidden lg:flex z-30" alt="" />
                 <img src="img/icon-mais-duplo.svg" className="absolute bottom-1 left-1 w-64 hidden lg:flex z-30" alt="" />
                 <h1 className="uppercase sm:text-5xl text-3xl font-bold text-center lg:text-start z-40" style={{ fontFamily: "Adam, sans-serif" }}>Muito prazer, <br className="hidden lg:flex" /> somos a projetar + arquitetura </h1>
                 <div className="w-full flex justify-center h-full items-center" style={{ fontFamily: "Mulish, sans-serif" }}>
-
-                    <p className="lg:w-1/2 text-center md:text-lg">Nós oferecemos um design personalizado e exclusivo, criando projetos únicos que refletem as necessidades e preferências individuais de cada cliente, resultando em espaços distintos e memoráveis. Além disso, adotamos uma abordagem multidisciplinar, integrando diversas áreas como arquitetura, design de interiores, paisagismo e engenharia para proporcionar soluções abrangentes e integradas aos nossos clientes.
-                        Priorizamos a experiência do cliente em todas as etapas do processo, garantindo sua satisfação desde o primeiro contato até a entrega final do projeto. Nosso compromisso com a qualidade e detalhamento é evidente em cada aspecto do projeto, assegurando excelência em todas as etapas, desde a concepção até a execução.</p>
+                    <p className="lg:w-1/2 text-center md:text-lg">Nós oferecemos um design personalizado e exclusivo, criando projetos únicos que refletem as necessidades e preferências individuais de cada cliente, resultando em espaços distintos e memoráveis. Além disso, adotamos uma abordagem multidisciplinar, integrando diversas áreas como arquitetura, design de interiores, paisagismo e engenharia para proporcionar soluções abrangentes e integradas aos nossos clientes. Priorizamos a experiência do cliente em todas as etapas do processo, garantindo sua satisfação desde o primeiro contato até a entrega final do projeto. Nosso compromisso com a qualidade e detalhamento é evidente em cada aspecto do projeto, assegurando excelência em todas as etapas, desde a concepção até a execução.</p>
                 </div>
             </div>
             <div className=" w-full  flex   gap-32 items-center justify-center p-8 relative mt-8 text-[#2F2E59]">
@@ -29,20 +43,17 @@ const AboutUsScreen = () => {
                     <img src="img/img-foto-meninas.jpg" className="w-full md:w-auto" alt="" />
                 </div>
                 <img src="img/detalhe-lateral.svg" className="h-96 hidden lg:flex" alt="" />
-
             </div>
             <div className="bg-[#CACEED] w-full lg:h-[70vh] flex flex-col lg:flex-row gap-12 lg:gap-24 items-center justify-center p-4 relative mt-8 text-[#2F2E59]">
                 <div className="flex flex-col gap-4 text-center lg:text-start">
-
                     <h1 className=" text-3xl font-normal" style={{ fontFamily: "Mulish, sans-serif" }}>Missão e valores</h1>
                     <p className="md:w-96" style={{ fontFamily: "Mulish, sans-serif" }}>Nosso propósito é transformar o seu sonho idealizado em uma arquitetura individualizada e especial, valorizando o conforto, o bem-estar, a funcionalidade e a estética, pois acreditamos que a arquitetura deve estar sempre em sintonia com esses princípios.</p>
                 </div>
                 <img src="img/img-foto-meninas2.jpg" className="w-96" alt="" />
             </div>
             <Button size={"lg"} className="mt-4 px-16 mb-8">Bora projetar?</Button>
-          
         </div>
-
     )
 }
-export default AboutUsScreen
+
+export default AboutUsScreen;

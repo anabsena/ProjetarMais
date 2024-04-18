@@ -38,20 +38,21 @@ export const Home = () => {
           //@ts-ignore
           const lastThreeProjects = response.data.data.slice(-3);
     
-          const photoUrls = lastThreeProjects.map((photo) => {
-            //@ts-ignore
-            const photoFirst = photo.ProjectPhotos[0].photos.data;
-            const buffer = new Uint8Array(photoFirst);
-            const blob = new Blob([buffer], { type: 'image/png' });
-            const url = URL.createObjectURL(blob);
-            return url;
-          });
+          const photoUrls = await Promise.all(
+            lastThreeProjects.map(async (photo) => {
+              const photoFirst = photo.ProjectPhotos[0].photos.data;
+              const buffer = new Uint8Array(photoFirst);
+              const blob = new Blob([buffer], { type: "image/png" });
+              const url = URL.createObjectURL(blob);
+              return url;
+            })
+          );
     
           setPhotoOne(photoUrls);
           //@ts-ignore
           setProjects(lastThreeProjects);
           //@ts-ignore
-          console.log(lastThreeProjects);
+          console.log('projects',lastThreeProjects);
         } else {
           console.error("Error fetching projects:", response.message);
         }
@@ -204,8 +205,8 @@ export const Home = () => {
           <div className="h-full z-30 text-black flex flex-col mt-8 sm:mt-0 items-center  justify-center">
             <div className="flex items-center w-full gap-4 flex-col-reverse justify-center md:flex-row">
               <div className="sm:w-[410px] md:h-[537px] p-4 relative flex justify-center md:block">
-                <img src="img/mais_azul.svg" className="absolute top-0 left-0 w-36 hidden md:flex" alt="" />
-                <img src="img/Andressa.jpg" className="md:absolute bottom-0 right-0 w-80 h-[450px] object-cover" alt="" />
+                <img src="/img/mais_azul.svg" className="absolute top-0 left-0 w-36 hidden md:flex" alt="" />
+                <img src="/img/Andressa.jpg" className="md:absolute bottom-0 right-0 w-80 h-[450px] object-cover" alt="" />
               </div>
               <div className="sm:w-[395px] p-4">
                 <h1 style={{ fontFamily: "Alice", fontSize: "36px" }}>Andressa Belo</h1>
@@ -265,13 +266,13 @@ export const Home = () => {
             <img src="img/separador-title-project.svg" className="mb-8" alt="" />
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-3 2xl:grid-cols-4 h-64 md:px-32 gap-12">
-                    {projects.map((index) => (
-                            <div className="rounded-lg overflow-hidden">
-                                <img
-                                    src={photoOne[index]}
-                                    className='w-full h-64 object-cover'
-                                    alt=""
-                                />
+                     {projects.map((project, index) => (
+          <div key={project.id} className="rounded-lg overflow-hidden">
+            <img
+              src={photoOne[index]}
+              className="w-full h-64 object-cover"
+              alt=""
+            />
                             </div>
                     ))}
                 </div>
