@@ -9,7 +9,9 @@ const ProjectCategory = () => {
             <div className="lg:bg-[#545C99] lg:w-full lg:h-28">
                 <HeaderHome />
             </div>
-            <ProjectCategoryScreen />
+            <div className="min-h-[calc(100vh-0.5rem)] overflow-auto w-full">
+                <ProjectCategoryScreen />
+            </div>
             <Footer />
         </div>
     );

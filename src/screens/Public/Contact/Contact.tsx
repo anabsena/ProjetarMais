@@ -9,7 +9,7 @@ const Contact = () => {
       <div className=" lg:bg-[#9BA1D1]/80  lg:w-full lg:h-36">
         <HeaderHome />
       </div>
-      <ContactScreen />
+        <ContactScreen />
       <Footer />
 
     </div>

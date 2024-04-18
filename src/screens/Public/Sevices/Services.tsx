@@ -9,7 +9,9 @@ const Services = () => {
       <div className=" lg:bg-[#545C99]  lg:w-full lg:h-28">
         <HeaderHome />
       </div>
-      <ServicesScreen />
+      <div className="min-h-[calc(100vh-0.5rem)] overflow-auto w-full">
+        <ServicesScreen />
+      </div>
       <Footer />
 
     </div>

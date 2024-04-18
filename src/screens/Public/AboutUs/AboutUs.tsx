@@ -11,7 +11,10 @@ const AboutUs = () => {
 
                     <HeaderHome />
                 </div>
-                <AboutUsScreen />
+                <div className="min-h-[calc(100vh-0.5rem)] overflow-auto w-full">
+
+                    <AboutUsScreen />
+                </div>
                 <Footer />
             </div>
 

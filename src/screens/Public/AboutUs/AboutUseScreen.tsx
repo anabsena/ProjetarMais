@@ -6,10 +6,9 @@ const AboutUsScreen = () => {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        // Simulando um carregamento, ajuste conforme sua necessidade
         const timer = setTimeout(() => {
             setIsLoading(false);
-        }, 2000); // Carregamento simulado de 2 segundos
+        }, 100); 
 
         return () => clearTimeout(timer);
     }, []);
