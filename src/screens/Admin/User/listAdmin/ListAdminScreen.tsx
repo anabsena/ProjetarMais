@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import useUserHook from "../../../../hooks/useUserHook";
 import { HiOutlineDotsVertical, HiOutlinePencilAlt, HiOutlinePlus, HiOutlineUserCircle, HiOutlineXCircle, HiSearch } from "react-icons/hi";
 import { Button } from "../../../../components/ui/button";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const ListAdminScreen = () => {
   const { userControllerFindAll } = useUserHook();
@@ -117,7 +117,9 @@ const ListAdminScreen = () => {
               <div className="absolute right-0 mt-2 w-48 bg-[#1E1D40] rounded-xl shadow-lg z-10 border border-[#D9B341]">
                 <div className="flex flex-col gap-4 p-2">
                   
-                  <h1 className="flex gap-2 items-center"><HiOutlinePencilAlt className="text-xl text-[#D9B341]"/>Editar</h1>
+                <Link to={`/update-user?id=${user.id}`}>
+  <h1 className="flex gap-2 items-center"><HiOutlinePencilAlt className="text-xl text-[#D9B341]"/>Editar</h1>
+</Link>
                  
                   <h1 className="flex gap-2 items-center"><HiOutlineXCircle className="text-xl text-[#D9B341]"/>Excluir</h1>
                   

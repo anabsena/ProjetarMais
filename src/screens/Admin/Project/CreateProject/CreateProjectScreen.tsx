@@ -4,6 +4,7 @@ import { Button } from "../../../../components/ui/button";
 import useCategoryHook from "../../../../hooks/useCategoryHook";
 import { HiOutlineMinus, HiOutlinePlus, HiOutlineX } from "react-icons/hi";
 import usePhotoHook from "../../../../hooks/usePhotoHook";
+import { useNavigate } from "react-router-dom";
 
 const CreateProjectScreen = () => {
   const [name, setName] = useState("");
@@ -21,6 +22,7 @@ const CreateProjectScreen = () => {
   const { projectControllerCreate } = useProjectHook();
   const { categoryControllerFindAll } = useCategoryHook();
   const { photoControllerCreate } = usePhotoHook()
+  const navigate = useNavigate();
 
   const createProject = async () => {
     const allDetails = [especificDetails, ...details];
@@ -29,6 +31,7 @@ const CreateProjectScreen = () => {
     console.log(response);
     if (response?.status === 201 && response.data?.id) {
       await photosProject(response.data?.id)
+      navigate('/projects')
     }
   };
 
@@ -203,7 +206,7 @@ const CreateProjectScreen = () => {
           </label>
         </div>
 
-        <div className="w-full flex flex-col justify-between h-full items-center">
+        <div className="w-full flex flex-col  h-full items-center">
           <label htmlFor="image" className="flex flex-col uppercase w-full items-center justify-center mt-4" style={{ fontFamily: "Mulish, sans-serif" }}>
             <span className="flex items-start w-full text-primary">Imagens do projeto:</span>
             <div className="relative w-full h-32 border border-dashed border-primary rounded-xl flex justify-center items-center cursor-pointer">

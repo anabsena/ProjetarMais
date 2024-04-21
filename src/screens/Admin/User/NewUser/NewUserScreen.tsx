@@ -22,9 +22,9 @@ const NewUserScreen = () => {
         try {
             const response = await userControllerCreate(name, email, password);
 
-            if (response?.status === 'success') {
+            if (response?.status === 201 ) {
                 console.log(response);
-                navigate('/categorys');
+                navigate('/admin');
             } else {
                 setMessage(true);
             }

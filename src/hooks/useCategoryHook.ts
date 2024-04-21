@@ -87,12 +87,13 @@ function useCategoryHook() {
   };
   const categoryControllerUpdate = async (
     id:string,
-    name: string
+    name: string,
+    description: string
   ) => {
     try {
       const response = await categoryApi.categoryControllerUpdate(
         id,
-        {name}
+        {name, description}
       );
 
       const { data, status, statusText } = response;

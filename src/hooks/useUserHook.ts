@@ -1,33 +1,30 @@
 import { userApi } from "../services/Api";
 
-
 function useUserHook() {
-const userControllerCreate = async (
-  name: string,
-  email: string,
-  password: string
-) => {
-  try{
-    const response = await userApi.userControllerCreate({name,email, password})
-    const { data, status, statusText} = response
+  const userControllerCreate = async (
+    name: string,
+    email: string,
+    password: string
+  ) => {
+    try {
+      const response = await userApi.userControllerCreate({ name, email, password });
+      const { data, status, statusText } = response;
 
-     
+      return {
+        status: status,
+        message: statusText,
+        data: data,
+      };
+    } catch (error: any) {
+      console.error("Error creating user:", error);
 
-    return {
-      status: status,
-      message: statusText,
-      data: data,
-    };
-  } catch (error: any) {
-    console.error("Error fetching users:", error);
-
-    return {
-      status: "error",
-      message: error.message,
-      data: null,
-    };
-  }
-}
+      return {
+        status: "error",
+        message: error.message,
+        data: null,
+      };
+    }
+  };
 
   const userControllerFindAll = async (
     name?: string,
@@ -35,13 +32,30 @@ const userControllerCreate = async (
     perPage?: number
   ) => {
     try {
-      console.log('name');
       const response = await userApi.userControllerFindAll(name, page, perPage);
-      console.log('hook', response)
+      const { data, status, statusText } = response;
 
-      const { data, status, statusText} = response
+      return {
+        status: status,
+        message: statusText,
+        data: data,
+      };
+    } catch (error: any) {
+      console.error("Error fetching users:", error);
 
-     
+      return {
+        status: "error",
+        message: error.message,
+        data: null,
+      };
+    }
+  };
+  const userControllerFindone = async (
+    id: string,
+  ) => {
+    try {
+      const response = await userApi.userControllerFindOne(id);
+      const { data, status, statusText } = response;
 
       return {
         status: status,
@@ -59,9 +73,37 @@ const userControllerCreate = async (
     }
   };
 
+ 
+
+  const userControllerUpdate = async (
+    id: string,
+    userData: { name: string; password: string }
+  ) => {
+    try {
+      const response = await userApi.userControllerUpdate(id, userData);
+      const { data, status, statusText } = response;
+
+      return {
+        status: status,
+        message: statusText,
+        data: data,
+      };
+    } catch (error: any) {
+      console.error("Error updating user:", error);
+
+      return {
+        status: "error",
+        message: error.message,
+        data: null,
+      };
+    }
+  };
+
   return {
     userControllerCreate,
-    userControllerFindAll
+    userControllerFindAll,
+    userControllerFindone,
+    userControllerUpdate,
   };
 }
 

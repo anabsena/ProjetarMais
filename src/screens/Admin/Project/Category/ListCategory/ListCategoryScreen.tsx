@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import useCategoryHook from "../../../../../hooks/useCategoryHook";
 import { HiOutlineDotsVertical, HiOutlinePencilAlt, HiOutlinePlus, HiOutlineTag, HiOutlineXCircle, HiSearch } from "react-icons/hi";
 
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "../../../../../components/ui/button";
+import { limitCharacter } from "../../../../../utils/limitCharacter";
 
 const ListCategoryScreen = () => {
   const { categoryControllerFindAll } = useCategoryHook();
@@ -94,7 +95,9 @@ const ListCategoryScreen = () => {
       </div>
       {currentCategories.map((category: any) => (
         //@ts-ignore
-        <div key={category.id} onClick={() => handleCategoryClick(category.id)} className="bg-gradient-to-r cursor-pointer from-[#B4B9E0] to-[#636BA6] w-full rounded-xl p-4 flex gap-4 mt-4 items-center justify-between">
+        <div key={category.id} 
+        // onClick={() => handleCategoryClick(category.id)} 
+        className="bg-gradient-to-r cursor-pointer from-[#B4B9E0] to-[#636BA6] w-full rounded-xl p-4 flex gap-4 mt-4 items-center justify-between z-10">
           <div className="flex gap-4 ">
             <HiOutlineTag className="text-6xl text-[#08081A]" />
             <div>
@@ -104,13 +107,13 @@ const ListCategoryScreen = () => {
               </h1>
               <h1 className="text-md text-secondary" style={{ fontFamily: "Mulish, sans-serif" }}>
                 {/* @ts-ignore */}
-                Descrição: {category.description}
+                Descrição: {limitCharacter(category.description, 120)}
               </h1>
             </div>
           </div>
           <div className="relative">
             <HiOutlineDotsVertical
-              className="text-4xl text-[#EDD253] cursor-pointer"
+              className="text-4xl text-[#EDD253] cursor-pointer z-50"
               onClick={() => {
                 //@ts-ignore
                 if (showModal && selectedCategory && selectedCategory.id === category.id) {
@@ -122,9 +125,9 @@ const ListCategoryScreen = () => {
             />
             {/* @ts-ignore */}
             {showModal && selectedCategory && selectedCategory.id === category.id && (
-              <div className="absolute right-0 mt-2 w-48 bg-[#1E1D40] rounded-xl shadow-lg z-10 border border-[#D9B341]">
+              <div className="absolute right-0 mt-2 w-48 bg-[#1E1D40] rounded-xl shadow-lg z-40 border border-[#D9B341]">
                 <div className="flex flex-col gap-4 p-2">
-                  <h1 className="flex gap-2 items-center"><HiOutlinePencilAlt className="text-xl text-[#D9B341]" />Editar</h1>
+                 <Link to={`/update-category?id=${category.id}`}> <h1 className="flex gap-2 items-center"><HiOutlinePencilAlt className="text-xl text-[#D9B341]" />Editar</h1></Link>
                   <h1 className="flex gap-2 items-center"><HiOutlineXCircle className="text-xl text-[#D9B341]" />Excluir</h1>
                 </div>
               </div>

@@ -1,6 +1,6 @@
 import { Navigate } from "react-router-dom";
 import ListProjects from "../screens/Admin/Project/listProjects.tsx/ListProjects";
-import ListAdmin from "../screens/Admin/User/listAdmin.tsx/ListAdmin";
+import ListAdmin from "../screens/Admin/User/listAdmin/ListAdmin";
 import CreateProject from "../screens/Admin/Project/CreateProject/CreateProject";
 import CreateCategory from "../screens/Admin/Project/Category/CreateCategory/CreateCategory";
 import ListCategory from "../screens/Admin/Project/Category/ListCategory/ListCategory";
@@ -14,6 +14,7 @@ import Services from "../screens/Public/Sevices/Services";
 import ProjectAll from "../screens/Public/Project/ProjectAll";
 import ProjectId from "../screens/Public/Project/ProjectId/ProjectId";
 import ProjectCategory from "../screens/Public/Project/ProjectCategory/ProjectCategory";
+import UpdateCategory from "../screens/Admin/Project/Category/UpdateCategory/UpdateCategory";
 
 export default function PrivateRoute() {
   return {
@@ -45,6 +46,10 @@ export default function PrivateRoute() {
       {
         path: '/categoryId',
         element: <ListCategoryId />,
+      },
+      {
+        path: '/update-category',
+        element: <UpdateCategory />,
       },
       {
         path: '/home',
