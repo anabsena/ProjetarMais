@@ -104,11 +104,36 @@ function usePhotoHook() {
             };
         }
     }
+    const photoControllerDelete = async (
+        projectId: string,
+    ) => {
+        try {
+
+            const response = await photoApi.photoControllerDelete(projectId)
+
+            const { data, status, statusText } = response;
+
+            return {
+                status: status,
+                message: statusText,
+                data: data,
+            };
+        } catch (error: any) {
+            console.error("Error delete photos:", error);
+
+            return {
+                status: "error",
+                message: error.message,
+                data: null,
+            };
+        }
+    }
     return {
         photoControllerCreate,
         photoControllerFindAll,
         photoControllerFindOne,
-        photoControllerUpdate
+        photoControllerUpdate,
+        photoControllerDelete
 
     }
     

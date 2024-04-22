@@ -1,32 +1,30 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import useCategoryHook from "../../../../../hooks/useCategoryHook";
 import { HiOutlineDotsVertical, HiOutlinePencilAlt, HiOutlinePlus, HiOutlineTag, HiOutlineXCircle, HiSearch } from "react-icons/hi";
-
 import { Link, useNavigate } from "react-router-dom";
-import { Button } from "../../../../../components/ui/button";
+import { Button } from "../../../../../components/ui/button";  // Importando o componente de LoadingSpinner
 import { limitCharacter } from "../../../../../utils/limitCharacter";
+import LoadingSpinner from "../../../../../components/loading";
 
 const ListCategoryScreen = () => {
   const { categoryControllerFindAll } = useCategoryHook();
 
-  const [category, setCategory] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [categoriesPerPage] = useState(10);
   const [showModal, setShowModal] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [loading, setLoading] = useState(true); // Estado para controlar o carregamento
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchCategory = async () => {
+    const fetchCategories = async () => {
       try {
         const response = await categoryControllerFindAll('', 1, 10);
-        console.log(response)
         if (response.status === 200) {
-          //@ts-ignore
-          setCategory(response.data.data);
-          //@ts-ignore
-          console.log(response.data.data.id);
+          setCategories(response.data.data);
+          setLoading(false); // Definindo loading como false após carregar as categorias
         } else {
           console.error("Error fetching categories:", response.message);
         }
@@ -35,15 +33,15 @@ const ListCategoryScreen = () => {
       }
     };
 
-    fetchCategory();
+    fetchCategories();
   }, []);
 
-  const handleSearchChange = (event: any) => {
+  const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
     setCurrentPage(1);
   };
 
-  const handleOpenModal = (category: any) => {
+  const handleOpenModal = (category) => {
     setSelectedCategory(category);
     setShowModal(true);
   };
@@ -53,22 +51,25 @@ const ListCategoryScreen = () => {
     setShowModal(false);
   };
 
-  const paginate = (pageNumber: number) => {
+  const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
   const handleClickNewCategory = () => {
     navigate('/new-category');
   };
-  //@ts-ignore
-  const handleCategoryClick = (categoryId) => {
-    navigate(`/categoryId?id=${categoryId}`);
+
+  const handleDeleteCategory = async (categoryId) => {
+    try {
+      // Adicionar a lógica de deleção aqui
+      handleCloseModal();
+    } catch (error) {
+      console.error("Error deleting category:", error);
+    }
   };
 
-  const filteredCategories = category.filter((category: any) =>
-    //@ts-ignore
+  const filteredCategories = categories.filter((category) =>
     category.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    //@ts-ignore
     category.description.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -76,6 +77,10 @@ const ListCategoryScreen = () => {
   const indexOfFirstCategory = indexOfLastCategory - categoriesPerPage;
   const currentCategories = filteredCategories.slice(indexOfFirstCategory, indexOfLastCategory);
   const totalPages = Math.ceil(filteredCategories.length / categoriesPerPage);
+
+  if (loading) {
+    return <LoadingSpinner />; // Exibir o spinner de carregamento se as categorias ainda estão sendo carregadas
+  }
 
   return (
     <div className="w-full h-full flex flex-col items-center p-8">
@@ -93,29 +98,23 @@ const ListCategoryScreen = () => {
         />
         <HiSearch className="text-primary text-3xl" />
       </div>
-      {currentCategories.map((category: any) => (
-        //@ts-ignore
-        <div key={category.id} 
-        // onClick={() => handleCategoryClick(category.id)} 
-        className="bg-gradient-to-r cursor-pointer from-[#B4B9E0] to-[#636BA6] w-full rounded-xl p-4 flex gap-4 mt-4 items-center justify-between z-10">
+      {currentCategories.map((category) => (
+        <div key={category.id} className="bg-gradient-to-r cursor-pointer from-[#B4B9E0] to-[#636BA6] w-full rounded-xl p-4 flex gap-4 mt-4 items-center justify-between z-10">
           <div className="flex gap-4 ">
             <HiOutlineTag className="text-6xl text-[#08081A]" />
             <div>
               <h1 className="text-xl text-secondary font-bold" style={{ fontFamily: "Adam, sans-serif" }}>
-                {/* @ts-ignore */}
                 Nome: {category.name}
               </h1>
               <h1 className="text-md text-secondary" style={{ fontFamily: "Mulish, sans-serif" }}>
-                {/* @ts-ignore */}
                 Descrição: {limitCharacter(category.description, 120)}
               </h1>
             </div>
           </div>
-          <div className="relative">
+          <div className="relative z-50">
             <HiOutlineDotsVertical
               className="text-4xl text-[#EDD253] cursor-pointer z-50"
               onClick={() => {
-                //@ts-ignore
                 if (showModal && selectedCategory && selectedCategory.id === category.id) {
                   handleCloseModal();
                 } else {
@@ -123,12 +122,19 @@ const ListCategoryScreen = () => {
                 }
               }}
             />
-            {/* @ts-ignore */}
             {showModal && selectedCategory && selectedCategory.id === category.id && (
-              <div className="absolute right-0 mt-2 w-48 bg-[#1E1D40] rounded-xl shadow-lg z-40 border border-[#D9B341]">
+              <div className="absolute right-0 mt-2 w-48 bg-[#1E1D40] rounded-xl shadow-lg z-50 border border-[#D9B341]">
                 <div className="flex flex-col gap-4 p-2">
-                 <Link to={`/update-category?id=${category.id}`}> <h1 className="flex gap-2 items-center"><HiOutlinePencilAlt className="text-xl text-[#D9B341]" />Editar</h1></Link>
-                  <h1 className="flex gap-2 items-center"><HiOutlineXCircle className="text-xl text-[#D9B341]" />Excluir</h1>
+                  <Link to={`/update-category?id=${category.id}`}>
+                    <h1 className="flex gap-2 items-center">
+                      <HiOutlinePencilAlt className="text-xl text-[#D9B341]" />
+                      Editar
+                    </h1>
+                  </Link>
+                  <button onClick={() => handleDeleteCategory(category.id)} className="flex gap-2 items-center">
+                    <HiOutlineXCircle className="text-xl text-[#D9B341]" />
+                    Excluir
+                  </button>
                 </div>
               </div>
             )}

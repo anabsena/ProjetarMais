@@ -112,6 +112,33 @@ function useCategoryHook() {
         data: null,
       };
     }
+    
+  };
+  const categoryControllerDelete = async (
+    id:string
+  ) => {
+    try {
+      const response = await categoryApi.categoryControllerDelete(
+        id
+      );
+
+      const { data, status, statusText } = response;
+
+      return {
+        status: status,
+        message: statusText,
+        data: data,
+      };
+    } catch (error: any) {
+      console.error("Error delete categories:", error);
+
+      return {
+        status: "error",
+        message: error.message,
+        data: null,
+      };
+    }
+    
   };
 
 
@@ -119,7 +146,8 @@ function useCategoryHook() {
     categoryControllerCreate,
     categoryControllerFindAll,
     categoryControllerFindOne,
-    categoryControllerUpdate
+    categoryControllerUpdate,
+    categoryControllerDelete
   };
 }
 

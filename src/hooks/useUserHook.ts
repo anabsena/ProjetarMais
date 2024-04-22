@@ -98,12 +98,35 @@ function useUserHook() {
       };
     }
   };
+  const userControllerDelete = async (
+    id: string,
+  ) => {
+    try {
+      const response = await userApi.userControllerDelete(id);
+      const { data, status, statusText } = response;
+
+      return {
+        status: status,
+        message: statusText,
+        data: data,
+      };
+    } catch (error: any) {
+      console.error("Error updating user:", error);
+
+      return {
+        status: "error",
+        message: error.message,
+        data: null,
+      };
+    }
+  };
 
   return {
     userControllerCreate,
     userControllerFindAll,
     userControllerFindone,
     userControllerUpdate,
+    userControllerDelete
   };
 }
 

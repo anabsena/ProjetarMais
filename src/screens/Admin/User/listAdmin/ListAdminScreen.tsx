@@ -1,11 +1,12 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import useUserHook from "../../../../hooks/useUserHook";
 import { HiOutlineDotsVertical, HiOutlinePencilAlt, HiOutlinePlus, HiOutlineUserCircle, HiOutlineXCircle, HiSearch } from "react-icons/hi";
 import { Button } from "../../../../components/ui/button";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import LoadingSpinner from "../../../../components/loading";
 
 const ListAdminScreen = () => {
-  const { userControllerFindAll } = useUserHook();
+  const { userControllerFindAll, userControllerDelete } = useUserHook();
 
   const [users, setUsers] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -13,6 +14,8 @@ const ListAdminScreen = () => {
   const [usersPerPage] = useState(10);
   const [showModal, setShowModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [isDeleted, setIsDeleted] = useState(false);
+  const [loading, setLoading] = useState(true); // Estado para controlar o carregamento
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,8 +23,8 @@ const ListAdminScreen = () => {
       try {
         const response = await userControllerFindAll('', 1, 10);
         if (response.status === 200) {
-          //@ts-ignore
           setUsers(response.data.data);
+          setLoading(false); // Definindo loading como false após carregar os usuários
         } else {
           console.error("Error fetching users:", response.message);
         }
@@ -31,14 +34,13 @@ const ListAdminScreen = () => {
     };
 
     fetchData();
-  }, []);  
-//@ts-ignore
+  }, [isDeleted]);  
+
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
     setCurrentPage(1);  
   };
  
-//@ts-ignore
   const handleOpenModal = (user) => {
     setSelectedUser(user);
     setShowModal(true);
@@ -49,24 +51,42 @@ const ListAdminScreen = () => {
     setShowModal(false);
   };
 
-//@ts-ignore
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
-  const filteredUsers = users.filter(user => 
-    //@ts-ignore
-    user.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-    //@ts-ignore
-    user.email.toLowerCase().includes(searchTerm.toLowerCase())
-  );
   const handleClickNewUser = () => {
     navigate('/new-user');
   };
+
+  const handleDeleteUser = async (userId) => {
+    try {
+      const response = await userControllerDelete(userId);
+      if (response.status === 200) {
+        setUsers(users.filter(user => user.id !== userId));
+        setIsDeleted(true); 
+        handleCloseModal();
+      } else {
+        console.error("Error deleting user:", response.message);
+      }
+    } catch (error) {
+      console.error("Error deleting user:", error);
+    }
+  };
+
+  const filteredUsers = users.filter(user => 
+    user.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+    user.email.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   const indexOfLastUser = currentPage * usersPerPage;
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
   const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
   const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
+
+  if (loading) {
+    return <LoadingSpinner />; // Exibir o spinner de carregamento se os usuários ainda estão sendo carregados
+  }
 
   return (
     <div className="w-full h-full flex flex-col items-center p-8">
@@ -85,17 +105,14 @@ const ListAdminScreen = () => {
         <HiSearch className="text-primary text-3xl"/>
       </div>
       {currentUsers.map((user) => (
-        //@ts-ignore
         <div key={user.id} className="bg-[#CACEED] w-full rounded-xl p-4 flex gap-4 mt-4 items-center justify-between">
           <div className="flex gap-4 ">
             <HiOutlineUserCircle className="text-6xl text-[#2F2E59]"/>
             <div>
               <h1 className="text-xl text-secondary font-semibold" style={{ fontFamily: "Adam, sans-serif" }}>
-                {/* @ts-ignore */}
                 Nome: {user.name}
               </h1>
               <h1 className="text-md text-secondary" style={{ fontFamily: "Mulish, sans-serif" }}>
-              {/* @ts-ignore */}
                 Email: {user.email}
               </h1>
             </div>
@@ -104,7 +121,6 @@ const ListAdminScreen = () => {
             <HiOutlineDotsVertical 
               className="text-4xl text-[#2F2E59] cursor-pointer"
               onClick={() => {
-                //@ts-ignore
                 if (showModal && selectedUser && selectedUser.id === user.id) {
                   handleCloseModal();
                 } else {
@@ -112,17 +128,13 @@ const ListAdminScreen = () => {
                 }
               }}
             />
-            {/* @ts-ignore */}
             {showModal && selectedUser && selectedUser.id === user.id && (
               <div className="absolute right-0 mt-2 w-48 bg-[#1E1D40] rounded-xl shadow-lg z-10 border border-[#D9B341]">
                 <div className="flex flex-col gap-4 p-2">
-                  
-                <Link to={`/update-user?id=${user.id}`}>
-  <h1 className="flex gap-2 items-center"><HiOutlinePencilAlt className="text-xl text-[#D9B341]"/>Editar</h1>
-</Link>
-                 
-                  <h1 className="flex gap-2 items-center"><HiOutlineXCircle className="text-xl text-[#D9B341]"/>Excluir</h1>
-                  
+                  <button onClick={() => handleDeleteUser(user.id)} className="flex gap-2 items-center">
+                    <HiOutlineXCircle className="text-xl text-[#D9B341]"/>
+                    Excluir
+                  </button>
                 </div>
               </div>
             )}
@@ -146,4 +158,4 @@ const ListAdminScreen = () => {
   );
 }
 
-export default ListAdminScreen
+export default ListAdminScreen;

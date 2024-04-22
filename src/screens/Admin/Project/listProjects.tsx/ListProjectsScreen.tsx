@@ -1,30 +1,29 @@
-import { SetStateAction, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import useProjectHook from "../../../../hooks/useProjectHook";
 import { HiOutlineDotsVertical, HiOutlineOfficeBuilding, HiOutlinePencilAlt, HiOutlinePlus, HiOutlineXCircle, HiSearch } from "react-icons/hi";
 import { Button } from "../../../../components/ui/button";
 import { useNavigate } from "react-router-dom";
+import LoadingSpinner from "../../../../components/loading";
 
 const ListProjectsScreen = () => {
   const { projectControllerFindAll } = useProjectHook();
 
   const [projects, setProjects] = useState([]);
-
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [projectsPerPage] = useState(10);
   const [showModal, setShowModal] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
-  const navigate = useNavigate()
+  const [loading, setLoading] = useState(true); // Estado para controlar o carregamento
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const response = await projectControllerFindAll('','', '', 1, 10);
+        const response = await projectControllerFindAll('', '', '', 1, 10);
         if (response.status === 200) {
-          //@ts-ignore
           setProjects(response.data.data);
-          //@ts-ignore
-          console.log(response.data.data)
+          setLoading(false); // Definindo loading como false após carregar os projetos
         } else {
           console.error("Error fetching projects:", response.message);
         }
@@ -36,12 +35,12 @@ const ListProjectsScreen = () => {
     fetchProjects();
   }, []);
 
-  const handleSearchChange = (event: any) => {
+  const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
     setCurrentPage(1);
   };
 
-  const handleOpenModal = (project: SetStateAction<null>) => {
+  const handleOpenModal = (project) => {
     setSelectedProject(project);
     setShowModal(true);
   };
@@ -51,22 +50,24 @@ const ListProjectsScreen = () => {
     setShowModal(false);
   };
 
-  const paginate = (pageNumber: SetStateAction<number>) => {
+  const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
   const handleClickNewProject = () => {
-    navigate('/new-project')
-  }
-  //@ts-ignore
+    navigate('/new-project');
+  };
+
   const handleClickViewProject = (projectId) => {
-    navigate(`/project?id=${projectId} `)
-  }
+    navigate(`/project?id=${projectId}`);
+  };
+
+  const handleDeleteProject = async (projectId) => {
+    // Implement the delete logic here
+  };
 
   const filteredProjects = projects.filter(project =>
-    //@ts-ignore
     project.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    //@ts-ignore
     project.description.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -74,6 +75,10 @@ const ListProjectsScreen = () => {
   const indexOfFirstProject = indexOfLastProject - projectsPerPage;
   const currentProjects = filteredProjects.slice(indexOfFirstProject, indexOfLastProject);
   const totalPages = Math.ceil(filteredProjects.length / projectsPerPage);
+
+  if (loading) {
+    return <LoadingSpinner />; // Exibir o spinner de carregamento se os projetos ainda estão sendo carregados
+  }
 
   return (
     <div className="w-full h-full flex flex-col items-center p-8">
@@ -92,17 +97,14 @@ const ListProjectsScreen = () => {
         <HiSearch className="text-primary text-3xl" />
       </div>
       {currentProjects.map((project) => (
-        //@ts-ignore
         <div key={project.id} onClick={() => handleClickViewProject(project.id)} className="bg-gradient-to-r cursor-pointer from-[#636BA6] to-[#1E1D40] w-full rounded-xl p-4 flex gap-4 mt-4 items-center justify-between">
           <div className="flex gap-4 ">
             <HiOutlineOfficeBuilding className="text-6xl text-[#D9B341]" />
             <div>
               <h1 className="text-xl text-[#F2F4FF] font-semibold" style={{ fontFamily: "Adam, sans-serif" }}>
-                {/* @ts-ignore */}
                 Nome: {project.name}
               </h1>
               <h1 className="text-md text-[#F2F4FF]" style={{ fontFamily: "Mulish, sans-serif" }}>
-                {/* @ts-ignore */}
                 Descrição: {project.description}
               </h1>
             </div>
@@ -111,7 +113,6 @@ const ListProjectsScreen = () => {
             <HiOutlineDotsVertical
               className="text-4xl text-[#EDD253] cursor-pointer"
               onClick={() => {
-                //@ts-ignore
                 if (showModal && selectedProject && selectedProject.id === project.id) {
                   handleCloseModal();
                 } else {
@@ -119,15 +120,11 @@ const ListProjectsScreen = () => {
                 }
               }}
             />
-            {/* @ts-ignore */}
             {showModal && selectedProject && selectedProject.id === project.id && (
               <div className="absolute right-0 mt-2 w-48 bg-[#1E1D40] rounded-xl shadow-lg z-10 border border-[#D9B341]">
                 <div className="flex flex-col gap-4 p-2">
-
-                  <h1 className="flex gap-2 items-center"><HiOutlinePencilAlt className="text-xl text-[#D9B341]" />Editar</h1>
-
-                  <h1 className="flex gap-2 items-center"><HiOutlineXCircle className="text-xl text-[#D9B341]" />Excluir</h1>
-
+                  <h1 className="flex gap-2 items-center" onClick={() => {/* Edit project logic */}}><HiOutlinePencilAlt className="text-xl text-[#D9B341]" />Editar</h1>
+                  <h1 className="flex gap-2 items-center" onClick={() => handleDeleteProject(project.id)}><HiOutlineXCircle className="text-xl text-[#D9B341]" />Excluir</h1>
                 </div>
               </div>
             )}
