@@ -7,7 +7,7 @@ import { limitCharacter } from "../../../../../utils/limitCharacter";
 import LoadingSpinner from "../../../../../components/loading";
 
 const ListCategoryScreen = () => {
-  const { categoryControllerFindAll } = useCategoryHook();
+  const { categoryControllerFindAll, categoryControllerDelete } = useCategoryHook();
 
   const [categories, setCategories] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -61,8 +61,12 @@ const ListCategoryScreen = () => {
 
   const handleDeleteCategory = async (categoryId) => {
     try {
-      // Adicionar a lógica de deleção aqui
-      handleCloseModal();
+      const response = await categoryControllerDelete(categoryId);
+      if (response.status === 200) {
+        setCategories(categories.filter((category) => category.id!== categoryId));
+      } else {
+        console.error("Error deleting category:", response.message);
+      }
     } catch (error) {
       console.error("Error deleting category:", error);
     }
@@ -99,7 +103,7 @@ const ListCategoryScreen = () => {
         <HiSearch className="text-primary text-3xl" />
       </div>
       {currentCategories.map((category) => (
-        <div key={category.id} className="bg-gradient-to-r cursor-pointer from-[#B4B9E0] to-[#636BA6] w-full rounded-xl p-4 flex gap-4 mt-4 items-center justify-between z-10">
+        <div key={category.id} className="bg-gradient-to-r cursor-pointer from-[#B4B9E0] to-[#636BA6] w-full rounded-xl p-4 flex gap-4 mt-4 items-center justify-between ">
           <div className="flex gap-4 ">
             <HiOutlineTag className="text-6xl text-[#08081A]" />
             <div>
@@ -111,9 +115,9 @@ const ListCategoryScreen = () => {
               </h1>
             </div>
           </div>
-          <div className="relative z-50">
+          <div className="relative ">
             <HiOutlineDotsVertical
-              className="text-4xl text-[#EDD253] cursor-pointer z-50"
+              className="text-4xl text-[#EDD253] cursor-pointer "
               onClick={() => {
                 if (showModal && selectedCategory && selectedCategory.id === category.id) {
                   handleCloseModal();
@@ -123,7 +127,7 @@ const ListCategoryScreen = () => {
               }}
             />
             {showModal && selectedCategory && selectedCategory.id === category.id && (
-              <div className="absolute right-0 mt-2 w-48 bg-[#1E1D40] rounded-xl shadow-lg z-50 border border-[#D9B341]">
+              <div className="absolute right-0 mt-2 w-48 bg-[#1E1D40] rounded-xl shadow-lg z-10 border border-[#D9B341]">
                 <div className="flex flex-col gap-4 p-2">
                   <Link to={`/update-category?id=${category.id}`}>
                     <h1 className="flex gap-2 items-center">
@@ -135,6 +139,12 @@ const ListCategoryScreen = () => {
                     <HiOutlineXCircle className="text-xl text-[#D9B341]" />
                     Excluir
                   </button>
+                  <Link to={`/categoryId?id=${category.id}`}>
+                    <h1 className="flex gap-2 items-center">
+                      <HiOutlinePencilAlt className="text-xl text-[#D9B341]" />
+                      Ver projetos
+                    </h1>
+                  </Link>
                 </div>
               </div>
             )}
