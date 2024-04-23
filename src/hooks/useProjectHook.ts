@@ -88,6 +88,38 @@ function useProjectHook() {
       };
     }
   };
+  const projectControllerUpdate = async (
+    id:string,
+    name?: string,
+    description?: string,
+    especificDetails?: string
+  ) => {
+    try {
+      const response = await projectApi.projectControllerUpdate(id,
+        {name,
+        description,
+        especificDetails
+    });
+
+      const { data, status, statusText} = response
+
+     
+
+      return {
+        status: status,
+        message: statusText,
+        data: data,
+      };
+    } catch (error: any) {
+      console.error("Error fetching users:", error);
+
+      return {
+        status: "error",
+        message: error.message,
+        data: null,
+      };
+    }
+  };
   const projectControllerDelete = async (
     id:string
   ) => {
@@ -119,6 +151,7 @@ function useProjectHook() {
     projectControllerCreate,
     projectControllerFindAll,
     projectControllerFindOne,
+    projectControllerUpdate,
     projectControllerDelete
   };
 }

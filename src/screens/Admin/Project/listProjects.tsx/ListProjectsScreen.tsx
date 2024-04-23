@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import useProjectHook from "../../../../hooks/useProjectHook";
-import { HiOutlineDotsVertical, HiOutlineOfficeBuilding, HiOutlinePencilAlt, HiOutlinePlus, HiOutlineXCircle, HiSearch } from "react-icons/hi";
+import { HiOutlineArrowCircleRight, HiOutlineDotsVertical, HiOutlineOfficeBuilding, HiOutlinePencilAlt, HiOutlinePlus, HiOutlineXCircle, HiSearch } from "react-icons/hi";
 import { Button } from "../../../../components/ui/button";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import LoadingSpinner from "../../../../components/loading";
 
 const ListProjectsScreen = () => {
@@ -97,7 +97,7 @@ const ListProjectsScreen = () => {
         <HiSearch className="text-primary text-3xl" />
       </div>
       {currentProjects.map((project) => (
-        <div key={project.id} onClick={() => handleClickViewProject(project.id)} className="bg-gradient-to-r cursor-pointer from-[#636BA6] to-[#1E1D40] w-full rounded-xl p-4 flex gap-4 mt-4 items-center justify-between">
+        <div key={project.id} className="bg-gradient-to-r cursor-pointer from-[#636BA6] to-[#1E1D40] w-full rounded-xl p-4 flex gap-4 mt-4 items-center justify-between">
           <div className="flex gap-4 ">
             <HiOutlineOfficeBuilding className="text-6xl text-[#D9B341]" />
             <div>
@@ -123,8 +123,9 @@ const ListProjectsScreen = () => {
             {showModal && selectedProject && selectedProject.id === project.id && (
               <div className="absolute right-0 mt-2 w-48 bg-[#1E1D40] rounded-xl shadow-lg z-10 border border-[#D9B341]">
                 <div className="flex flex-col gap-4 p-2">
-                  <h1 className="flex gap-2 items-center" onClick={() => {/* Edit project logic */}}><HiOutlinePencilAlt className="text-xl text-[#D9B341]" />Editar</h1>
+                <Link to={`/projetos/editProject?id=${project.id}`}><h1 className="flex gap-2 items-center" ><HiOutlinePencilAlt className="text-xl text-[#D9B341]" />Editar</h1></Link>
                   <h1 className="flex gap-2 items-center" onClick={() => handleDeleteProject(project.id)}><HiOutlineXCircle className="text-xl text-[#D9B341]" />Excluir</h1>
+                  <Link to={`/projetos/projetoId?id=${project.id}`}><h1 className="flex gap-2 items-center" ><HiOutlineArrowCircleRight className="text-xl text-[#D9B341]" />Ver projeto</h1></Link>
                 </div>
               </div>
             )}

@@ -15,6 +15,8 @@ import ProjectAll from "../screens/Public/Project/ProjectAll";
 import ProjectId from "../screens/Public/Project/ProjectId/ProjectId";
 import ProjectCategory from "../screens/Public/Project/ProjectCategory/ProjectCategory";
 import UpdateCategory from "../screens/Admin/Project/Category/UpdateCategory/UpdateCategory";
+import ProjectIdAdmin from "../screens/Admin/Project/ProjectId/ProjectId";
+import UpdateProject from "../screens/Admin/Project/UpdateProject/UpdateProejct";
 
 export default function PrivateRoute() {
   return {
@@ -26,6 +28,14 @@ export default function PrivateRoute() {
       {
         path: '/projects',
         element: <ListProjects />,
+      },
+      {
+        path: '/projetos/projetoId',
+        element: <ProjectIdAdmin />,
+      },
+      {
+        path: '/projetos/editProject',
+        element: <UpdateProject />,
       },
       {
         path: '/admin',
