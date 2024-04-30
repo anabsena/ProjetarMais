@@ -1131,7 +1131,7 @@ export const PhotoApiAxiosParamCreator = function (configuration?: Configuration
         photoControllerDelete: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('photoControllerDelete', 'id', id)
-            const localVarPath = `/api/photo/user/{id}`
+            const localVarPath = `/api/photo/photo/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);

@@ -4,9 +4,11 @@ import { HiOutlineArrowCircleRight, HiOutlineDotsVertical, HiOutlineOfficeBuildi
 import { Button } from "../../../../components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import LoadingSpinner from "../../../../components/loading";
+import usePhotoHook from "../../../../hooks/usePhotoHook";
 
 const ListProjectsScreen = () => {
-  const { projectControllerFindAll } = useProjectHook();
+  const { projectControllerFindAll, projectControllerDelete, projectControllerFindOne } = useProjectHook();
+  const {photoControllerDelete} = usePhotoHook()
 
   const [projects, setProjects] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -22,7 +24,7 @@ const ListProjectsScreen = () => {
       try {
         const response = await projectControllerFindAll('', '', '', 1, 10);
         if (response.status === 200) {
-          setProjects(response.data.data);
+          setProjects(response.data.data)
           setLoading(false); // Definindo loading como false após carregar os projetos
         } else {
           console.error("Error fetching projects:", response.message);
@@ -53,17 +55,34 @@ const ListProjectsScreen = () => {
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-
+ 
   const handleClickNewProject = () => {
     navigate('/new-project');
-  };
+  }
 
-  const handleClickViewProject = (projectId) => {
-    navigate(`/project?id=${projectId}`);
-  };
 
   const handleDeleteProject = async (projectId) => {
-    // Implement the delete logic here
+    const project = await projectControllerFindOne(projectId);
+    const imagesIds = project.data.ProjectPhotos.map(imagesId => imagesId.id)
+    try {
+      if (imagesIds && imagesIds.length > 0) {
+        await Promise.all(imagesIds.map(async (image) => {
+          const imageDeleteResponse = await photoControllerDelete(image);
+          if (imageDeleteResponse.status !== 200) {
+            console.error("Error deleting image:", imageDeleteResponse.message);
+          }
+        }));
+      }
+      
+      const projectDeleteResponse = await projectControllerDelete(projectId);
+      if (projectDeleteResponse.status === 200) {
+        setProjects(projects.filter((project) => project.id !== projectId));
+      } else {
+        console.error("Error deleting project:", projectDeleteResponse.message);
+      }
+    } catch (error) {
+      console.error("Error deleting photo:", error);
+    }
   };
 
   const filteredProjects = projects.filter(project =>
@@ -77,7 +96,7 @@ const ListProjectsScreen = () => {
   const totalPages = Math.ceil(filteredProjects.length / projectsPerPage);
 
   if (loading) {
-    return <LoadingSpinner />; // Exibir o spinner de carregamento se os projetos ainda estão sendo carregados
+    return <LoadingSpinner />; 
   }
 
   return (
@@ -124,7 +143,10 @@ const ListProjectsScreen = () => {
               <div className="absolute right-0 mt-2 w-48 bg-[#1E1D40] rounded-xl shadow-lg z-10 border border-[#D9B341]">
                 <div className="flex flex-col gap-4 p-2">
                 <Link to={`/projetos/editProject?id=${project.id}`}><h1 className="flex gap-2 items-center" ><HiOutlinePencilAlt className="text-xl text-[#D9B341]" />Editar</h1></Link>
-                  <h1 className="flex gap-2 items-center" onClick={() => handleDeleteProject(project.id)}><HiOutlineXCircle className="text-xl text-[#D9B341]" />Excluir</h1>
+                <button className="flex gap-2 items-center" onClick={() => handleDeleteProject(project.id)}>
+              <HiOutlineXCircle className="text-xl text-[#D9B341]" />
+              Excluir
+            </button>
                   <Link to={`/projetos/projetoId?id=${project.id}`}><h1 className="flex gap-2 items-center" ><HiOutlineArrowCircleRight className="text-xl text-[#D9B341]" />Ver projeto</h1></Link>
                 </div>
               </div>

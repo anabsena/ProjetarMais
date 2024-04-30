@@ -34,7 +34,7 @@ const ServicesScreen = () => {
     };
 
     fetchCategory();
-  }, [categoryControllerFindAll]);
+  }, []);
 
   const getBackgroundColor = (id: string) => {
     const index = categories.findIndex(category => category.id === id);
