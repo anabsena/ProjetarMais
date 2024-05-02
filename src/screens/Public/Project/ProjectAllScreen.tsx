@@ -94,7 +94,7 @@ export const ProjectAllScreen = () => {
     }
 
     return (
-        <div className="flex flex-col items-center mb-4 min-h-[70vh]">
+        <div className="flex flex-col items-center mb-4">
             <img src="img/icon-arq.svg" className="absolute top-28 right-0 hidden sm:flex" alt="" />
             <div className="flex flex-col w-full items-start mt-28 lg:my-8 z-30 ">
                 <h1 className="uppercase text-[#2F2E59] text-4xl px-4" style={{ fontFamily: "Mulish, sans-serif" }}>

@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "../../../../components/ui/button";
 import useProjectHook from "../../../../hooks/useProjectHook";
-import { HiOutlineMinus, HiOutlinePlus } from "react-icons/hi";
+import { HiOutlineMinus, HiOutlinePlus, HiOutlineX } from "react-icons/hi";
 import LoadingSpinner from "../../../../components/loading";
+import useCategoryHook from "../../../../hooks/useCategoryHook";
 
 export const UpdateProjectScreen = () => {
   const { projectControllerUpdate, projectControllerFindOne } = useProjectHook();
+  const { categoryControllerFindAll } = useCategoryHook();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [details, setDetails] = useState([""]);
   const [categories, setCategories] = useState([]);
   const [projectCategoryId, setProjectCategoryId] = useState('');
+  const [selectedImages, setSelectedImages] = useState<File[]>([]);
+  const [imageUrls, setImageUrls] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
-  const [especificDetails, setEspecificDetails] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -20,28 +23,68 @@ export const UpdateProjectScreen = () => {
   const projectId = query.get('id');
 
   useEffect(() => {
-    const fetchProject = async () => {
-      try {
-        const response = await projectControllerFindOne(projectId);
-        if (response.status === 200) {
-          setName(response.data.name);
-          setDescription(response.data.description);
-          setEspecificDetails(response.data.especificDetails || "");
-          setDetails(response.data.details || [""]);
-          setLoading(false);
-        } else {
-          console.error("Error fetching project:", response.message);
-        }
-      } catch (error) {
-        console.error(error);
+  const fetchProject = async () => {
+    try {
+      const response = await projectControllerFindOne(projectId);
+      console.log(response)
+      if (response.status === 200) {
+        setName(response.data.name);
+        setDescription(response.data.description);
+
+        // Dividir os detalhes específicos separados por "|"
+        const detailsArray = response.data.especificDetails.split('|');
+        // Remover primeiro elemento vazio, se houver
+        if (detailsArray[0] === "") detailsArray.shift();
+        setDetails(detailsArray);
+        setProjectCategoryId(response.data.projectCategoryId)
+        setSelectedCategory(response.data.projectCategoryId)
+        const urls = await Promise.all(
+          response.data.ProjectPhotos.map(async (photo: any) => {
+              const buffer = new Uint8Array(photo.photos.data);
+              const blob = new Blob([buffer], { type: 'image/png' });
+              const url = URL.createObjectURL(blob);
+              return url;
+          })
+      );
+      console.log(urls);
+        setSelectedImages(urls)
+
+        setLoading(false);
+      } else {
+        console.error("Error fetching project:", response.message);
       }
-    };
-    if (projectId) {
-      fetchProject();
-    } else {
-      setLoading(false);
+    } catch (error) {
+      console.error(error);
     }
-  }, [projectId]);
+  };
+ 
+
+  if (projectId) {
+    fetchProject();
+  } else {
+    setLoading(false);
+  }
+}, [projectId]);
+
+const updateProject = async (projectId) => {
+  const allDetails = [details, ...details];
+  const especificDetailsString = allDetails.join('|');
+  const response = await projectControllerUpdate(projectId, name, description, especificDetailsString)
+  console.log(response);
+}
+
+useEffect(() => {
+  const fetchCategories = async () => {
+    try {
+      const response = await categoryControllerFindAll('', 1, 10);
+      //@ts-ignore
+      setCategories(response.data.data);
+    } catch (err) {
+      console.error("Erro ao buscar categorias:", err);
+    }
+  };
+  fetchCategories();
+}, []);
 
   const addDetailInput = () => {
     setDetails([...details, ""]);
@@ -51,16 +94,31 @@ export const UpdateProjectScreen = () => {
     const updatedDetails = [...details];
     updatedDetails[index] = value;
     setDetails(updatedDetails);
+    setDetails(value.split("|"));
   };
 
   const removeDetailInput = (indexToRemove) => {
     const updatedDetails = details.filter((_, index) => index !== indexToRemove);
     setDetails(updatedDetails);
   };
+  const handleCategoryChange = (e) => {
+    setSelectedCategory(e.target.value);
+    setProjectCategoryId(e.target.value);
+  };
+  const handleImageChange = (e) => {
+    const files = e.target.files;
+    //@ts-ignore
+    const urls = Array.from(files).map((file) => URL.createObjectURL(file));
+    setSelectedImages(Array.from(files));
+    //@ts-ignore
+    setImageUrls(urls);
+  };
+  const removeImage = (indexToRemove) => {
+    const updatedUrls = imageUrls.filter((_, index) => index !== indexToRemove);
+    const updatedImages = selectedImages.filter((_, index) => index !== indexToRemove);
 
-  const handleEspecificDetailsChange = (value) => {
-    setEspecificDetails(value);
-    setDetails(value.split("|"));
+    setImageUrls(updatedUrls);
+    setSelectedImages(updatedImages);
   };
 
   if (loading) {
@@ -98,17 +156,7 @@ export const UpdateProjectScreen = () => {
           </label>
           <div className="flex flex-col uppercase w-full items-center justify-center" style={{ fontFamily: "Mulish, sans-serif" }}>
             <span className="flex items-start w-full text-primary">Detalhes específicos:</span>
-            <div className="flex items-center mt-2 gap-2 w-full">
-              <input
-                type="text"
-                id="especificDetails"
-                value={especificDetails}
-                className="p-4 bg-transparent border border-primary rounded-xl text-primary w-full"
-                onChange={(e) => handleEspecificDetailsChange(e.target.value)}
-                autoComplete="off"
-              />
-              <Button onClick={addDetailInput}><HiOutlinePlus className="text-xl" /></Button>
-            </div>
+           
             {details.map((detail, index) => (
               <div key={index} className="flex items-center mt-2 gap-2 w-full">
                 <input
@@ -117,13 +165,71 @@ export const UpdateProjectScreen = () => {
                   onChange={(e) => handleDetailChange(index, e.target.value)}
                   className="p-4 bg-transparent border border-primary rounded-xl text-primary w-full"
                 />
+                <Button onClick={addDetailInput}><HiOutlinePlus className="text-xl" /></Button>
                 <Button onClick={() => removeDetailInput(index)} variant={"destructive"}><HiOutlineMinus className="text-xl" /></Button>
               </div>
             ))}
           </div>
+          <label htmlFor="category" className="flex flex-col uppercase w-full items-center justify-center" style={{ fontFamily: "Mulish, sans-serif" }}>
+            <span className="flex items-start w-full text-primary">Categoria:</span>
+            <select
+              id="category"
+              value={selectedCategory}
+              onChange={handleCategoryChange}
+              className="p-4 bg-transparent border border-primary text-primary w-full rounded-xl focus:outline-none"
+            >
+              <option value="">Selecione uma categoria</option>
+              {categories.map((cat) => (
+                //@ts-ignore
+                <option key={cat.id} value={cat.id}>
+                  {/* @ts-ignore */}
+                  {cat.name}
+                </option>
+              ))}
+            </select>
+          </label>
+          </div>
+          <div className="w-full flex flex-col  h-full items-center">
+          <label htmlFor="image" className="flex flex-col uppercase w-full items-center justify-center mt-4" style={{ fontFamily: "Mulish, sans-serif" }}>
+            <span className="flex items-start w-full text-primary">Imagens do projeto:</span>
+            <div className="relative w-full h-32 border border-dashed border-primary rounded-xl flex justify-center items-center cursor-pointer">
+              <input
+                type="file"
+                id="image"
+                accept="image/*"
+                multiple
+                onChange={handleImageChange}
+                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+              />
+              <span className="text-xl text-primary">Faça upload das fotos do projeto</span>
+            </div>
+          </label>
+
+          <div className="mt-4 flex flex-col w-full gap-4">
+            {selectedImages.map((url, index) => (
+              <div key={index} className="flex h-16 p-2 border border-primary items-center rounded-xl" >
+                <img src={url} alt={`Imagem ${index}`} className="h-12 w-12 object-cover rounded-md" />
+                <div className=" flex items-center w-full justify-between p-2">
+                  
+                  <span className="text-primary">{selectedImages[index].name}</span>
+                  <button
+                    onClick={() => removeImage(index)}
+                  >
+                    <HiOutlineX className="text-xl text-red-500" />
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="flex justify-end w-full mt-4">
+        <Button type="submit" className="w-full" onClick={updateProject} style={{ fontFamily: "Mulish, sans-serif" }} size={"lg"} >
+          Criar
+        </Button>
+      </div>
         </div>
       </div>
-    </div>
+    
   );
 };
 

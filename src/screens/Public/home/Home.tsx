@@ -14,6 +14,8 @@ export const Home = () => {
   const [category, setCategory] = useState([]);
   const[projects, setProjects] = useState([]);
   const [photoOne, setPhotoOne] = useState<string[]>([]);
+  
+  
   const {projectControllerFindAll} = useProjectHook()
   const navigate = useNavigate()
 
@@ -33,7 +35,7 @@ export const Home = () => {
     };
     const fetchProjects = async () => {
       try {
-        const response = await projectControllerFindAll('', '', '', 1, 10);
+        const response = await projectControllerFindAll('', '', '', 1, 3);
         if (response.status === 200) {
           //@ts-ignore
           const lastThreeProjects = response.data.data.slice(-3);
@@ -44,6 +46,7 @@ export const Home = () => {
               const buffer = new Uint8Array(photoFirst);
               const blob = new Blob([buffer], { type: "image/png" });
               const url = URL.createObjectURL(blob);
+              localStorage.setItem(photo.id, url);
               return url;
             })
           );
@@ -52,7 +55,6 @@ export const Home = () => {
           //@ts-ignore
           setProjects(lastThreeProjects);
           //@ts-ignore
-          console.log('projects',lastThreeProjects);
         } else {
           console.error("Error fetching projects:", response.message);
         }
@@ -272,6 +274,7 @@ export const Home = () => {
               src={photoOne[index]}
               className="w-full h-64 object-cover"
               alt=""
+              loading="lazy"
             />
                             </div>
                     ))}
