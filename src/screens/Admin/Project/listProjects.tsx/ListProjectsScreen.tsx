@@ -8,7 +8,7 @@ import usePhotoHook from "../../../../hooks/usePhotoHook";
 
 const ListProjectsScreen = () => {
   const { projectControllerFindAll, projectControllerDelete, projectControllerFindOne } = useProjectHook();
-  const {photoControllerDelete} = usePhotoHook()
+  const { photoControllerDelete } = usePhotoHook()
 
   const [projects, setProjects] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -55,7 +55,7 @@ const ListProjectsScreen = () => {
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
- 
+
   const handleClickNewProject = () => {
     navigate('/new-project');
   }
@@ -73,7 +73,7 @@ const ListProjectsScreen = () => {
           }
         }));
       }
-      
+
       const projectDeleteResponse = await projectControllerDelete(projectId);
       if (projectDeleteResponse.status === 200) {
         setProjects(projects.filter((project) => project.id !== projectId));
@@ -96,7 +96,7 @@ const ListProjectsScreen = () => {
   const totalPages = Math.ceil(filteredProjects.length / projectsPerPage);
 
   if (loading) {
-    return <LoadingSpinner />; 
+    return <LoadingSpinner />;
   }
 
   return (
@@ -115,7 +115,7 @@ const ListProjectsScreen = () => {
         />
         <HiSearch className="text-primary text-3xl" />
       </div>
-      {currentProjects.map((project) => (
+      {currentProjects.length !== 0 ? currentProjects.map((project) => (
         <div key={project.id} className="bg-gradient-to-r cursor-pointer from-[#636BA6] to-[#1E1D40] w-full rounded-xl p-4 flex gap-4 mt-4 items-center justify-between">
           <div className="flex gap-4 ">
             <HiOutlineOfficeBuilding className="text-6xl text-[#D9B341]" />
@@ -142,18 +142,23 @@ const ListProjectsScreen = () => {
             {showModal && selectedProject && selectedProject.id === project.id && (
               <div className="absolute right-0 mt-2 w-48 bg-[#1E1D40] rounded-xl shadow-lg z-10 border border-[#D9B341]">
                 <div className="flex flex-col gap-4 p-2">
-                <Link to={`/projetos/editProject?id=${project.id}`}><h1 className="flex gap-2 items-center" ><HiOutlinePencilAlt className="text-xl text-[#D9B341]" />Editar</h1></Link>
-                <button className="flex gap-2 items-center" onClick={() => handleDeleteProject(project.id)}>
-              <HiOutlineXCircle className="text-xl text-[#D9B341]" />
-              Excluir
-            </button>
+                  <Link to={`/projetos/editProject?id=${project.id}`}><h1 className="flex gap-2 items-center" ><HiOutlinePencilAlt className="text-xl text-[#D9B341]" />Editar</h1></Link>
+                  <button className="flex gap-2 items-center" onClick={() => handleDeleteProject(project.id)}>
+                    <HiOutlineXCircle className="text-xl text-[#D9B341]" />
+                    Excluir
+                  </button>
                   <Link to={`/projetos/projetoId?id=${project.id}`}><h1 className="flex gap-2 items-center" ><HiOutlineArrowCircleRight className="text-xl text-[#D9B341]" />Ver projeto</h1></Link>
                 </div>
               </div>
             )}
           </div>
         </div>
-      ))}
+      )) : (
+        <div className="opacity-50 h-full relative flex items-center justify-center">
+          <img src="/img/icon-mais-duplo.svg" className="h-full" alt="" />
+          <h1 className="absolute text-4xl uppercase">Nenhum projeto encontrado!</h1>
+        </div>
+      )}
       {totalPages > 1 && (
         <div className="mt-4">
           {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
