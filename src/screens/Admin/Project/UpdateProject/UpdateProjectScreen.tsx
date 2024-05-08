@@ -23,68 +23,72 @@ export const UpdateProjectScreen = () => {
   const projectId = query.get('id');
 
   useEffect(() => {
-  const fetchProject = async () => {
-    try {
-      const response = await projectControllerFindOne(projectId);
-      console.log(response)
-      if (response.status === 200) {
-        setName(response.data.name);
-        setDescription(response.data.description);
+    const fetchProject = async () => {
+      try {
+        if (projectId) {
 
-        // Dividir os detalhes específicos separados por "|"
-        const detailsArray = response.data.especificDetails.split('|');
-        // Remover primeiro elemento vazio, se houver
-        if (detailsArray[0] === "") detailsArray.shift();
-        setDetails(detailsArray);
-        setProjectCategoryId(response.data.projectCategoryId)
-        setSelectedCategory(response.data.projectCategoryId)
-        const urls = await Promise.all(
-          response.data.ProjectPhotos.map(async (photo: any) => {
-              const buffer = new Uint8Array(photo.photos.data);
-              const blob = new Blob([buffer], { type: 'image/png' });
-              const url = URL.createObjectURL(blob);
-              return url;
-          })
-      );
-      console.log(urls);
-        setSelectedImages(urls)
+          const response = await projectControllerFindOne(projectId);
 
-        setLoading(false);
-      } else {
-        console.error("Error fetching project:", response.message);
+          console.log(response)
+          if (response.status === 200) {
+            setName(response.data.name);
+            setDescription(response.data.description);
+
+            // Dividir os detalhes específicos separados por "|"
+            const detailsArray = response.data.especificDetails.split('|');
+            // Remover primeiro elemento vazio, se houver
+            if (detailsArray[0] === "") detailsArray.shift();
+            setDetails(detailsArray);
+            setProjectCategoryId(response.data.projectCategoryId)
+            setSelectedCategory(response.data.projectCategoryId)
+            const urls = await Promise.all(
+              response.data.ProjectPhotos.map(async (photo: any) => {
+                const buffer = new Uint8Array(photo.photos.data);
+                const blob = new Blob([buffer], { type: 'image/png' });
+                const url = URL.createObjectURL(blob);
+                return url;
+              })
+            );
+            console.log(urls);
+            setSelectedImages(urls)
+
+            setLoading(false);
+          } else {
+            console.error("Error fetching project:", response.message);
+          }
+        }
+      } catch (error) {
+        console.error(error);
       }
-    } catch (error) {
-      console.error(error);
-    }
-  };
- 
+    };
 
-  if (projectId) {
-    fetchProject();
-  } else {
-    setLoading(false);
+
+    if (projectId) {
+      fetchProject();
+    } else {
+      setLoading(false);
+    }
+  }, [projectId]);
+
+  const updateProject = async (projectId) => {
+    const allDetails = [details, ...details];
+    const especificDetailsString = allDetails.join('|');
+    const response = await projectControllerUpdate(projectId, name, description, especificDetailsString)
+    console.log(response);
   }
-}, [projectId]);
 
-const updateProject = async (projectId) => {
-  const allDetails = [details, ...details];
-  const especificDetailsString = allDetails.join('|');
-  const response = await projectControllerUpdate(projectId, name, description, especificDetailsString)
-  console.log(response);
-}
-
-useEffect(() => {
-  const fetchCategories = async () => {
-    try {
-      const response = await categoryControllerFindAll('', 1, 10);
-      //@ts-ignore
-      setCategories(response.data.data);
-    } catch (err) {
-      console.error("Erro ao buscar categorias:", err);
-    }
-  };
-  fetchCategories();
-}, []);
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await categoryControllerFindAll('', 1, 10);
+        //@ts-ignore
+        setCategories(response.data.data);
+      } catch (err) {
+        console.error("Erro ao buscar categorias:", err);
+      }
+    };
+    fetchCategories();
+  }, []);
 
   const addDetailInput = () => {
     setDetails([...details, ""]);
@@ -156,7 +160,7 @@ useEffect(() => {
           </label>
           <div className="flex flex-col uppercase w-full items-center justify-center" style={{ fontFamily: "Mulish, sans-serif" }}>
             <span className="flex items-start w-full text-primary">Detalhes específicos:</span>
-           
+
             {details.map((detail, index) => (
               <div key={index} className="flex items-center mt-2 gap-2 w-full">
                 <input
@@ -188,8 +192,8 @@ useEffect(() => {
               ))}
             </select>
           </label>
-          </div>
-          <div className="w-full flex flex-col  h-full items-center">
+        </div>
+        <div className="w-full flex flex-col  h-full items-center">
           <label htmlFor="image" className="flex flex-col uppercase w-full items-center justify-center mt-4" style={{ fontFamily: "Mulish, sans-serif" }}>
             <span className="flex items-start w-full text-primary">Imagens do projeto:</span>
             <div className="relative w-full h-32 border border-dashed border-primary rounded-xl flex justify-center items-center cursor-pointer">
@@ -210,7 +214,7 @@ useEffect(() => {
               <div key={index} className="flex h-16 p-2 border border-primary items-center rounded-xl" >
                 <img src={url} alt={`Imagem ${index}`} className="h-12 w-12 object-cover rounded-md" />
                 <div className=" flex items-center w-full justify-between p-2">
-                  
+
                   <span className="text-primary">{selectedImages[index].name}</span>
                   <button
                     onClick={() => removeImage(index)}
@@ -223,13 +227,13 @@ useEffect(() => {
           </div>
         </div>
         <div className="flex justify-end w-full mt-4">
-        <Button type="submit" className="w-full" onClick={updateProject} style={{ fontFamily: "Mulish, sans-serif" }} size={"lg"} >
-          Criar
-        </Button>
-      </div>
+          <Button type="submit" className="w-full" onClick={updateProject} style={{ fontFamily: "Mulish, sans-serif" }} size={"lg"} >
+            Criar
+          </Button>
         </div>
       </div>
-    
+    </div>
+
   );
 };
 

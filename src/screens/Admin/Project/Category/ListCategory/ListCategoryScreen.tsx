@@ -1,21 +1,22 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import useCategoryHook from "../../../../../hooks/useCategoryHook";
 import { HiOutlineDotsVertical, HiOutlinePencilAlt, HiOutlinePlus, HiOutlineTag, HiOutlineXCircle, HiSearch } from "react-icons/hi";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "../../../../../components/ui/button";  // Importando o componente de LoadingSpinner
 import { limitCharacter } from "../../../../../utils/limitCharacter";
 import LoadingSpinner from "../../../../../components/loading";
+import { ResponseCategoryDto } from "../../../../../services/api-back";
 
 const ListCategoryScreen = () => {
   const { categoryControllerFindAll, categoryControllerDelete } = useCategoryHook();
 
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState<ResponseCategoryDto[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [categoriesPerPage] = useState(10);
   const [showModal, setShowModal] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const [loading, setLoading] = useState(true); // Estado para controlar o carregamento
+  const [loading, setLoading] = useState(true); 
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,8 +24,11 @@ const ListCategoryScreen = () => {
       try {
         const response = await categoryControllerFindAll('', 1, 10);
         if (response.status === 200) {
-          setCategories(response.data.data);
-          setLoading(false); // Definindo loading como false após carregar as categorias
+          if (response.data) {
+
+            setCategories(response.data.data);
+          }
+          setLoading(false); 
         } else {
           console.error("Error fetching categories:", response.message);
         }
@@ -36,12 +40,12 @@ const ListCategoryScreen = () => {
     fetchCategories();
   }, []);
 
-  const handleSearchChange = (event) => {
+  const handleSearchChange = (event: any) => {
     setSearchTerm(event.target.value);
     setCurrentPage(1);
   };
 
-  const handleOpenModal = (category) => {
+  const handleOpenModal = (category: any) => {
     setSelectedCategory(category);
     setShowModal(true);
   };
@@ -51,7 +55,7 @@ const ListCategoryScreen = () => {
     setShowModal(false);
   };
 
-  const paginate = (pageNumber) => {
+  const paginate = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
 
@@ -59,11 +63,11 @@ const ListCategoryScreen = () => {
     navigate('/new-category');
   };
 
-  const handleDeleteCategory = async (categoryId) => {
+  const handleDeleteCategory = async (categoryId: string) => {
     try {
       const response = await categoryControllerDelete(categoryId);
       if (response.status === 200) {
-        setCategories(categories.filter((category) => category.id!== categoryId));
+        setCategories(categories.filter((category) => category.id !== categoryId));
       } else {
         console.error("Error deleting category:", response.message);
       }
@@ -119,6 +123,7 @@ const ListCategoryScreen = () => {
             <HiOutlineDotsVertical
               className="text-4xl text-[#EDD253] cursor-pointer "
               onClick={() => {
+                //@ts-ignore
                 if (showModal && selectedCategory && selectedCategory.id === category.id) {
                   handleCloseModal();
                 } else {
@@ -126,6 +131,7 @@ const ListCategoryScreen = () => {
                 }
               }}
             />
+            {/* @ts-ignore */}
             {showModal && selectedCategory && selectedCategory.id === category.id && (
               <div className="absolute right-0 mt-2 w-48 bg-[#1E1D40] rounded-xl shadow-lg z-10 border border-[#D9B341]">
                 <div className="flex flex-col gap-4 p-2">

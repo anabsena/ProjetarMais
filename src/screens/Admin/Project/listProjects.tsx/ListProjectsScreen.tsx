@@ -5,12 +5,13 @@ import { Button } from "../../../../components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import LoadingSpinner from "../../../../components/loading";
 import usePhotoHook from "../../../../hooks/usePhotoHook";
+import { ResponseProjectDto } from "../../../../services/api-back";
 
 const ListProjectsScreen = () => {
   const { projectControllerFindAll, projectControllerDelete, projectControllerFindOne } = useProjectHook();
   const { photoControllerDelete } = usePhotoHook()
 
-  const [projects, setProjects] = useState([]);
+  const [projects, setProjects] = useState<ResponseProjectDto[] | undefined>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [projectsPerPage] = useState(10);
@@ -24,8 +25,8 @@ const ListProjectsScreen = () => {
       try {
         const response = await projectControllerFindAll('', '', '', 1, 10);
         if (response.status === 200) {
-          setProjects(response.data.data)
-          setLoading(false); // Definindo loading como false após carregar os projetos
+          setProjects(response.data?.data)
+          setLoading(false)
         } else {
           console.error("Error fetching projects:", response.message);
         }
@@ -37,12 +38,12 @@ const ListProjectsScreen = () => {
     fetchProjects();
   }, []);
 
-  const handleSearchChange = (event) => {
+  const handleSearchChange = (event: any) => {
     setSearchTerm(event.target.value);
     setCurrentPage(1);
   };
 
-  const handleOpenModal = (project) => {
+  const handleOpenModal = (project: any) => {
     setSelectedProject(project);
     setShowModal(true);
   };
@@ -52,7 +53,7 @@ const ListProjectsScreen = () => {
     setShowModal(false);
   };
 
-  const paginate = (pageNumber) => {
+  const paginate = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
 
@@ -61,12 +62,13 @@ const ListProjectsScreen = () => {
   }
 
 
-  const handleDeleteProject = async (projectId) => {
+  const handleDeleteProject = async (projectId: string) => {
     const project = await projectControllerFindOne(projectId);
+    //@ts-ignore
     const imagesIds = project.data.ProjectPhotos.map(imagesId => imagesId.id)
     try {
       if (imagesIds && imagesIds.length > 0) {
-        await Promise.all(imagesIds.map(async (image) => {
+        await Promise.all(imagesIds.map(async (image: any) => {
           const imageDeleteResponse = await photoControllerDelete(image);
           if (imageDeleteResponse.status !== 200) {
             console.error("Error deleting image:", imageDeleteResponse.message);
@@ -76,6 +78,7 @@ const ListProjectsScreen = () => {
 
       const projectDeleteResponse = await projectControllerDelete(projectId);
       if (projectDeleteResponse.status === 200) {
+        //@ts-ignore
         setProjects(projects.filter((project) => project.id !== projectId));
       } else {
         console.error("Error deleting project:", projectDeleteResponse.message);
@@ -84,7 +87,7 @@ const ListProjectsScreen = () => {
       console.error("Error deleting photo:", error);
     }
   };
-
+  //@ts-ignore
   const filteredProjects = projects.filter(project =>
     project.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     project.description.toLowerCase().includes(searchTerm.toLowerCase())
@@ -132,6 +135,7 @@ const ListProjectsScreen = () => {
             <HiOutlineDotsVertical
               className="text-4xl text-[#EDD253] cursor-pointer"
               onClick={() => {
+                //@ts-ignore
                 if (showModal && selectedProject && selectedProject.id === project.id) {
                   handleCloseModal();
                 } else {
@@ -139,6 +143,7 @@ const ListProjectsScreen = () => {
                 }
               }}
             />
+            {/* @ts-ignore */}
             {showModal && selectedProject && selectedProject.id === project.id && (
               <div className="absolute right-0 mt-2 w-48 bg-[#1E1D40] rounded-xl shadow-lg z-10 border border-[#D9B341]">
                 <div className="flex flex-col gap-4 p-2">

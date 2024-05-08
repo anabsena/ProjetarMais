@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import useCategoryHook from "../../../../../hooks/useCategoryHook";
 import { HiOutlineDotsVertical, HiOutlinePencilAlt, HiOutlinePhotograph, HiOutlinePlus, HiOutlineXCircle, HiSearch } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
@@ -20,25 +20,29 @@ const ListCategoryIdScreen = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const response = await categoryControllerFindOne(categoryId);
-        if (response.status === 200) {
-          setProjects(response.data.Project);
-          setLoading(false);
-        } else {
-          console.error("Error fetching projects:", response.message);
+        if (categoryId) {
+          const response = await categoryControllerFindOne(categoryId);
+          if (response.status === 200) {
+            //@ts-ignore
+            setProjects(response.data.Project);
+            setLoading(false);
+          } else {
+            console.error("Error fetching projects:", response.message);
+          }
         }
       } catch (error) {
         console.error(error);
+
       }
     };
     fetchProjects();
   }, [categoryId]);
 
-  const handleSearchChange = (event) => {
+  const handleSearchChange = (event: any) => {
     setSearchTerm(event.target.value);
   };
 
-  const handleOpenModal = (project) => {
+  const handleOpenModal = (project: any) => {
     setSelectedProject(project);
     setShowModal(true);
   };
@@ -69,14 +73,17 @@ const ListCategoryIdScreen = () => {
         <HiSearch className="text-primary text-3xl" />
       </div>
       {projects.map((project) => (
+        //@ts-ignore
         <div key={project.id} className="bg-gradient-to-r cursor-pointer from-[#636BA6] to-[#1E1D40] w-full rounded-xl p-4 flex gap-4 mt-4 items-center justify-between">
           <div className="flex gap-4 ">
             <HiOutlinePhotograph className="text-6xl text-[#D9B341]" />
             <div>
               <h1 className="text-xl text-[#F2F4FF] font-bold" style={{ fontFamily: "Adam, sans-serif" }}>
+                {/* @ts-ignore */}
                 Nome: {project.name}
               </h1>
               <h1 className="text-md text-[#F2F4FF]" style={{ fontFamily: "Mulish, sans-serif" }}>
+                {/* @ts-ignore */}
                 Descrição: {project.description}
               </h1>
             </div>
@@ -85,6 +92,7 @@ const ListCategoryIdScreen = () => {
             <HiOutlineDotsVertical
               className="text-4xl text-[#EDD253] cursor-pointer"
               onClick={() => {
+                {/* @ts-ignore */ }
                 if (showModal && selectedProject && selectedProject.id === project.id) {
                   handleCloseModal();
                 } else {
@@ -92,6 +100,7 @@ const ListCategoryIdScreen = () => {
                 }
               }}
             />
+            {/* @ts-ignore */}
             {showModal && selectedProject && selectedProject.id === project.id && (
               <div className="absolute right-0 mt-2 w-48 bg-[#1E1D40] rounded-xl shadow-lg z-10 border border-[#D9B341]">
                 <div className="flex flex-col gap-4 p-2">

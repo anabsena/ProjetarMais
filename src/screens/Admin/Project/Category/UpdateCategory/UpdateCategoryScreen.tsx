@@ -1,44 +1,50 @@
 import { useEffect, useState } from "react"
 import useCategoryHook from "../../../../../hooks/useCategoryHook"
 import { Button } from "../../../../../components/ui/button";
+import { useNavigate } from "react-router-dom";
 
-export const UpdateCategoryScreen = ( ) => {
-    const {categoryControllerUpdate, categoryControllerFindOne} = useCategoryHook()
-    const [name, setName] = useState("")
-    const [description, setDescription] = useState("")
-    const [submitting, setSubmitting] = useState(false);
-    
+export const UpdateCategoryScreen = () => {
+  const { categoryControllerUpdate, categoryControllerFindOne } = useCategoryHook()
+  const [name, setName] = useState("")
+  const [description, setDescription] = useState("")
+  const navigate = useNavigate();
+
+
   const query = new URLSearchParams(window.location.search);
   const categoryId = query.get('id');
-    
-    useEffect(() => {
-        const fetchCategory = async ( ) => {
-            if(categoryId){
-                const response = await categoryControllerFindOne( categoryId)
-                if (response.status === 200) {
-                    if(response.data){
 
-                        setName(response.data.name)
-                        setDescription(response.data.description)
-                    }
-                }
-            }
+  useEffect(() => {
+    const fetchCategory = async () => {
+      if (categoryId) {
+        const response = await categoryControllerFindOne(categoryId)
+        if (response.status === 200) {
+          if (response.data) {
+            {/* @ts-ignore */ }
+            setName(response.data.name)
+            {/* @ts-ignore */ }
+            setDescription(response.data.description)
+          }
         }
-        fetchCategory()
-    }, [])
-    const updateCategory = async () => {
-        if(categoryId){
-            const response = await categoryControllerUpdate(categoryId, name, description)
-        }
+      }
     }
+    fetchCategory()
+  }, [])
+  const updateCategory = async () => {
+    if (categoryId) {
+      const response = await categoryControllerUpdate(categoryId, name, description)
+      if (response.data) {
+        navigate('/categorys')
+      }
+    }
+  }
 
 
-    return(
-        <div className="w-full h-full flex flex-col items-center p-8">
-             <h1 style={{ fontFamily: "Adam, sans-serif" }} className="text-3xl text-[#545C99] font-bold uppercase">
+  return (
+    <div className="w-full h-full flex flex-col items-center p-8">
+      <h1 style={{ fontFamily: "Adam, sans-serif" }} className="text-3xl text-[#545C99] font-bold uppercase">
         Edite sua categoria
       </h1>
-        <div className="flex flex-col gap-4 justify-center items-center w-full">
+      <div className="flex flex-col gap-4 justify-center items-center w-full">
         <label htmlFor="name" className="flex flex-col uppercase w-full items-start justify-center" style={{ fontFamily: "Mulish, sans-serif" }}>
           <span className="flex items-start text-primary">Nome da categoria:</span>
           <input
@@ -67,14 +73,13 @@ export const UpdateCategoryScreen = ( ) => {
           <Button
             type="button"
             onClick={updateCategory}
-            disabled={submitting}
             style={{ fontFamily: "Mulish, sans-serif" }}
             size={"lg"}
           >
-            {submitting ? 'Criando...' : 'Criar'}
+            Criar
           </Button>
         </div>
       </div>
-      </div>
-    )
+    </div>
+  )
 }
