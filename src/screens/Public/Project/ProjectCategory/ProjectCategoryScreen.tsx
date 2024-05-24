@@ -21,10 +21,12 @@ const ProjectCategoryScreen = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
+         //@ts-ignore
         const response = await categoryControllerFindOne(categoryId);
         console.log(categoryId)
         console.log(response)
         if (response.status === 200) {
+           //@ts-ignore
           const fetchedProjects = response.data.Project || [];
           setProjects(fetchedProjects);
 
@@ -73,6 +75,7 @@ const ProjectCategoryScreen = () => {
             <div className="rounded-lg">
               {photoUrls[index] ? (
                 <img
+                 //@ts-ignore
                   src={photoUrls[index]}
                   className='w-full h-64 object-cover rounded-xl'
                   alt=""

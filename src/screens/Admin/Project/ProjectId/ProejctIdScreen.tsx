@@ -20,7 +20,7 @@ const ProjectidAdminScreen = () => {
                 if (projectId) {
                     const response = await projectControllerFindOne(projectId);
                     setProject(response.data);
-
+//@ts-ignore
                     const projectPhotos = response.data.ProjectPhotos || [];
                     const urls = projectPhotos.map((photo: any) => BASE_IMAGE_URL + photo.photoUrl);
                     setPhotoUrls(urls);
