@@ -4,14 +4,14 @@ import { Button } from "../../../components/ui/button";
 import { HiArrowSmRight, HiSearch } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 import LoadingSpinner from "../../../components/loading";
- // Importando o componente de loading
+import { BASE_IMAGE_URL } from "../../../constants/app.constant";
 
 interface Projects {
     id: string;
     name: string;
     details: string;
     description: string;
-    ProjectPhotos: { photos: { data: ArrayBuffer } }[];
+    ProjectPhotos: { photoUrl: string }[];
 }
 
 export const ProjectAllScreen = () => {
@@ -22,7 +22,7 @@ export const ProjectAllScreen = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const [projectsPerPage] = useState(10);
-    const [photoUrls, setPhotoUrls] = useState<(string | null)[]>([]);
+    const [photoUrls, setPhotoUrls] = useState<string[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
 
@@ -33,24 +33,16 @@ export const ProjectAllScreen = () => {
             try {
                 const response = await projectControllerFindAll('', '', '', 1, 10);
                 if (response.status === 200) {
-                    const mappedProjects = response.data.data.map((project: Projects) => ({
+                    const mappedProjects: Projects[] = response.data.data.map((project: Projects) => ({
                         ...project,
-                        details: '',
+                        details: '', // Você pode ajustar conforme necessário
                     }));
 
                     setProjects(mappedProjects);
 
-                    const urls = await Promise.all(
-                        response.data.data.map(async (photo) => {
-                            const photoFirst = photo.ProjectPhotos[0]?.photos?.data;
-                            if (!photoFirst) return null;
-                            const buffer = new Uint8Array(photoFirst);
-                            const blob = new Blob([buffer], { type: 'image/png' });
-                            const url = URL.createObjectURL(blob);
-                            return url;
-                        })
+                    const urls = mappedProjects.flatMap(project =>
+                        project.ProjectPhotos.map(photo => BASE_IMAGE_URL + photo.photoUrl)
                     );
-
                     setPhotoUrls(urls);
                     setIsLoading(false);
                 } else {
@@ -64,7 +56,7 @@ export const ProjectAllScreen = () => {
         };
 
         fetchProjects();
-    }, []);
+    }, [projectControllerFindAll]);
 
     const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(event.target.value);

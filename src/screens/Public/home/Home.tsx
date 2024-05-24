@@ -7,16 +7,17 @@ import Footer from "../../../components/Footer";
 import ContactScreen from "../Contact/ContactScreen";
 import useProjectHook from "../../../hooks/useProjectHook";
 import { useNavigate } from "react-router-dom";
+import { BASE_IMAGE_URL } from "../../../constants/app.constant";
 
 export const Home = () => {
 
   const { categoryControllerFindAll } = useCategoryHook()
   const [category, setCategory] = useState([]);
-  const[projects, setProjects] = useState([]);
+  const [projects, setProjects] = useState([]);
   const [photoOne, setPhotoOne] = useState<string[]>([]);
-  
-  
-  const {projectControllerFindAll} = useProjectHook()
+
+
+  const { projectControllerFindAll } = useProjectHook()
   const navigate = useNavigate()
 
 
@@ -39,18 +40,13 @@ export const Home = () => {
         if (response.status === 200) {
           //@ts-ignore
           const lastThreeProjects = response.data.data.slice(-3);
-    
-          const photoUrls = await Promise.all(
-            lastThreeProjects.map(async (photo) => {
-              const photoFirst = photo.ProjectPhotos[0].photos.data;
-              const buffer = new Uint8Array(photoFirst);
-              const blob = new Blob([buffer], { type: "image/png" });
-              const url = URL.createObjectURL(blob);
-              localStorage.setItem(photo.id, url);
-              return url;
-            })
-          );
-    
+
+          const photoUrls = lastThreeProjects.map((project: any) => {
+            const projectPhotos = project.ProjectPhotos || [];
+            const urls = projectPhotos.map((photo: any) => BASE_IMAGE_URL + photo.photoUrl);
+            return urls.length > 0 ? urls[0] : null; // Aqui você pode ajustar conforme a estrutura de dados
+          });
+
           setPhotoOne(photoUrls);
           //@ts-ignore
           setProjects(lastThreeProjects);
@@ -212,16 +208,24 @@ export const Home = () => {
               </div>
               <div className="sm:w-[395px] p-4">
                 <h1 style={{ fontFamily: "Alice", fontSize: "36px" }}>Andressa Belo</h1>
-                <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour
-                  There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour</p>
+                <div className="flex flex-col gap-2 text-sm text-justify">
+                  <p>Me chamo Andressa Belo, sou formada em Arquitetura e Urbanismo pela Universidade Unicesumar de Maringá no ano de 2021.</p>
+                  <p>O interesse pela arte sempre esteve presente na minha vida, sou apaixonada pela arquitetura e procuro demonstrar isso nos projetos que realizo. Essa arte envolve criar, transformar espaços e entender as necessidades e os gostos de cada pessoa que vai morar ou trabalhar naquele espaço e assegurar que tudo aconteça exatamente como desejado.</p>
+                  <p>Eu escolhi a arquitetura porque sei da importância que ela tem para a vida das pessoas e para a sociedade, é grandioso e fascinante mergulhar nos sonhos dos outros e poder transformá-los em realidade, participar dessa materialização é gratificante</p>
+                </div>
               </div>
             </div>
-            <div className="flex items-center md:-mt-20  flex-col justify-center md:flex-row">
+            <div className="flex items-center md:-mt-20   flex-col justify-center md:flex-row">
 
-              <div className="sm:w-[395px] p-4">
+              <div className="sm:w-[400px] p-4">
                 <h1 style={{ fontFamily: "Alice", fontSize: "36px" }}>Monica Goes</h1>
-                <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour
-                  There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour</p>
+                <div className="flex flex-col gap-2 text-sm text-justify pr-6">
+                  <p>Me chamo Mônica Goes, sou Arquiteta e Urbanista, amo criar ambientes personalizados para cada cliente, com muita atenção aos detalhes que refletem sua essência.
+                  </p>
+                  <p>Minha jornada começou na faculdade Unicesumar - Maringá, onde me formei no ano de 2019, e adivinhem justamente no ano que enfrentamos a pandemia. </p>
+                  <p>Ser arquiteta é um compromisso com a criação de espaços que moldam experiências e influenciam comportamentos. É um caminho desafiador, mas totalmente satisfatório ao ver cada cliente se sentindo realizado ao entregar seu sonho em nossas mãos.</p>
+                  <p>Para dizer o essencial, ser arquiteta é ser capaz de transformar sonhos em realidade palpável, impactando positivamente na vida das pessoas e ao nosso redor.</p>
+                </div>
               </div>
               <div className="sm:w-[395px] md:h-[537px] p-4 relative flex justify-center sm:block">
                 <img src="img/mais_branco.svg" className="absolute top-0 right-0 w-36 hidden md:flex" alt="" />
@@ -247,11 +251,11 @@ export const Home = () => {
           </h1>
           <img src="img/separador-title.svg" alt="" className="mb-8 w-full" />
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full gap-4  px-32 ">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 w-full gap-4  px-32 ">
           {category.map((category) => (
             // @ts-ignore
             <div key={category.id} className="bg-[#9BA1D1] p-2 w-full h-full rounded-xl ">
-              <div className="border-2 border-[#F4E393] p-8 w-full rounded-lg flex flex-col items-center gap-4">
+              <div className="border-2 border-[#F4E393] p-8 w-full h-full rounded-lg flex flex-col items-center gap-4">
                 <HiOutlineOfficeBuilding className="text-8xl" />
                 {/* @ts-ignore */}
                 <h1 className="text-2xl">{category.name}</h1>
@@ -268,17 +272,18 @@ export const Home = () => {
             <img src="img/separador-title-project.svg" className="mb-8" alt="" />
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-3 2xl:grid-cols-4 h-64 md:px-32 gap-12">
-                     {projects.map((project, index) => (
-          <div key={project.id} className="rounded-lg overflow-hidden">
-            <img
-              src={photoOne[index]}
-              className="w-full h-64 object-cover"
-              alt=""
-              loading="lazy"
-            />
-                            </div>
-                    ))}
-                </div>
+            {projects.map((project, index) => (
+              // @ts-ignore
+              <div key={project.id} className="rounded-lg overflow-hidden">
+                <img
+                  src={photoOne[index]}
+                  className="w-full h-64 object-cover"
+                  alt=""
+                  loading="lazy"
+                />
+              </div>
+            ))}
+          </div>
         </div>
         <Button variant={"inverseTwo"} onClick={handleClickViewAllProjects} size={"lg"}>Ver todos <HiArrowSmRight /></Button>
         <div>

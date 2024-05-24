@@ -1,7 +1,18 @@
-import { HiArrowSmRight } from "react-icons/hi"
-import { Button } from "../../../components/ui/button"
+import { HiArrowSmRight } from "react-icons/hi";
+import { Button } from "../../../components/ui/button";
 
 const ContactScreen = () => {
+  const handleSendMessage = () => {
+    const name = (document.getElementById('name') as HTMLInputElement).value;
+    const message = (document.getElementById('description') as HTMLTextAreaElement).value;
+
+    const phone = '5543998008930'; // Número de telefone do WhatsApp
+    const text = `Olá, meu nome é ${name}. ${message}`; // Mensagem a ser enviada
+
+    const url = `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(text)}`;
+    window.open(url, '_blank');
+  };
+
   return (
     <div style={{
       backgroundImage: "url('img/bg-fale-conosco.svg')",
@@ -24,16 +35,15 @@ const ContactScreen = () => {
 
           <div className=" col-span-2 sm:col-span-1">
             <h1 className="text-[#EDD253]">Telefone</h1>
-            <p className="text-[#CACEED]">(43)99999-9999</p>
-            <p className="text-[#CACEED]">(43)99999-9999</p>
+            <p className="text-[#CACEED]">(43)99800-8930</p>
           </div>
           <div className="sm:col-span-1">
             <h1 className="text-[#EDD253]">Email</h1>
-            <p className="text-[#CACEED] uppercase">projetarmais@gmail.com</p>
+            <p className="text-[#CACEED] uppercase">projetarmais.arq@gmail.com</p>
           </div>
           <div className="col-span-2">
             <h1 className="text-[#EDD253]">Endereço</h1>
-            <p className="text-[#CACEED]">Rua João Wyclif, 111, Sala 408 - Gleba Fazenda Palhano, Londrina - PR, CEP: 86.050-450</p>
+            <p className="text-[#CACEED]">Rua Professora Diva Proença, 1175 - Sala 01 - Ivaiporã/PR</p>
           </div>
           <div className=" gap-2 col-span-2 lg:hidden flex">
             <a href="https://wa.me/5543998008930" target="_blank" rel="noopener noreferrer"><img src="img/icon-whatsapp.png" className="w-16 h-16" alt="" /></a>
@@ -46,26 +56,22 @@ const ContactScreen = () => {
             placeholder="Nome"
             className="p-4 bg-transparent border border-[#B4B9E0] w-full sm:w-[80%] rounded-xl focus:outline-none"
             autoComplete="off" />
-          <input type="text"
-            placeholder="Email"
-            className="p-4 bg-transparent border border-[#B4B9E0] w-full sm:w-[80%] rounded-xl focus:outline-none" />
-
-
+        
           <textarea
             id="description"
-            placeholder="Descrição "
+            placeholder="Conte aqui"
             rows={6}
             className="p-4 bg-transparent border border-[#B4B9E0] w-full sm:w-[80%] rounded-xl focus:outline-none"
 
           />
           <div className="w-[80%] flex justify-end">
 
-            <Button variant={"inverseTwo"} size={"lg"}>Enviar <HiArrowSmRight /></Button>
+            <Button variant={"inverseTwo"} size={"lg"} onClick={handleSendMessage}>Enviar <HiArrowSmRight /></Button>
           </div>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ContactScreen
+export default ContactScreen;

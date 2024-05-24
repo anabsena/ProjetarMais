@@ -3,6 +3,7 @@ import useQuery from "../../../../hooks/useQuery";
 import useProjectHook from "../../../../hooks/useProjectHook";
 import { HiOutlineForward } from "react-icons/hi2";
 import LoadingSpinner from "../../../../components/loading";
+import { BASE_IMAGE_URL } from "../../../../constants/app.constant";
 // Importando o componente de loading
 
 const ProjectidAdminScreen = () => {
@@ -17,19 +18,13 @@ const ProjectidAdminScreen = () => {
         const fetchProject = async () => {
             try {
                 if (projectId) {
-
                     const response = await projectControllerFindOne(projectId);
                     setProject(response.data);
-                    const urls = await Promise.all(
-                        //@ts-ignore
-                        response.data.ProjectPhotos.map(async (photo: any) => {
-                            const buffer = new Uint8Array(photo.photos.data);
-                            const blob = new Blob([buffer], { type: 'image/png' });
-                            const url = URL.createObjectURL(blob);
-                            return url;
-                        })
-                    );
+
+                    const projectPhotos = response.data.ProjectPhotos || [];
+                    const urls = projectPhotos.map((photo: any) => BASE_IMAGE_URL + photo.photoUrl);
                     setPhotoUrls(urls);
+                    console.log("Photo URLs: ", urls);  // Log para verificar as URLs
                     setIsLoading(false);
                 }
             } catch (error) {
@@ -38,7 +33,7 @@ const ProjectidAdminScreen = () => {
             }
         };
         fetchProject();
-    }, [projectId, projectControllerFindOne]);
+    }, []);
 
     const renderSpecificDetails = (details: string) => {
         if (!details) return null;
@@ -57,7 +52,6 @@ const ProjectidAdminScreen = () => {
     if (isLoading) {
         return <LoadingSpinner />;
     }
-
     return (
         <div className="flex flex-col items-center mb-4 min-h-[100vh]">
             <img src="/img/icon-arq.svg" className="absolute top-28 right-0" alt="" />

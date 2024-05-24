@@ -3,6 +3,7 @@ import useQuery from "../../../../hooks/useQuery";
 import useProjectHook from "../../../../hooks/useProjectHook";
 import { HiOutlineForward } from "react-icons/hi2";
 import LoadingSpinner from "../../../../components/loading";
+import { BASE_IMAGE_URL } from "../../../../constants/app.constant";
  // Importando o componente de loading
 
 const ProjectidScreen = () => {
@@ -18,14 +19,11 @@ const ProjectidScreen = () => {
             try {
                 const response = await projectControllerFindOne(projectId);
                 setProject(response.data);
-                const urls = await Promise.all(
-                    response.data.ProjectPhotos.map(async (photo: any) => {
-                        const buffer = new Uint8Array(photo.photos.data);
-                        const blob = new Blob([buffer], { type: 'image/png' });
-                        const url = URL.createObjectURL(blob);
-                        return url;
-                    })
-                );
+                const projectPhotos = response.data.ProjectPhotos || [];
+                    const urls = projectPhotos.map((photo: any) => BASE_IMAGE_URL + photo.photoUrl);
+                    setPhotoUrls(urls);
+                    console.log("Photo URLs: ", urls);  // Log para verificar as URLs
+                    setIsLoading(false);
                 setPhotoUrls(urls);
                 setIsLoading(false);
             } catch (error) {

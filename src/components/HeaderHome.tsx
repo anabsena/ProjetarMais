@@ -57,8 +57,8 @@ const HeaderHome = () => {
                 <a href="/projetos" className="text-white text-xl mb-4 cursor-pointer">Projetos</a>
                 <Button variant={"inverseTwo"} size={"lg"} onClick={handleLinkContactClick}>Contato</Button>
                 <div className='flex flex-col items-end justify-center mt-12 absolute bottom-20 right-1'>
-                  <h1 className="text-white text-sm">(43)99999-9999</h1>
-                  <h1 className=" text-white text-sm">projetarmais@gmail.com</h1>
+                  <h1 className="text-white text-sm">(43) 99800-8930</h1>
+                  <h1 className=" text-white text-sm">projetarmais.arq@gmail.com</h1>
                 </div>
               </div>
             )}
@@ -70,8 +70,8 @@ const HeaderHome = () => {
       <div className={`fixed w-full z-50 ${scrolled ? 'backdrop-filter backdrop-blur-xl bg-[#2F2E59] bg-opacity-30' : 'bg-transparent'}`}>
         <div className="hidden lg:flex flex-col text-[#22222B]">
           <div className={`w-full flex justify-between px-4 py-2 bg-[#2F2E59]`} style={{ fontFamily: "Mulish, sans-serif" }}>
-            <h1 className="text-white">(43)99999-9999</h1>
-            <h1 className="uppercase text-white">projetarmais@gmail.com</h1>
+            <h1 className="text-white">(43) 99800-8930</h1>
+            <h1 className="uppercase text-white">projetarmais.arq@gmail.com</h1>
           </div>
           <div className='flex w-full px-4 justify-between items-center text-xl'>
             <Link to='/home'><img src="/img/Logo.svg" className="h-16 w-16" alt="" /></Link>

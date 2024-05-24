@@ -204,11 +204,11 @@ export interface PhotoResponse {
      */
     'projectId'?: string;
     /**
-     * 
-     * @type {object}
+     * photo
+     * @type {string}
      * @memberof PhotoResponse
      */
-    'photos'?: object;
+    'photoUrl'?: string;
 }
 /**
  * 
@@ -341,11 +341,11 @@ export interface ResponsePhotoDto {
      */
     'projectId': string;
     /**
-     * 
-     * @type {object}
+     * photo
+     * @type {string}
      * @memberof ResponsePhotoDto
      */
-    'photos': object;
+    'photoUrl': string;
 }
 /**
  * 
@@ -1161,6 +1161,40 @@ export const PhotoApiAxiosParamCreator = function (configuration?: Configuration
         },
         /**
          * 
+         * @summary Find an file especific
+         * @param {string} key File source
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        photoControllerFile: async (key: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'key' is not null or undefined
+            assertParamExists('photoControllerFile', 'key', key)
+            const localVarPath = `/api/photo/v1/storage/file/{key}`
+                .replace(`{${"key"}}`, encodeURIComponent(String(key)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Get all photo
          * @param {string} photos 
          * @param {number} page 
@@ -1324,6 +1358,17 @@ export const PhotoApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary Find an file especific
+         * @param {string} key File source
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async photoControllerFile(key: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<File>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.photoControllerFile(key, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @summary Get all photo
          * @param {string} photos 
          * @param {number} page 
@@ -1392,6 +1437,16 @@ export const PhotoApiFactory = function (configuration?: Configuration, basePath
         },
         /**
          * 
+         * @summary Find an file especific
+         * @param {string} key File source
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        photoControllerFile(key: string, options?: any): AxiosPromise<File> {
+            return localVarFp.photoControllerFile(key, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Get all photo
          * @param {string} photos 
          * @param {number} page 
@@ -1457,6 +1512,18 @@ export class PhotoApi extends BaseAPI {
      */
     public photoControllerDelete(id: string, options?: AxiosRequestConfig) {
         return PhotoApiFp(this.configuration).photoControllerDelete(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Find an file especific
+     * @param {string} key File source
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PhotoApi
+     */
+    public photoControllerFile(key: string, options?: AxiosRequestConfig) {
+        return PhotoApiFp(this.configuration).photoControllerFile(key, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

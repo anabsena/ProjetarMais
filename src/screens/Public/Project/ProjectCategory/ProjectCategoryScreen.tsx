@@ -4,6 +4,7 @@ import LoadingSpinner from "../../../../components/loading";
 import { Button } from "../../../../components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { HiArrowSmRight } from "react-icons/hi";
+import { BASE_IMAGE_URL } from "../../../../constants/app.constant";
 
 
 const ProjectCategoryScreen = () => {
@@ -21,21 +22,20 @@ const ProjectCategoryScreen = () => {
     const fetchProjects = async () => {
       try {
         const response = await categoryControllerFindOne(categoryId);
+        console.log(categoryId)
+        console.log(response)
         if (response.status === 200) {
-          setProjects(response.data.Project); // Alterado para Projects
-          console.log('projetos', response.data.Project);
-          const urls = await Promise.all(
-            response.data.Project.map(async (photo) => {
-                const photoFirst = photo.ProjectPhotos[0]?.photos?.data;
-                if (!photoFirst) return null;
-                const buffer = new Uint8Array(photoFirst);
-                const blob = new Blob([buffer], { type: 'image/png' });
-                const url = URL.createObjectURL(blob);
-                return url;
-            })
-        );
+          const fetchedProjects = response.data.Project || [];
+          setProjects(fetchedProjects);
 
-        setPhotoUrls(urls);
+          const urls = fetchedProjects.map((project: any) => {
+            const photoFirst = project.ProjectPhotos[0]?.photoUrl
+            if (!photoFirst) return null;
+            return BASE_IMAGE_URL + photoFirst
+          });
+
+          setPhotoUrls(urls);
+          console.log("Photo URLs: ", urls);
           setIsLoading(false);
         } else {
           console.error("Error fetching projects:", response.message);
@@ -56,39 +56,39 @@ const ProjectCategoryScreen = () => {
   }
   const handleClickViewProject = (projectId: string) => {
     navigate(`/projetos/projeto?id=${projectId}`);
-};
+  };
   return (
     <div className="container mx-auto p-4">
-       <div className="flex flex-col w-full items-start mt-28 lg:my-8 z-30 ">
-                <h1 className="uppercase text-[#2F2E59] text-4xl px-4" style={{ fontFamily: "Mulish, sans-serif" }}>
-                    Projetos da categoria
-                </h1>
-                <img src="/img/separador-title-project.svg" alt="" />
-            </div>
+      <div className="flex flex-col w-full items-start mt-28 lg:my-8 z-30 ">
+        <h1 className="uppercase text-[#2F2E59] text-4xl px-4" style={{ fontFamily: "Mulish, sans-serif" }}>
+          Projetos da categoria
+        </h1>
+        <img src="/img/separador-title-project.svg" alt="" />
+      </div>
       <div className="grid grid-cols-1 lg:grid-cols-3 2xl:grid-cols-4 h-auto md:px-32 px-4 gap-12 flex-grow">
         {projects.map((project, index) => (
           <div className="relative" key={project.id}
-          onMouseEnter={() => setHoverProjectId(project.id)}
-          onMouseLeave={() => setHoverProjectId(null)}>
+            onMouseEnter={() => setHoverProjectId(project.id)}
+            onMouseLeave={() => setHoverProjectId(null)}>
             <div className="rounded-lg">
-             {photoUrls[index] ? (
-                                <img
-                                    src={photoUrls[index]}
-                                    className='w-full h-64 object-cover rounded-xl'
-                                    alt=""
-                                    loading="lazy"
-                                />
-                              ) : (
-                                <div className="w-full h-64 bg-gray-200"></div>
-                            )}
-                            </div>
-                            {hoverProjectId === project.id && (
-                            <div className="absolute top-0 left-0 bg-[#9BA1D1] bg-opacity-90 text-white p-2 w-full h-full rounded-lg flex flex-col justify-end items-start gap-4"
-                                style={{ ...clipPathStyle, fontFamily: "Mulish, sans-serif" }}>
-                                <span className="w-1/2 text-lg"> {project.name}</span>
-                                <Button variant={"inverseTwo"} className="mb-4" onClick={() => handleClickViewProject(project.id)}>Ver mais<HiArrowSmRight /></Button>
-                            </div>
-                        )}
+              {photoUrls[index] ? (
+                <img
+                  src={photoUrls[index]}
+                  className='w-full h-64 object-cover rounded-xl'
+                  alt=""
+                  loading="lazy"
+                />
+              ) : (
+                <div className="w-full h-64 bg-gray-200"></div>
+              )}
+            </div>
+            {hoverProjectId === project.id && (
+              <div className="absolute top-0 left-0 bg-[#9BA1D1] bg-opacity-90 text-white p-2 w-full h-full rounded-lg flex flex-col justify-end items-start gap-4"
+                style={{ ...clipPathStyle, fontFamily: "Mulish, sans-serif" }}>
+                <span className="w-1/2 text-lg"> {project.name}</span>
+                <Button variant={"inverseTwo"} className="mb-4" onClick={() => handleClickViewProject(project.id)}>Ver mais<HiArrowSmRight /></Button>
+              </div>
+            )}
           </div>
         ))}
       </div>
