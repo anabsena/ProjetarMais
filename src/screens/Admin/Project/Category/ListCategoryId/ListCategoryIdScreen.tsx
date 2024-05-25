@@ -4,6 +4,8 @@ import { HiOutlineDotsVertical, HiOutlinePencilAlt, HiOutlinePhotograph, HiOutli
 import { useNavigate } from "react-router-dom";
 import { Button } from "../../../../../components/ui/button";
 import LoadingSpinner from "../../../../../components/loading";
+import useProjectHook from "../../../../../hooks/useProjectHook";
+import usePhotoHook from "../../../../../hooks/usePhotoHook";
 
 const ListCategoryIdScreen = () => {
   const { categoryControllerFindOne } = useCategoryHook();
@@ -13,6 +15,8 @@ const ListCategoryIdScreen = () => {
   const [selectedProject, setSelectedProject] = useState(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const {  projectControllerDelete, projectControllerFindOne } = useProjectHook();
+  const { photoControllerDelete } = usePhotoHook()
 
   const query = new URLSearchParams(window.location.search);
   const categoryId = query.get('id');
@@ -55,6 +59,31 @@ const ListCategoryIdScreen = () => {
   if (loading) {
     return <LoadingSpinner />;
   }
+  const handleDeleteProject = async (projectId: string) => {
+    const project = await projectControllerFindOne(projectId);
+    //@ts-ignore
+    const imagesIds = project.data.ProjectPhotos.map(imagesId => imagesId.id)
+    try {
+      if (imagesIds && imagesIds.length > 0) {
+        await Promise.all(imagesIds.map(async (image: any) => {
+          const imageDeleteResponse = await photoControllerDelete(image);
+          if (imageDeleteResponse.status !== 200) {
+            console.error("Error deleting image:", imageDeleteResponse.message);
+          }
+        }));
+      }
+
+      const projectDeleteResponse = await projectControllerDelete(projectId);
+      if (projectDeleteResponse.status === 200) {
+        //@ts-ignore
+        setProjects(projects.filter((project) => project.id !== projectId));
+      } else {
+        console.error("Error deleting project:", projectDeleteResponse.message);
+      }
+    } catch (error) {
+      console.error("Error deleting photo:", error);
+    }
+  };
 
   return (
     <div className="w-full h-full flex flex-col items-center p-8">
@@ -104,8 +133,8 @@ const ListCategoryIdScreen = () => {
             {showModal && selectedProject && selectedProject.id === project.id && (
               <div className="absolute right-0 mt-2 w-48 bg-[#1E1D40] rounded-xl shadow-lg z-10 border border-[#D9B341]">
                 <div className="flex flex-col gap-4 p-2">
-                  <h1 className="flex gap-2 items-center"><HiOutlinePencilAlt className="text-xl text-[#D9B341]" />Editar</h1>
-                  <h1 className="flex gap-2 items-center"><HiOutlineXCircle className="text-xl text-[#D9B341]" />Excluir</h1>
+                  {/* @ts-ignore */}
+                  <h1 className="flex gap-2 items-center" onClick={() => handleDeleteProject(project.id)}><HiOutlineXCircle className="text-xl text-[#D9B341]" />Excluir</h1>
                 </div>
               </div>
             )}
