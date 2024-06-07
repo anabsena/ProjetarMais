@@ -146,7 +146,7 @@ export const Home = () => {
 
 
       </div>
-      <div className="w-full min-h-screen xl:flex-row items-start xl:items-center justify-start xl:justify-center flex flex-col relative">
+      <div className="w-full md:min-h-screen xl:flex-row items-start xl:items-center justify-start xl:justify-center flex flex-col relative">
         <div className="flex flex-col w-full items-center xl:hidden mt-4">
           <h1 className="uppercase text-[#2F2E59] font-bold text-4xl " style={{ fontFamily: "Adam, sans-serif" }}>
             Sobre nós
@@ -165,23 +165,13 @@ export const Home = () => {
             <span>S</span>
           </h1>
         </div>
-        <div className="flex flex-col w-full h-full items-end justify-center md:items-start xl:items-center md:justify-start xl:justify-center md:pl-4">
-          <div className="p-4  md:w-3/5 xl:w-1/2 z-30 xl:mr-96 2xl:mr-64">
+        <div className="flex flex-col w-full items-center justify-center md:items-start xl:items-center md:justify-start xl:justify-center md:pl-4">
+          <div className="p-4  md:w-1/2 z-30 xl:mr-96 2xl:mr-64">
             <img src="img/img-escritorio-home.png" className=" " alt="" />
           </div>
-          <div className="w-full h-96 min-[320px]:h-[600px] sm:w-[700px] sm:h-[700px] md:absolute md:right-0 z-10">
-            <div style={{
-              backgroundImage: "url('img/bg-sobre.svg')",
-              backgroundRepeat: "no-repeat",
-              backgroundSize: "contain",
-            }} className="flex justify-center items-center h-full w-full ">
-              <p className=" w-64 md:text-sm text-[12px] text-center mb-48 min-[420px]:mb-0">
-
-                Oferecemos design personalizado e exclusivo que captura as necessidades únicas de cada cliente, integrando arquitetura, design de interiores, paisagismo e engenharia para soluções completas e inovadoras. Priorizamos a experiência do cliente, garantindo satisfação desde o primeiro contato até a entrega final. Com um compromisso inabalável com a qualidade e o detalhamento, asseguramos excelência em cada aspecto do projeto, criando espaços distintos e memoráveis.
-              </p>
-            </div>
+          <div className="h-96 w-full md:w-1/2 md:absolute md:right-0 z-10">
+            <img src="/img/sobre-nos.png" alt="" className="w-full object-cover" />
           </div>
-
 
         </div>
       </div>
@@ -251,14 +241,14 @@ export const Home = () => {
           </h1>
           <img src="img/separador-title.svg" alt="" className="mb-8 w-full" />
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 w-full gap-4  px-32 ">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 w-full gap-4 p-4 xl:px-32 ">
           {category.map((category) => (
             // @ts-ignore
             <div key={category.id} className="bg-[#9BA1D1] p-2 w-full h-full rounded-xl ">
               <div className="border-2 border-[#F4E393] p-8 w-full h-full rounded-lg flex flex-col items-center gap-4">
-                <HiOutlineOfficeBuilding className="text-8xl" />
+                <HiOutlineOfficeBuilding className="text-2xl md:text-8xl" />
                 {/* @ts-ignore */}
-                <h1 className="text-2xl">{category.name}</h1>
+                <h1 className="text-sm md:text-2xl text-center">{category.name}</h1>
               </div>
             </div>
           ))}

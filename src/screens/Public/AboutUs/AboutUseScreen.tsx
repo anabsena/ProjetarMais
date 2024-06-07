@@ -51,7 +51,7 @@ const AboutUsScreen = () => {
                 <img src="/img/img-meninas-coque.jpg" alt="" className="object-cover h-36" />
                 <img src="/img/img-meninas-obra-uniforme.jpg" alt="" className="object-cover h-36 rounded-r-xl" />
             </div>
-            <div className="bg-[#CACEED] w-full lg:h-[70vh] flex flex-col lg:flex-row gap-12 lg:gap-24 items-center justify-center p-4 relative mt-8 text-[#2F2E59]">
+            <div className="bg-[#CACEED] w-full  flex flex-col lg:flex-row gap-12 lg:gap-24 items-center justify-center p-4 relative mt-8 text-[#2F2E59]">
                 <div className="flex flex-col gap-4 text-center lg:text-start">
                     <h1 className=" text-3xl font-normal" style={{ fontFamily: "Mulish, sans-serif" }}>Missão e valores</h1>
                     <p className="md:w-96" style={{ fontFamily: "Mulish, sans-serif" }}>Nosso propósito é transformar o seu sonho idealizado em uma arquitetura individualizada e especial, valorizando o conforto, o bem-estar, a funcionalidade e a estética, pois acreditamos que a arquitetura deve estar sempre em sintonia com esses princípios.</p>
