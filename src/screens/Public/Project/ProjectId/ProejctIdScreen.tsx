@@ -4,7 +4,7 @@ import useProjectHook from "../../../../hooks/useProjectHook";
 import { HiOutlineForward } from "react-icons/hi2";
 import LoadingSpinner from "../../../../components/loading";
 import { BASE_IMAGE_URL } from "../../../../constants/app.constant";
- // Importando o componente de loading
+// Importando o componente de loading
 
 const ProjectidScreen = () => {
     const [project, setProject] = useState<any>(null);
@@ -17,15 +17,15 @@ const ProjectidScreen = () => {
     useEffect(() => {
         const fetchProject = async () => {
             try {
-                 //@ts-ignore
+                //@ts-ignore
                 const response = await projectControllerFindOne(projectId);
                 setProject(response.data);
-                 //@ts-ignore
+                //@ts-ignore
                 const projectPhotos = response.data.ProjectPhotos || [];
-                    const urls = projectPhotos.map((photo: any) => BASE_IMAGE_URL + photo.photoUrl);
-                    setPhotoUrls(urls);
-                    console.log("Photo URLs: ", urls);  // Log para verificar as URLs
-                    setIsLoading(false);
+                const urls = projectPhotos.map((photo: any) => BASE_IMAGE_URL + photo.photoUrl);
+                setPhotoUrls(urls);
+                console.log("Photo URLs: ", urls);  // Log para verificar as URLs
+                setIsLoading(false);
                 setPhotoUrls(urls);
                 setIsLoading(false);
             } catch (error) {
@@ -34,7 +34,7 @@ const ProjectidScreen = () => {
             }
         };
         fetchProject();
-    }, [projectId, projectControllerFindOne]);
+    }, []);
 
     const renderSpecificDetails = (details: string) => {
         if (!details) return null;
@@ -56,31 +56,25 @@ const ProjectidScreen = () => {
 
     return (
         <div className="flex flex-col items-center mb-4 min-h-[100vh]">
-            <img src="/img/icon-arq.svg" className="absolute top-28 right-0" alt="" />
-            <div className="flex flex-col w-full items-start mt-28 lg:my-8 z-30 ">
-                <h1 className="uppercase text-[#2F2E59] text-4xl px-4" style={{ fontFamily: "Mulish, sans-serif" }}>
-                    {project.name}
+            <img src="/img/icon-arq.svg" className="absolute top-28 right-0 hidden lg:block" alt="Icon" />
+            <div className="flex flex-col w-full items-start mt-28 lg:my-8 z-30 px-4">
+                <h1 className="uppercase text-[#2F2E59] text-4xl" style={{ fontFamily: "Mulish, sans-serif" }}>
+                    {project?.name || ''}
                 </h1>
-                <img src="/img/separador-title-project.svg" alt="" className="" />
+                <img src="/img/separador-title-project.svg" alt="Separador" className="" />
             </div>
-            <div className="w-full grid grid-cols-2 gap-8 text-center text-[#08081A] p-4" style={{ fontFamily: "Mulish, sans-serif" }}>
-                <div className="flex flex-col">
-                    <h1 className="text-xl w-full text-start flex items-center gap-2 uppercase font-bold mb-4">
-                        <img src="/img/mais_azul.svg" className="w-4 h-4 " alt="" />Descrição
-                    </h1>
-                    <span>{project.description}</span>
-                </div>
+            <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-8 text-center text-[#08081A] p-4" style={{ fontFamily: "Mulish, sans-serif" }}>
                 <div>
                     <h1 className="text-xl w-full text-start flex items-center gap-2 uppercase font-bold mb-4">
-                        <img src="/img/mais_azul.svg" className="w-4 h-4" alt="" />Detalhes Técnicos
+                        <img src="/img/mais_azul.svg" className="w-4 h-4" alt="Mais" />Detalhes Técnicos
                     </h1>
-                    <span>{renderSpecificDetails(project.especificDetails)}</span>
+                    <span>{renderSpecificDetails(project?.especificDetails || '')}</span>
                 </div>
             </div>
-            <div className="grid grid-cols-1 lg:grid-cols-3 2xl:grid-cols-4 h-auto md:px-32 gap-12 flex-grow">
+            <div className="grid grid-cols-1 lg:grid-cols-3 2xl:grid-cols-4 h-auto px-4 md:px-32 gap-12 flex-grow">
                 {photoUrls.map((url, index) => (
                     <div key={index} className="rounded-xl h-64">
-                        <img src={url} alt="" className="w-full h-full rounded-xl object-cover" loading="lazy" />
+                        <img src={url} alt={`Project photo ${index + 1}`} className="w-full h-full rounded-xl object-cover" loading="lazy" />
                     </div>
                 ))}
             </div>

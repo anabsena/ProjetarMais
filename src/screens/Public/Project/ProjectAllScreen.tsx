@@ -33,7 +33,7 @@ export const ProjectAllScreen = () => {
             try {
                 const response = await projectControllerFindAll('', '', '', 1, 10);
                 if (response.status === 200) {
-                     //@ts-ignore
+                    //@ts-ignore
                     const mappedProjects: Projects[] = response.data.data.map((project: Projects) => ({
                         ...project,
                         details: '', // Você pode ajustar conforme necessário
@@ -57,7 +57,7 @@ export const ProjectAllScreen = () => {
         };
 
         fetchProjects();
-    }, [projectControllerFindAll]);
+    }, []);
 
     const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(event.target.value);
@@ -88,12 +88,12 @@ export const ProjectAllScreen = () => {
 
     return (
         <div className="flex flex-col items-center mb-4">
-            <img src="img/icon-arq.svg" className="absolute top-28 right-0 hidden sm:flex" alt="" />
+            <img src="img/icon-arq.svg" className="absolute top-28 right-0 hidden sm:flex" alt="Icon" />
             <div className="flex flex-col w-full items-start mt-28 lg:my-8 z-30 ">
                 <h1 className="uppercase text-[#2F2E59] text-4xl px-4" style={{ fontFamily: "Mulish, sans-serif" }}>
                     Projetos
                 </h1>
-                <img src="img/separador-title-project.svg" alt="" className="" />
+                <img src="img/separador-title-project.svg" alt="Separador" className="" />
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 2xl:grid-cols-4 h-auto md:px-32 px-4 gap-12 flex-grow">
@@ -111,23 +111,27 @@ export const ProjectAllScreen = () => {
                     <div className="relative" key={project.id}
                         onMouseEnter={() => setHoverProjectId(project.id)}
                         onMouseLeave={() => setHoverProjectId(null)}>
-                        <div className="rounded-lg">
+                        <div className="rounded-lg overflow-hidden">
                             {photoUrls[index] ? (
                                 <img
                                     src={photoUrls[index]}
-                                    className='w-full h-64 object-cover rounded-xl'
-                                    alt=""
+                                    className='w-full h-64 object-cover rounded-t-xl'
+                                    alt={project.name}
                                     loading="lazy"
                                 />
                             ) : (
-                                <div className="w-full h-64 bg-gray-200"></div>
+                                <div className="w-full h-64 bg-gray-200 rounded-t-xl"></div>
                             )}
                         </div>
+                        <div className="">
+                            <h2 className="text-xl text-center text-primary pt-4" style={{ fontFamily: "Mulish, sans-serif" }}>{project.name}</h2>
+                        </div>
                         {hoverProjectId === project.id && (
-                            <div className="absolute top-0 left-0 bg-[#9BA1D1] bg-opacity-90 text-white p-2 w-full h-full rounded-lg flex flex-col justify-end items-start gap-4"
+                            <div className="absolute top-0 left-0 w-full h-64 bg-[#9BA1D1] rounded-lg bg-opacity-90 text-white p-2 flex flex-col justify-end items-start gap-4"
                                 style={{ ...clipPathStyle, fontFamily: "Mulish, sans-serif" }}>
-                                <span className="w-1/2 text-lg"> {project.name}</span>
-                                <Button variant={"inverseTwo"} className="mb-4" onClick={() => handleClickViewProject(project.id)}>Ver mais<HiArrowSmRight /></Button>
+                                <Button variant={"inverseTwo"} className="mb-4" onClick={() => handleClickViewProject(project.id)}>
+                                    Ver mais <HiArrowSmRight />
+                                </Button>
                             </div>
                         )}
                     </div>

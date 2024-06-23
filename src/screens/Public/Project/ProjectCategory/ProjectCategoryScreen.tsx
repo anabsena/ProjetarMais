@@ -21,12 +21,12 @@ const ProjectCategoryScreen = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-         //@ts-ignore
+        //@ts-ignore
         const response = await categoryControllerFindOne(categoryId);
         console.log(categoryId)
         console.log(response)
         if (response.status === 200) {
-           //@ts-ignore
+          //@ts-ignore
           const fetchedProjects = response.data.Project || [];
           setProjects(fetchedProjects);
 
@@ -75,7 +75,7 @@ const ProjectCategoryScreen = () => {
             <div className="rounded-lg">
               {photoUrls[index] ? (
                 <img
-                 //@ts-ignore
+                  //@ts-ignore
                   src={photoUrls[index]}
                   className='w-full h-64 object-cover rounded-xl'
                   alt=""
@@ -85,11 +85,15 @@ const ProjectCategoryScreen = () => {
                 <div className="w-full h-64 bg-gray-200"></div>
               )}
             </div>
+            <div className="">
+              <h2 className="text-xl text-center text-primary pt-4" style={{ fontFamily: "Mulish, sans-serif" }}>{project.name}</h2>
+            </div>
             {hoverProjectId === project.id && (
-              <div className="absolute top-0 left-0 bg-[#9BA1D1] bg-opacity-90 text-white p-2 w-full h-full rounded-lg flex flex-col justify-end items-start gap-4"
+              <div className="absolute top-0 left-0 w-full h-64 bg-[#9BA1D1] rounded-lg bg-opacity-90 text-white p-2 flex flex-col justify-end items-start gap-4"
                 style={{ ...clipPathStyle, fontFamily: "Mulish, sans-serif" }}>
-                <span className="w-1/2 text-lg"> {project.name}</span>
-                <Button variant={"inverseTwo"} className="mb-4" onClick={() => handleClickViewProject(project.id)}>Ver mais<HiArrowSmRight /></Button>
+                <Button variant={"inverseTwo"} className="mb-4" onClick={() => handleClickViewProject(project.id)}>
+                  Ver mais <HiArrowSmRight />
+                </Button>
               </div>
             )}
           </div>
