@@ -72,9 +72,7 @@ export const Home = () => {
   const handleClickViewAboutUs = () => {
     navigate('/sobre-nos')
   }
-  const handleClickProject = (categoryId: string) => {
-    navigate(`/serviços/projeto?id=${categoryId}`);
-  };
+
   return (
     <div className=" bg-[#F2F4FF]">
       <div className="w-full relative min-h-screen overflow-hidden">
@@ -248,6 +246,7 @@ export const Home = () => {
           {category.map((category) => (
             // @ts-ignore
             <div key={category.id} className="bg-[#9BA1D1] p-2 w-full md:h-full rounded-xl ">
+              {/* @ts-ignore */}
               <Link to={`/serviços/projeto?id=${category.id}`}>
                 <div className="border-2 border-[#F4E393] p-8 w-full h-full rounded-lg flex flex-col items-center gap-4">
                   <HiOutlineOfficeBuilding className="text-4xl md:text-8xl" />
