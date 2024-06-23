@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Button } from "./ui/button";
 import { HiMenuAlt3, HiOutlineX } from 'react-icons/hi';
 import { Link, useNavigate } from 'react-router-dom';
@@ -6,48 +6,55 @@ import { Link, useNavigate } from 'react-router-dom';
 const HeaderHome = () => {
   const [scrolled, setScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const menuRef = useRef(null);
 
   useEffect(() => {
     const handleScroll = () => {
       const isScrolled = window.scrollY > 0;
       setScrolled(isScrolled);
     };
+//@ts-ignore
+    const handleClickOutside = (event) => {
+      //@ts-ignore
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
 
     window.addEventListener("scroll", handleScroll);
+    document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
+
   const handleLinkAboutClick = () => {
     navigate('/sobre-nos');
   };
+
   const handleLinkContactClick = () => {
     navigate('/contato');
   };
 
   return (
-
-
     <div>
-
       {/* Menu para dispositivos móveis */}
       <div className="lg:hidden bg-[#08081A] px-4 rounded-b-3xl z-50 fixed w-full py-2">
-        <div className="flex w-full justify-between items-center relative ">
-          <Link to='/home'><img src="/img/Logo.svg" className="h-12 w-12" alt="" /></Link>
-
-          <div className="relative">
+        <div className="flex w-full justify-between items-center relative">
+          <Link to='/home'><img src="/img/Logo.svg" className="h-12 w-12" alt="Logo" /></Link>
+          <div className="relative" ref={menuRef}>
             {isOpen ? (
               <HiOutlineX className="text-[#22222B] text-4xl cursor-pointer" onClick={toggleMenu} />
             ) : (
               <HiMenuAlt3 className="text-white text-4xl cursor-pointer" onClick={toggleMenu} />
             )}
-
             {isOpen && (
               <div className="fixed top-0 right-0 w-2/3 h-2/3 bg-[#22222B] bg-opacity-95 flex flex-col items-center pt-16 rounded-l-full transition-transform duration-300 transform translate-x-0">
                 <HiOutlineX className="text-white absolute top-4 right-4 text-4xl cursor-pointer" onClick={toggleMenu} />
@@ -58,7 +65,7 @@ const HeaderHome = () => {
                 <Button variant={"inverseTwo"} size={"lg"} onClick={handleLinkContactClick}>Contato</Button>
                 <div className='flex flex-col items-end justify-center mt-12 absolute bottom-20 right-1'>
                   <h1 className="text-white text-sm">(43) 99800-8930</h1>
-                  <h1 className=" text-white text-sm">projetarmais.arq@gmail.com</h1>
+                  <h1 className="text-white text-sm">projetarmais.arq@gmail.com</h1>
                 </div>
               </div>
             )}
@@ -74,8 +81,8 @@ const HeaderHome = () => {
             <h1 className="uppercase text-white">projetarmais.arq@gmail.com</h1>
           </div>
           <div className='flex w-full px-4 justify-between items-center text-xl'>
-            <Link to='/home'><img src="/img/Logo.svg" className="h-16 w-16" alt="" /></Link>
-            <div className='flex  items-center gap-12'>
+            <Link to='/home'><img src="/img/Logo.svg" className="h-16 w-16" alt="Logo" /></Link>
+            <div className='flex items-center gap-12'>
               <a href="/home">Home</a>
               <Link to="/sobre-nos" onClick={handleLinkAboutClick}>Sobre nós</Link>
               <a href="/serviços">Serviços</a>
