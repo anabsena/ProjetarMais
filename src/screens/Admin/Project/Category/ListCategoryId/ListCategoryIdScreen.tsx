@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import useCategoryHook from "../../../../../hooks/useCategoryHook";
-import { HiOutlineDotsVertical, HiOutlinePencilAlt, HiOutlinePhotograph, HiOutlinePlus, HiOutlineXCircle, HiSearch } from "react-icons/hi";
+import { HiOutlineDotsVertical, HiOutlinePhotograph, HiOutlinePlus, HiOutlineXCircle, HiSearch } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../../../../../components/ui/button";
 import LoadingSpinner from "../../../../../components/loading";

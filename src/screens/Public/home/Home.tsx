@@ -241,10 +241,10 @@ export const Home = () => {
           </h1>
           <img src="img/separador-title.svg" alt="" className="mb-8 w-full" />
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 w-full gap-4 p-4 xl:px-32 ">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 w-full gap-4 p-4 xl:px-32  ">
           {category.map((category) => (
             // @ts-ignore
-            <div key={category.id} className="bg-[#9BA1D1] p-2 w-full h-full rounded-xl ">
+            <div key={category.id} className="bg-[#9BA1D1] p-2 w-full md:h-full rounded-xl ">
               <div className="border-2 border-[#F4E393] p-8 w-full h-full rounded-lg flex flex-col items-center gap-4">
                 <HiOutlineOfficeBuilding className="text-2xl md:text-8xl" />
                 {/* @ts-ignore */}
