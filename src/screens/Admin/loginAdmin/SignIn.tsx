@@ -26,7 +26,7 @@ const SignIn = () => {
   return (
     <div className="w-full h-[100vh] bg-[#2F2E59] flex justify-center items-center flex-col gap-4">
       <img src="img/Logotipo1.svg" alt="" />
-      <div className="w-[70vw] h-[70%] flex flex-col  items-center gap-20 p-8 bg-primary rounded-2xl relative">
+      <div className="w-[70vw] h-[70%] flex flex-col  items-center gap-20 xl:gap-8 p-8 bg-primary rounded-2xl relative">
         <div className="flex flex-col items-center relative">
           <h1 style={{ fontFamily: "Adam, sans-serif" }} className="uppercase text-4xl font-bold">
             Seja bem vindo(a) administrador(a)
@@ -76,7 +76,7 @@ const SignIn = () => {
         </div>
 
         {submitting && <p>Logado com sucesso!</p>}
-        <img src="img/MaisDuplo.svg" className="h-48 w-48 absolute bottom-0 left-0" alt="" />
+        <img src="img/icon-mais-duplo-signin.svg" className="h-48 w-48 absolute bottom-0 left-0" alt="" />
       </div>
     </div>
   );

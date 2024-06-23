@@ -37,9 +37,9 @@ const HeaderHome = () => {
     <div>
 
       {/* Menu para dispositivos móveis */}
-      <div className="lg:hidden bg-[#08081A] px-4 rounded-b-3xl z-50 fixed w-full">
+      <div className="lg:hidden bg-[#08081A] px-4 rounded-b-3xl z-50 fixed w-full py-2">
         <div className="flex w-full justify-between items-center relative ">
-          <Link to='/home'><img src="img/Logo.svg" className="h-20 w-20" alt="" /></Link>
+          <Link to='/home'><img src="/img/Logo.svg" className="h-12 w-12" alt="" /></Link>
 
           <div className="relative">
             {isOpen ? (
@@ -49,7 +49,7 @@ const HeaderHome = () => {
             )}
 
             {isOpen && (
-              <div className="fixed top-0 right-0 w-2/3 h-2/3 bg-[#22222B] bg-opacity-95 flex flex-col items-center justify-center rounded-l-full transition-transform duration-300 transform translate-x-0">
+              <div className="fixed top-0 right-0 w-2/3 h-2/3 bg-[#22222B] bg-opacity-95 flex flex-col items-center pt-16 rounded-l-full transition-transform duration-300 transform translate-x-0">
                 <HiOutlineX className="text-white absolute top-4 right-4 text-4xl cursor-pointer" onClick={toggleMenu} />
                 <a href="/home" className="text-white text-xl mb-4 cursor-pointer">Home</a>
                 <a href="/sobre-nos" className="text-white text-xl mb-4 cursor-pointer">Sobre nós</a>

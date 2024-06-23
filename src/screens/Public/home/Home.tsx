@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import Footer from "../../../components/Footer";
 import ContactScreen from "../Contact/ContactScreen";
 import useProjectHook from "../../../hooks/useProjectHook";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BASE_IMAGE_URL } from "../../../constants/app.constant";
 
 export const Home = () => {
@@ -72,6 +72,9 @@ export const Home = () => {
   const handleClickViewAboutUs = () => {
     navigate('/sobre-nos')
   }
+  const handleClickProject = (categoryId: string) => {
+    navigate(`/serviços/projeto?id=${categoryId}`);
+  };
   return (
     <div className=" bg-[#F2F4FF]">
       <div className="w-full relative min-h-screen overflow-hidden">
@@ -177,7 +180,7 @@ export const Home = () => {
       </div>
       <div className="flex flex-col">
 
-        <div className="w-full sm:h-56 relative flex justify-center">
+        <div className="w-full sm:h-56 relative flex justify-center ">
           <img src="img/top-sobre-nos.svg" className="w-full object-cover absolute z-10" alt="" />
           <div className="flex flex-col items-center z-30">
             <h1 className="uppercase text-[#27264D] font-bold text-4xl mt-12 sm:mt-24" style={{ fontFamily: "Adam, sans-serif" }}>
@@ -186,7 +189,7 @@ export const Home = () => {
             <img src="img/separador-title.svg" alt="" />
           </div>
         </div>
-        <div className="w-full  bg-[#9BA1D1] flex flex-col items-center justify-center relative sm:gap-12">
+        <div className="w-full  bg-[#9BA1D1] flex flex-col items-center justify-center relative sm:gap-12 pb-8">
           <img src="img/Icon-project.svg" className=" z-30 absolute top-0 right-0 hidden md:flex" alt="" />
           <img src="img/Icon-planta.svg" className=" z-30 absolute bottom-2 left-8 hidden md:flex" alt="" />
           <img src="img/Detalhes.svg" className=" z-30 absolute hidden w-56 -mt-12 md:flex" alt="" />
@@ -245,11 +248,13 @@ export const Home = () => {
           {category.map((category) => (
             // @ts-ignore
             <div key={category.id} className="bg-[#9BA1D1] p-2 w-full md:h-full rounded-xl ">
-              <div className="border-2 border-[#F4E393] p-8 w-full h-full rounded-lg flex flex-col items-center gap-4">
-                <HiOutlineOfficeBuilding className="text-2xl md:text-8xl" />
-                {/* @ts-ignore */}
-                <h1 className="text-sm md:text-2xl text-center">{category.name}</h1>
-              </div>
+              <Link to={`/serviços/projeto?id=${category.id}`}>
+                <div className="border-2 border-[#F4E393] p-8 w-full h-full rounded-lg flex flex-col items-center gap-4">
+                  <HiOutlineOfficeBuilding className="text-4xl md:text-8xl" />
+                  {/* @ts-ignore */}
+                  <h1 className="text-lg md:text-2xl text-center">{category.name}</h1>
+                </div>
+              </Link>
             </div>
           ))}
         </div>
@@ -261,7 +266,7 @@ export const Home = () => {
             </h1>
             <img src="img/separador-title-project.svg" className="mb-8" alt="" />
           </div>
-          <div className="grid grid-cols-1 lg:grid-cols-3 2xl:grid-cols-4 h-64 md:px-32 gap-12">
+          <div className="grid grid-cols-1 lg:grid-cols-3 2xl:grid-cols-4 sm:h-64 md:px-32 gap-12">
             {projects.map((project, index) => (
               // @ts-ignore
               <div key={project.id} className="rounded-lg overflow-hidden">

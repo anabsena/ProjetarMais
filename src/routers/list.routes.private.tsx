@@ -17,6 +17,7 @@ import ProjectCategory from "../screens/Public/Project/ProjectCategory/ProjectCa
 import UpdateCategory from "../screens/Admin/Project/Category/UpdateCategory/UpdateCategory";
 import ProjectIdAdmin from "../screens/Admin/Project/ProjectId/ProjectId";
 import UpdateProject from "../screens/Admin/Project/UpdateProject/UpdateProejct";
+import SignIn from "../screens/Admin/loginAdmin/SignIn";
 
 export default function PrivateRoute() {
   return {
@@ -83,7 +84,7 @@ export default function PrivateRoute() {
       },
       {
         path: '/serviços',
-        element: <Services/>,
+        element: <Services />,
       },
       {
         path: '/projetos',
@@ -96,7 +97,11 @@ export default function PrivateRoute() {
       {
         path: '/serviços/projeto',
         element: <ProjectCategory />,
-      }
+      },
+      {
+        path: '/sign-in',
+        element: <SignIn />,
+      },
 
     ]
   };
