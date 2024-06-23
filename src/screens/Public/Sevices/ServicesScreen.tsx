@@ -63,16 +63,16 @@ const ServicesScreen = () => {
           <div key={category.id} style={{ backgroundColor: `#CACEED` }} >
             <div className={` w-full md:h-[60vh] flex flex-col gap-4 lg:gap-0 items-end p-4 relative  text-[#2F2E59] `}>
               <HiOutlineHomeModern size={'9xl'} className="absolute w-1/2 left-0 z-10 text-[#F2F4FF]/30" />
-              <div className="flex flex-col w-5/12 items-end">
-                <h1 className=" text-4xl  mr-2 text-center lg:text-end z-40 pr-4" style={{ fontFamily: "Mulish, sans-serif" }}>
+              <div className="flex flex-col w-10/12 md:w-5/12 items-end">
+                <h1 className="text-xl md:text-4xl  mr-2 text-center lg:text-end z-40 pr-4" style={{ fontFamily: "Mulish, sans-serif" }}>
                   {category.name}
                 </h1>
                 <img src="img/detalhe-horizontal.svg" alt="" />
               </div>
               <div className="w-full flex justify-center h-full items-center z-30" style={{ fontFamily: "Mulish, sans-serif" }}>
-                <p className="lg:w-1/2 text-center md:text-lg">{category.description}</p>
+                <p className="lg:w-1/2 text-center text-sm md:text-lg">{category.description}</p>
               </div>
-              <Button variant={"inverseTwo"} size={"lg"} onClick={() => handleClickProject(category.id)} className="absolute bottom-8 right-8 z-40">
+              <Button variant={"inverseTwo"} size={"lg"} onClick={() => handleClickProject(category.id)} className="md:absolute bottom-8 right-8 z-40">
                 Ver Projetos <HiArrowSmRight />
               </Button>
             </div>
@@ -84,17 +84,17 @@ const ServicesScreen = () => {
             <div className={` w-full md:h-[60vh] flex flex-col gap-4 lg:gap-0 items-start p-4 relative mt-8 text-[#2F2E59] `}>
               <HiOutlineOfficeBuilding size={'9xl'} className="absolute z-10 w-1/2 right-1 text-[#C9CDED]/30" />
 
-              <div className="flex flex-col w-5/12 items-start">
-                <h1 className=" text-4xl ml-2 text-center lg:text-start z-40 pr-4" style={{ fontFamily: "Mulish, sans-serif" }}>
+              <div className="flex flex-col w-10/12 md:w-5/12 items-start">
+                <h1 className="text-xl md:text-4xl ml-2 text-center lg:text-start z-40 pr-4" style={{ fontFamily: "Mulish, sans-serif" }}>
                   {category.name}
                 </h1>
                 <img src="img/detalhe-horizontal.svg" alt="" />
               </div>
 
               <div className="w-full flex justify-center h-full items-center z-30" style={{ fontFamily: "Mulish, sans-serif" }}>
-                <p className="lg:w-1/2 text-center md:text-lg">{category.description}</p>
+                <p className="lg:w-1/2 text-center md:text-lg text-sm">{category.description}</p>
               </div>
-              <Button variant={"inverseTwo"} size={"lg"} onClick={() => handleClickProject(category.id)} className="absolute bottom-8 left-8 z-40">
+              <Button variant={"inverseTwo"} size={"lg"} onClick={() => handleClickProject(category.id)} className="md:absolute bottom-8 left-8 z-40">
                 Ver Projetos <HiArrowSmRight />
               </Button>
             </div>
