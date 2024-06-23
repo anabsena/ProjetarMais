@@ -44,7 +44,7 @@ const AboutUsScreen = () => {
                 </div>
                 <img src="img/detalhe-lateral.svg" className="h-96 hidden lg:flex" alt="" />
             </div>
-            <div className="flex">
+            <div className="hidden md:flex">
                 <img src="/img/img-foto-meninas.jpg" alt="" className="object-cover h-36 rounded-l-xl" />
                 <img src="/img/img-foto-meninas-serias.jpg" alt="" className="object-cover h-36" />
                 <img src="/img/img-meninas-obra-rindo.jpg" alt="" className="object-cover h-36" />
@@ -56,11 +56,11 @@ const AboutUsScreen = () => {
                     <h1 className=" text-3xl font-normal" style={{ fontFamily: "Mulish, sans-serif" }}>Missão e valores</h1>
                     <p className="md:w-96" style={{ fontFamily: "Mulish, sans-serif" }}>Nosso propósito é transformar o seu sonho idealizado em uma arquitetura individualizada e especial, valorizando o conforto, o bem-estar, a funcionalidade e a estética, pois acreditamos que a arquitetura deve estar sempre em sintonia com esses princípios.</p>
                 </div>
-                <img src="img/img-meninas-obra-projeto.jpg" className="w-96 rounded-xl" alt="" />
-                <img src="img/img-meninas-sorrindo-computador.jpg" className="w-96 rounded-xl" alt="" />
+                <img src="img/img-meninas-obra-projeto.jpg" className="w-96 rounded-xl " alt="" />
+                <img src="img/img-meninas-sorrindo-computador.jpg" className="w-96 rounded-xl hidden md:flex" alt="" />
             </div>
-            <div className="h-[50vh] w-full">
-                <img src="img/img-pezinhos-obra.jpg" alt="" className="h-full w-full object-cover" />
+            <div className="h-[50vh] w-full hidden md:flex">
+                <img src="img/img-pezinhos-obra.jpg" alt="" className="h-full w-full object-cover " />
             </div>
             <Button size={"lg"} className="mt-4 px-16 mb-8">Bora projetar?</Button>
         </div>
