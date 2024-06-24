@@ -268,13 +268,17 @@ export const Home = () => {
           <div className="grid grid-cols-1 lg:grid-cols-3 2xl:grid-cols-4 sm:h-64 md:px-32 gap-12">
             {projects.map((project, index) => (
               // @ts-ignore
-              <div key={project.id} className="rounded-lg overflow-hidden">
+              <div key={project.id} className="rounded-lg overflow-hidden flex flex-col text-center">
                 <img
                   src={photoOne[index]}
                   className="w-full h-64 object-cover"
                   alt=""
                   loading="lazy"
                 />
+                <h1 className="text-xl text-primary">
+                  {/* @ts-ignore */}
+                  {project.name}
+                </h1>
               </div>
             ))}
           </div>

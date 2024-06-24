@@ -9,19 +9,19 @@ import { useNavigate } from "react-router-dom";
 const CreateProjectScreen = () => {
   const [name, setName] = useState("");
   const [details, setDetails] = useState([""]);
+  //@ts-ignore
   const [description, setDescription] = useState("");
   const [especificDetails, setEspecificDetails] = useState("");
   const [categories, setCategories] = useState([]);
   const [projectCategoryId, setProjectCategoryId] = useState('');
   const [selectedCategory, setSelectedCategory] = useState("");
   const [namePlaceholder, setNamePlaceholder] = useState("Nome do projeto");
-  const [descriptionPlaceholder, setDescriptionPlaceholder] = useState("Descrição");
   const [especificDetailsPlaceholder, setEspecificDetailsPlaceholder] = useState("Detalhes específicos");
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
-  const [imageUrls, setImageUrls] = useState([]);
+  const [imageUrls, setImageUrls] = useState<string[]>([]);
   const { projectControllerCreate } = useProjectHook();
   const { categoryControllerFindAll } = useCategoryHook();
-  const { photoControllerCreate } = usePhotoHook()
+  const { photoControllerCreate } = usePhotoHook();
   const navigate = useNavigate();
 
   const createProject = async () => {
@@ -30,20 +30,19 @@ const CreateProjectScreen = () => {
     const response = await projectControllerCreate(name, description, especificDetailsString, projectCategoryId);
     console.log(response);
     if (response?.status === 201 && response.data?.id) {
-      await photosProject(response.data?.id)
-      navigate('/projects')
+      await photosProject(response.data?.id);
+      navigate('/projects');
     }
   };
 
   const photosProject = async (projectId: string) => {
-    console.log('teste', selectedImages)
     for (const image of selectedImages) {
       const response = await photoControllerCreate(projectId, image);
       if (response?.status === 'success') {
         console.log(response);
       }
     }
-  }
+  };
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -57,14 +56,13 @@ const CreateProjectScreen = () => {
     };
     fetchCategories();
   }, []);
-  //@ts-ignore
-  const handleFocus = (setState) => {
+
+  const handleFocus = (setState: React.Dispatch<React.SetStateAction<string>>) => {
     setState("");
   };
-  //@ts-ignore
-  const handleBlur = (setState, value) => {
+
+  const handleBlur = (setState: React.Dispatch<React.SetStateAction<string>>, value: string) => {
     if (!value) {
-      //@ts-ignore
       setState((prev) => prev);
     }
   };
@@ -72,31 +70,28 @@ const CreateProjectScreen = () => {
   const addDetailInput = () => {
     setDetails([...details, ""]);
   };
-  //@ts-ignore
-  const removeDetailInput = (indexToRemove) => {
+
+  const removeDetailInput = (indexToRemove: number) => {
     const updatedDetails = details.filter((_, index) => index !== indexToRemove);
     setDetails(updatedDetails);
   };
-  //@ts-ignore
-  const handleDetailChange = (index, value) => {
+
+  const handleDetailChange = (index: number, value: string) => {
     const updatedDetails = [...details];
     updatedDetails[index] = value;
     setDetails(updatedDetails);
   };
-  //@ts-ignore
-  const handleImageChange = (e) => {
-    const files = e.target.files;
-    //@ts-ignore
-    const urls = Array.from(files).map((file) => URL.createObjectURL(file));
-    setSelectedImages(Array.from(files));
-    //@ts-ignore
-    setImageUrls(urls);
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files ?? []);
+    const urls = files.map((file) => URL.createObjectURL(file));
+    setSelectedImages((prevImages) => [...prevImages, ...files]);
+    setImageUrls((prevUrls) => [...prevUrls, ...urls]);
   };
-  //@ts-ignore
-  const removeImage = (indexToRemove) => {
+
+  const removeImage = (indexToRemove: number) => {
     const updatedUrls = imageUrls.filter((_, index) => index !== indexToRemove);
     const updatedImages = selectedImages.filter((_, index) => index !== indexToRemove);
-
     setImageUrls(updatedUrls);
     setSelectedImages(updatedImages);
   };
@@ -107,9 +102,9 @@ const CreateProjectScreen = () => {
     if (projectId) {
       await photosProject(projectId);
     }
-  }
-  //@ts-ignore
-  const handleCategoryChange = (e) => {
+  };
+
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedCategory(e.target.value);
     setProjectCategoryId(e.target.value);
   };
@@ -133,21 +128,6 @@ const CreateProjectScreen = () => {
               onChange={(e) => setName(e.target.value)}
               onFocus={() => handleFocus(setNamePlaceholder)}
               onBlur={(e) => handleBlur(setNamePlaceholder, e.target.value)}
-              autoComplete="off"
-            />
-          </label>
-
-          <label htmlFor="description" className="flex flex-col uppercase w-full items-center justify-center" style={{ fontFamily: "Mulish, sans-serif" }}>
-            <span className="flex items-start w-full text-primary">Descrição:</span>
-            <textarea
-              id="description"
-              rows={6}
-              placeholder={descriptionPlaceholder}
-              value={description}
-              className="p-4 bg-transparent border border-primary rounded-xl text-primary w-full resize-none"
-              onChange={(e) => setDescription(e.target.value)}
-              onFocus={() => handleFocus(setDescriptionPlaceholder)}
-              onBlur={(e) => handleBlur(setDescriptionPlaceholder, e.target.value)}
               autoComplete="off"
             />
           </label>
@@ -224,13 +204,11 @@ const CreateProjectScreen = () => {
 
           <div className="mt-4 flex flex-col w-full gap-4">
             {imageUrls.map((url, index) => (
-              <div key={index} className="flex h-16 p-2 border border-primary items-center rounded-xl" >
+              <div key={index} className="flex h-16 p-2 border border-primary items-center rounded-xl">
                 <img src={url} alt={`Imagem ${index}`} className="h-12 w-12 object-cover rounded-md" />
                 <div className=" flex items-center w-full justify-between p-2">
                   <span className="text-primary">{selectedImages[index].name}</span>
-                  <button
-                    onClick={() => removeImage(index)}
-                  >
+                  <button onClick={() => removeImage(index)}>
                     <HiOutlineX className="text-xl text-red-500" />
                   </button>
                 </div>
@@ -241,7 +219,7 @@ const CreateProjectScreen = () => {
       </div>
 
       <div className="flex justify-end w-full mt-4">
-        <Button type="submit" className="w-full" onClick={handleSubmit} style={{ fontFamily: "Mulish, sans-serif" }} size={"lg"} >
+        <Button type="submit" className="w-full" onClick={handleSubmit} style={{ fontFamily: "Mulish, sans-serif" }} size={"lg"}>
           Criar
         </Button>
       </div>
