@@ -62,7 +62,7 @@ const AboutUsScreen = () => {
             <div className="h-[50vh] w-full hidden md:flex">
                 <img src="img/img-pezinhos-obra.jpg" alt="" className="h-full w-full object-cover " />
             </div>
-            <Button size={"lg"} className="mt-4 px-16 mb-8">Bora projetar?</Button>
+            <a href="https://wa.me/5543998008930" target="_blank" rel="noopener noreferrer"><Button size={"lg"} className="mt-4 px-16 mb-8">Bora projetar?</Button></a>
         </div>
     )
 }

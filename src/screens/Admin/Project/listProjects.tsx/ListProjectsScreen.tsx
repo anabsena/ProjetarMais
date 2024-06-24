@@ -89,7 +89,7 @@ const ListProjectsScreen = () => {
   };
   //@ts-ignore
   const filteredProjects = projects.filter(project =>
-    project.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    project.name.toLowerCase().includes(searchTerm.toLowerCase()) ||                                
     project.description.toLowerCase().includes(searchTerm.toLowerCase())
   );
 

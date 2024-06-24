@@ -92,9 +92,11 @@ export const Home = () => {
                 Refletindo sua personalidade e estilo de vida. Invista em um projeto de excelência e sinta a transformação que ele pode trazer para sua vida!
               </p>
               <div>
-                <Button className="" size={"lg"}>
-                  Saiba mais
-                </Button>
+                <a href="https://wa.me/5543998008930" target="_blank" rel="noopener noreferrer">
+                  <Button className="" size={"lg"}>
+                    Saiba mais
+                  </Button>
+                </a>
               </div>
             </div>
             <div className="w-full absolute flex justify-center bottom-8">
@@ -135,9 +137,16 @@ export const Home = () => {
             </div>
           </div>
           <div className="z-30 absolute bottom-20">
-            <Button className="px-12 flex items-center gap-2" size={"lg"}>
-              <span> Saiba mais</span> <HiArrowSmRight />
-            </Button>
+            <a href="https://wa.me/5543998008930" target="_blank" rel="noopener noreferrer">
+              <Button
+                className="px-12 flex items-center gap-2"
+                size="lg"
+
+              >
+                <span>Saiba mais</span>
+                <HiArrowSmRight />
+              </Button>
+            </a>
           </div>
           <div className="absolute opacity-45 -bottom-20">
             <img src="img/bg-predio.svg" className="w-3/4 " alt="" />
@@ -170,7 +179,7 @@ export const Home = () => {
           <div className="p-4  md:w-1/2 z-30 xl:mr-96 2xl:mr-64">
             <img src="img/img-escritorio-home.png" className=" " alt="" />
           </div>
-          <div className="h-96 w-full md:w-1/2 md:absolute md:right-0 z-10">
+          <div className="h-96 w-full md:w-1/2 2xl:w-2/5 md:absolute md:right-0 z-10">
             <img src="/img/sobre-nos.png" alt="" className="w-full object-cover" />
           </div>
 
