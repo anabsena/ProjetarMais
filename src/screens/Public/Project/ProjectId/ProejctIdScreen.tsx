@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import useQuery from "../../../../hooks/useQuery";
 import useProjectHook from "../../../../hooks/useProjectHook";
 import { HiOutlineForward } from "react-icons/hi2";
+import LazyLoad from 'react-lazyload';
 import LoadingSpinner from "../../../../components/loading";
 import { BASE_IMAGE_URL } from "../../../../constants/app.constant";
 
@@ -10,6 +11,7 @@ const ProjectidScreen = () => {
     const [photoUrls, setPhotoUrls] = useState<string[]>([]);
     const [imagesLoaded, setImagesLoaded] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
+    const [areImagesLoading, setAreImagesLoading] = useState(true);
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
     const query = useQuery();
     const projectId = query.get('id');
@@ -25,8 +27,6 @@ const ProjectidScreen = () => {
                 const projectPhotos = response.data.ProjectPhotos || [];
                 const urls = projectPhotos.map((photo: any) => BASE_IMAGE_URL + photo.photoUrl);
                 setPhotoUrls(urls);
-                setIsLoading(false);
-                console.log("Photo URLs: ", urls);  // Log para verificar as URLs
             } catch (error) {
                 console.error("Error fetching project:", error);
                 setIsLoading(false);
@@ -37,9 +37,8 @@ const ProjectidScreen = () => {
 
     useEffect(() => {
         if (photoUrls.length > 0 && imagesLoaded === photoUrls.length) {
-            setTimeout(() => {
-                setIsLoading(false);
-            }, 2000); // Esconde por 2 segundos após todas as imagens estarem carregadas
+            setAreImagesLoading(false);
+            setIsLoading(false);
         }
     }, [imagesLoaded, photoUrls]);
 
@@ -69,7 +68,7 @@ const ProjectidScreen = () => {
         setSelectedImage(null);
     };
 
-    if (isLoading) {
+    if (isLoading || areImagesLoading) {
         return <LoadingSpinner />;
     }
 
@@ -92,21 +91,23 @@ const ProjectidScreen = () => {
             </div>
             <div className="grid grid-cols-1 lg:grid-cols-3 2xl:grid-cols-4 h-auto px-4 md:px-32 gap-12 flex-grow">
                 {photoUrls.map((url, index) => (
-                    <div key={index} className="rounded-xl h-64 cursor-pointer" onClick={() => handleImageClick(url)}>
-                        <img
-                            src={url}
-                            alt={`Project photo ${index + 1}`}
-                            className="w-full h-full rounded-xl object-cover"
-                            loading="lazy"
-                            onLoad={handleImageLoad}
-                        />
-                    </div>
+                    <LazyLoad key={index} height={200} offset={100} once>
+                        <div className="rounded-xl h-64 cursor-pointer" onClick={() => handleImageClick(url)}>
+                            <img
+                                src={url}
+                                alt={`Project photo ${index + 1}`}
+                                className="w-full h-full rounded-xl object-cover"
+                                loading="lazy"
+                                onLoad={handleImageLoad}
+                            />
+                        </div>
+                    </LazyLoad>
                 ))}
             </div>
             {selectedImage && (
                 <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
-                    <div className="relative  md:max-w-[40%] md:h-max-[40%] mx-auto  rounded-lg shadow-lg">
-                        <button onClick={handleCloseModal} className="absolute right-2 -top-8 md:-right-4  text-white  text-3xl font-bold">×</button>
+                    <div className="relative md:max-w-[40%] md:h-max-[40%] mx-auto rounded-lg shadow-lg">
+                        <button onClick={handleCloseModal} className="absolute right-2 -top-8 md:-right-4 text-white text-3xl font-bold">×</button>
                         <img src={selectedImage} alt="Selected" className="w-full h-full px-8 md:px-0 rounded-lg" />
                     </div>
                 </div>
