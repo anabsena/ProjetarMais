@@ -11,27 +11,29 @@ const AboutUsScreen = () => {
             setIsLoading(false);
         }, 1000);
 
+        // Cleanup function to clear timeout
         return () => clearTimeout(timer);
+    }, []);
+
+    // Combine both effects into one useEffect
+    useEffect(() => {
+        // Scroll to the top of the page when the component mounts
+        window.scrollTo(0, 0);
     }, []);
 
     if (isLoading) {
         return <LoadingSpinner />;
     }
-    useEffect(() => {
-        // Scrolla para o topo da página sempre que o componente for montado
-        window.scrollTo(0, 0);
-    }, []);
+
     return (
         <div className="w-full flex flex-col justify-center items-center">
-            <div className="flex flex-col w-auto items-center mt-28 lg:mt-4 z-30 ">
+            <div className="flex flex-col w-auto items-center mt-28 lg:mt-4 z-30">
                 <h1 className="uppercase text-[#2F2E59] font-bold text-4xl px-4" style={{ fontFamily: "Adam, sans-serif" }}>
                     Sobre nós
                 </h1>
                 <img src="img/separador-title.svg" alt="" className="" />
             </div>
-            <LazyLoad height={200} offset={100}>
                 <img src="img/Inicio-sobre-nós.png" className="w-9/12" alt="" />
-            </LazyLoad>
             <div className="bg-[#CACEED] w-full md:h-[70vh] flex flex-col gap-4 lg:gap-0 items-start p-4 relative mt-8 text-[#2F2E59]">
                 <LazyLoad height={200} offset={100}>
                     <img src="img/Logo.svg" className="absolute top-1 right-1 w-64 hidden lg:flex z-30" alt="" />
@@ -89,9 +91,8 @@ const AboutUsScreen = () => {
                 </LazyLoad>
             </div>
             <div className="h-[50vh] w-full hidden md:flex">
-                <LazyLoad height={200} offset={100}>
                     <img src="img/img-pezinhos-obra.jpg" alt="" className="h-full w-full object-cover" />
-                </LazyLoad>
+
             </div>
             <a href="https://wa.me/5543998008930" target="_blank" rel="noopener noreferrer"><Button size={"lg"} className="mt-4 px-16 mb-8">Bora projetar?</Button></a>
         </div>
