@@ -60,15 +60,19 @@ const ProjectCategoryScreen = () => {
     navigate(`/projetos/projeto?id=${projectId}`);
   };
   return (
-    <div className="container mx-auto p-4">
+    <div className="w-full p-4">
       <div className="flex flex-col w-full items-start mt-28 lg:my-8 z-30 ">
-        <h1 className="uppercase text-[#2F2E59] text-4xl px-4" style={{ fontFamily: "Mulish, sans-serif" }}>
+        <h1 className="uppercase text-[#2F2E59] text-4xl" style={{ fontFamily: "Mulish, sans-serif" }}>
           Projetos da categoria
         </h1>
         <img src="/img/separador-title-project.svg" alt="" />
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-3 2xl:grid-cols-4 h-auto md:px-32 px-4 gap-12 flex-grow">
-        {projects.map((project, index) => (
+        {projects.length === 0 ? (
+          <div className="text-center text-primary mt-4" style={{ fontFamily: "Mulish, sans-serif" }}>
+            Nenhum projeto encontrado
+          </div>
+        ) : (projects.map((project, index) => (
           <div className="relative" key={project.id}
             onMouseEnter={() => setHoverProjectId(project.id)}
             onMouseLeave={() => setHoverProjectId(null)}>
@@ -97,7 +101,8 @@ const ProjectCategoryScreen = () => {
               </div>
             )}
           </div>
-        ))}
+        ))
+        )}
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 import Footer from "../../../components/Footer"
 import HeaderHome from "../../../components/HeaderHome"
-import { ProjectAllScreen } from "./ProjectAllScreen"
+import ProjectAllScreen from "./ProjectAllScreen"
 
 
 const ProjectAll = () => {
