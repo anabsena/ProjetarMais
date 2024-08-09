@@ -66,6 +66,7 @@ export const Home = () => {
   const handleClickViewAllProjects = () => {
     navigate('/projetos')
   }
+  //@ts-ignore
   const handleClickViewAllCateorys = () => {
     navigate('/serviços')
   }
@@ -266,7 +267,7 @@ export const Home = () => {
             </div>
           ))}
         </div>
-        <Button className="px-12 flex items-center gap-2" variant={"inverseTwo"} size={"lg"} onClick={handleClickViewAllCateorys}>Saber mais <HiArrowSmRight /></Button>
+        {/* <Button className="px-12 flex items-center gap-2" variant={"inverseTwo"} size={"lg"} onClick={handleClickViewAllCateorys}>Saber mais <HiArrowSmRight /></Button> */}
         <div className="w-full p-4 mt-4 ">
           <div className="flex flex-col  items-start mt-4 z-30 ">
             <h1 className="uppercase text-[#2F2E59] font-bold text-4xl " style={{ fontFamily: "Adam, sans-serif" }}>
