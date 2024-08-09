@@ -7,6 +7,7 @@ import { HiChevronLeft, HiExclamationCircle } from "react-icons/hi";
 
 const CreateCategoryScreen = () => {
   const [name, setName] = useState("");
+  //@ts-ignore
   const [description, setDescription] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [message, setMessage] = useState(false);
@@ -39,9 +40,9 @@ const CreateCategoryScreen = () => {
 
   return (
     <div className="w-full h-full flex flex-col items-center p-8">
-        <div className="w-full flex justify-start">
+      <div className="w-full flex justify-start">
         <Button onClick={handleClickBack} variant={"link"}><HiChevronLeft />Voltar</Button>
-        </div>
+      </div>
       <h1 style={{ fontFamily: "Adam, sans-serif" }} className="text-3xl text-[#545C99] font-bold uppercase">
         Crie suas categorias
       </h1>
@@ -59,7 +60,7 @@ const CreateCategoryScreen = () => {
             autoComplete="off"
           />
         </label>
-        <label htmlFor="description" className="flex flex-col uppercase w-full items-start justify-center" style={{ fontFamily: "Mulish, sans-serif" }}>
+        {/* <label htmlFor="description" className="flex flex-col uppercase w-full items-start justify-center" style={{ fontFamily: "Mulish, sans-serif" }}>
           <span className="flex items-start text-primary">Descrição da categoria:</span>
           <textarea
             id="description"
@@ -69,7 +70,7 @@ const CreateCategoryScreen = () => {
             className="p-4 bg-transparent border border-primary rounded-xl w-full focus:outline-none text-primary"
             onChange={(e) => setDescription(e.target.value)}
           />
-        </label>
+        </label> */}
 
         <div className="flex justify-end w-full">
           <Button
