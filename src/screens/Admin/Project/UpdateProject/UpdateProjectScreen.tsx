@@ -6,7 +6,7 @@ import LoadingSpinner from "../../../../components/loading";
 import useCategoryHook from "../../../../hooks/useCategoryHook";
 
 export const UpdateProjectScreen = () => {
-  const { projectControllerUpdate, projectControllerFindOne } = useProjectHook();
+  const {  projectControllerFindOne } = useProjectHook();
   const { categoryControllerFindAll } = useCategoryHook();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -27,7 +27,6 @@ export const UpdateProjectScreen = () => {
 
           const response = await projectControllerFindOne(projectId);
 
-          console.log(response)
           if (response.status === 200) {
             //@ts-ignore
             setName(response.data.name);
@@ -50,7 +49,6 @@ export const UpdateProjectScreen = () => {
                 return url;
               })
             );
-            console.log(urls);
             setSelectedImages(urls)
 
             setLoading(false);
@@ -71,12 +69,7 @@ export const UpdateProjectScreen = () => {
     }
   }, [projectId]);
   //@ts-ignore
-  const updateProject = async (projectId) => {
-    const allDetails = [details, ...details];
-    const especificDetailsString = allDetails.join('|');
-    const response = await projectControllerUpdate(projectId, name, description, especificDetailsString)
-    console.log(response);
-  }
+
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -231,7 +224,7 @@ export const UpdateProjectScreen = () => {
           </div>
         </div>
         <div className="flex justify-end w-full mt-4">
-          <Button type="submit" className="w-full" onClick={updateProject} style={{ fontFamily: "Mulish, sans-serif" }} size={"lg"} >
+          <Button type="submit" className="w-full" style={{ fontFamily: "Mulish, sans-serif" }} size={"lg"} >
             Criar
           </Button>
         </div>

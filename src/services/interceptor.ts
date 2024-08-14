@@ -21,11 +21,6 @@ apiInterceptorInstance.interceptors.request.use(
         if (token) {
             config.headers['Authorization'] = `Bearer ${token}`
         }
-
-        // Realize as ações de interceptação aqui, se necessário
-        // Por exemplo, você pode adicionar headers personalizados
-        //config.headers['Authorization'] = 'Bearer seu-token-aqui';
-        console.log(config)
         return config
     },
     (error) => {

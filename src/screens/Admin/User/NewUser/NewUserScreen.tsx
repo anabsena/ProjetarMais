@@ -23,7 +23,6 @@ const NewUserScreen = () => {
             const response = await userControllerCreate(name, email, password);
 
             if (response?.status === 201 ) {
-                console.log(response);
                 navigate('/admin');
             } else {
                 setMessage(true);

@@ -44,7 +44,6 @@ function useProjectHook() {
     try {
       //@ts-ignore
       const response = await projectApi.projectControllerFindAll(name, especificDetails ,description, perPage, page);
-      console.log('hook', response)
 
       const { data, status, statusText} = response
 

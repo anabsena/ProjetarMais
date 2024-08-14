@@ -28,7 +28,6 @@ const CreateProjectScreen = () => {
     const allDetails = [especificDetails, ...details];
     const especificDetailsString = allDetails.join('|');
     const response = await projectControllerCreate(name, description, especificDetailsString, projectCategoryId);
-    console.log(response);
     if (response?.status === 201 && response.data?.id) {
       await photosProject(response.data?.id);
       navigate('/projects');
@@ -39,7 +38,6 @@ const CreateProjectScreen = () => {
     for (const image of selectedImages) {
       const response = await photoControllerCreate(projectId, image);
       if (response?.status === 'success') {
-        console.log(response);
       }
     }
   };

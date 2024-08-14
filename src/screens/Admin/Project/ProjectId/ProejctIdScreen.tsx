@@ -24,7 +24,6 @@ const ProjectidAdminScreen = () => {
                     const projectPhotos = response.data.ProjectPhotos || [];
                     const urls = projectPhotos.map((photo: any) => BASE_IMAGE_URL + photo.photoUrl);
                     setPhotoUrls(urls);
-                    console.log("Photo URLs: ", urls);  // Log para verificar as URLs
                     setIsLoading(false);
                 }
             } catch (error) {

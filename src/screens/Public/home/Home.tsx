@@ -25,7 +25,6 @@ export const Home = () => {
     const fetchCategory = async () => {
       try {
         const response = await categoryControllerFindAll('', 1, 10);
-        console.log(response);
         if (response.status === 200) {
           //@ts-ignore
           setCategory(response.data.data)

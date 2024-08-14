@@ -11,7 +11,6 @@ const ViewProjectScreen = () => {
         const fecthProject = async () => {
             //@ts-ignore
             const response = await projectControllerFindOne(projectId)
-            console.log('project', response)
         }
         fecthProject()
     }, [])

@@ -15,7 +15,6 @@ const SignIn = () => {
   const OnSignIn = async () => {
     const response = await signIn(email, password);
     if (response?.status === 'success') {
-      console.log(email, password)
     } else {
       setMessage(true)
     }

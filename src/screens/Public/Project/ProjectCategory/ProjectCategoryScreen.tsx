@@ -23,8 +23,6 @@ const ProjectCategoryScreen = () => {
       try {
         //@ts-ignore
         const response = await categoryControllerFindOne(categoryId);
-        console.log(categoryId)
-        console.log(response)
         if (response.status === 200) {
           //@ts-ignore
           const fetchedProjects = response.data.Project || [];
@@ -37,7 +35,6 @@ const ProjectCategoryScreen = () => {
           });
 
           setPhotoUrls(urls);
-          console.log("Photo URLs: ", urls);
           setIsLoading(false);
         } else {
           console.error("Error fetching projects:", response.message);
