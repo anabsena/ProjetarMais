@@ -64,7 +64,7 @@ const ListAdminScreen = () => {
     try {
       const response = await userControllerDelete(userId);
       if (response.status === 200) {
-         //@ts-ignore
+        //@ts-ignore
         setUsers(users.filter(user => user.id !== userId));
         setIsDeleted(true);
         handleCloseModal();
@@ -109,13 +109,13 @@ const ListAdminScreen = () => {
         <HiSearch className="text-primary text-3xl" />
       </div>
       {currentUsers.map((user) => (
-         //@ts-ignore
-        <div key = { user.id } className = "bg-[#CACEED] w-full rounded-xl p-4 flex gap-4 mt-4 items-center justify-between" >
+        //@ts-ignore
+        <div key={user.id} className="bg-[#CACEED] w-full rounded-xl p-4 flex gap-4 mt-4 items-center justify-between" >
           <div className="flex gap-4 ">
             <HiOutlineUserCircle className="text-6xl text-[#2F2E59]" />
             <div>
               <h1 className="text-xl text-secondary font-semibold" style={{ fontFamily: "Adam, sans-serif" }}>
-              {/* @ts-ignore */}
+                {/* @ts-ignore */}
                 Nome: {user.name}
               </h1>
               <h1 className="text-md text-secondary" style={{ fontFamily: "Mulish, sans-serif" }}>
@@ -143,30 +143,30 @@ const ListAdminScreen = () => {
                   {/* @ts-ignore */}
                   <button onClick={() => handleDeleteUser(user.id)} className="flex gap-2 items-center">
                     <HiOutlineXCircle className="text-xl text-[#D9B341]" />
-                    Excluir
+                    <p className="text-white">Excluir</p>
                   </button>
                 </div>
               </div>
             )}
           </div>
         </div>
-  ))
-}
-{
-  totalPages > 1 && (
-    <div className="mt-4">
-      {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-        <button
-          key={page}
-          onClick={() => paginate(page)}
-          className={`mx-1 p-2 rounded-md ${currentPage === page ? 'bg-[#636BA6] text-white' : 'bg-[#1E1D40] text-[#F2F4FF]'}`}
-        >
-          {page}
-        </button>
-      ))}
-    </div>
-  )
-}
+      ))
+      }
+      {
+        totalPages > 1 && (
+          <div className="mt-4">
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+              <button
+                key={page}
+                onClick={() => paginate(page)}
+                className={`mx-1 p-2 rounded-md ${currentPage === page ? 'bg-[#636BA6] text-white' : 'bg-[#1E1D40] text-[#F2F4FF]'}`}
+              >
+                {page}
+              </button>
+            ))}
+          </div>
+        )
+      }
     </div >
   );
 }

@@ -2,13 +2,14 @@ import { useEffect, useState } from "react";
 import useQuery from "../../../../hooks/useQuery";
 import useProjectHook from "../../../../hooks/useProjectHook";
 import { HiOutlineForward } from "react-icons/hi2";
+import { IoChevronBack, IoChevronForward } from "react-icons/io5";
 import LazyLoad from 'react-lazyload';
 import { BASE_IMAGE_URL } from "../../../../constants/app.constant";
 
 const ProjectidScreen = () => {
     const [project, setProject] = useState<any>(null);
     const [photoUrls, setPhotoUrls] = useState<string[]>([]);
-    const [selectedImage, setSelectedImage] = useState<string | null>(null);
+    const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
     const query = useQuery();
     const projectId = query.get('id');
     const { projectControllerFindOne } = useProjectHook();
@@ -30,7 +31,6 @@ const ProjectidScreen = () => {
         fetchProject();
     }, []);
 
-
     const renderSpecificDetails = (details: string) => {
         if (!details) return null;
 
@@ -45,16 +45,27 @@ const ProjectidScreen = () => {
         </div>;
     };
 
-
-    const handleImageClick = (url: string) => {
-        setSelectedImage(url);
+    const handleImageClick = (index: number) => {
+        setSelectedImageIndex(index);
     };
 
     const handleCloseModal = () => {
-        setSelectedImage(null);
+        setSelectedImageIndex(null);
     };
 
-   
+    const handlePrevImage = () => {
+        if (selectedImageIndex !== null) {
+            //@ts-ignore
+            setSelectedImageIndex((prevIndex) => (prevIndex === 0 ? photoUrls.length - 1 : prevIndex - 1));
+        }
+    };
+
+    const handleNextImage = () => {
+        if (selectedImageIndex !== null) {
+            //@ts-ignore
+            setSelectedImageIndex((prevIndex) => (prevIndex === photoUrls.length - 1 ? 0 : prevIndex + 1));
+        }
+    };
 
     return (
         <div className="flex flex-col items-center mb-4 min-h-[100vh]">
@@ -76,7 +87,7 @@ const ProjectidScreen = () => {
             <div className="grid grid-cols-1 lg:grid-cols-3 2xl:grid-cols-4 h-auto px-4 md:px-32 gap-12 flex-grow">
                 {photoUrls.map((url, index) => (
                     <LazyLoad key={index} height={200} offset={100} once>
-                        <div className="rounded-xl h-64 cursor-pointer" onClick={() => handleImageClick(url)}>
+                        <div className="rounded-xl h-64 cursor-pointer" onClick={() => handleImageClick(index)}>
                             <img
                                 src={url}
                                 alt={`Project photo ${index + 1}`}
@@ -87,11 +98,17 @@ const ProjectidScreen = () => {
                     </LazyLoad>
                 ))}
             </div>
-            {selectedImage && (
+            {selectedImageIndex !== null && (
                 <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
                     <div className="relative md:max-w-[40%] md:h-max-[40%] mx-auto rounded-lg shadow-lg">
                         <button onClick={handleCloseModal} className="absolute right-2 -top-8 md:-right-4 text-white text-3xl font-bold">×</button>
-                        <img src={selectedImage} alt="Selected" className="w-full h-full px-8 md:px-0 rounded-lg" />
+                        <button onClick={handlePrevImage} className="absolute left-2 top-1/2 transform -translate-y-1/2 text-white text-3xl font-bold">
+                            <IoChevronBack />
+                        </button>
+                        <img src={photoUrls[selectedImageIndex]} alt="Selected" className="w-full h-full px-8 md:px-0 rounded-lg" />
+                        <button onClick={handleNextImage} className="absolute right-2 top-1/2 transform -translate-y-1/2 text-white text-3xl font-bold">
+                            <IoChevronForward />
+                        </button>
                     </div>
                 </div>
             )}

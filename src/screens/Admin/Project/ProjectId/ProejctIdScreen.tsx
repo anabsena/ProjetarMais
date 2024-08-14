@@ -20,7 +20,7 @@ const ProjectidAdminScreen = () => {
                 if (projectId) {
                     const response = await projectControllerFindOne(projectId);
                     setProject(response.data);
-//@ts-ignore
+                    //@ts-ignore
                     const projectPhotos = response.data.ProjectPhotos || [];
                     const urls = projectPhotos.map((photo: any) => BASE_IMAGE_URL + photo.photoUrl);
                     setPhotoUrls(urls);
@@ -61,12 +61,12 @@ const ProjectidAdminScreen = () => {
                 <img src="/img/separador-title-project.svg" alt="" className="" />
             </div>
             <div className="w-full grid grid-cols-2 gap-8 text-center text-[#08081A] p-4" style={{ fontFamily: "Mulish, sans-serif" }}>
-                <div className="flex flex-col">
+                {/* <div className="flex flex-col">
                     <h1 className="text-xl w-full text-start flex items-center gap-2 uppercase font-bold mb-4">
                         <img src="/img/mais_azul.svg" className="w-4 h-4 " alt="" />Descrição
                     </h1>
                     <span>{project.description}</span>
-                </div>
+                </div> */}
                 <div>
                     <h1 className="text-xl w-full text-start flex items-center gap-2 uppercase font-bold mb-4">
                         <img src="/img/mais_azul.svg" className="w-4 h-4" alt="" />Detalhes Técnicos

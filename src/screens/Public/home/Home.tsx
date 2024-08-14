@@ -204,7 +204,7 @@ export const Home = () => {
             <div className="flex items-center w-full gap-4 flex-col-reverse justify-center md:flex-row">
               <div className="sm:w-[410px] md:h-[537px] p-4 relative flex justify-center md:block">
                 <img src="/img/mais_azul.svg" className="absolute top-0 left-0 w-36 hidden md:flex" alt="" />
-                <img src="/img/Andressa.jpg" className="md:absolute bottom-0 right-0 w-80 h-[450px] object-cover" alt="" />
+                <img src="/img/Andressa.webp" className="md:absolute bottom-0 right-0 w-80 h-[450px] object-cover" alt="" />
               </div>
               <div className="sm:w-[395px] p-4">
                 <h1 style={{ fontFamily: "Alice", fontSize: "36px" }}>Andressa Belo</h1>
@@ -229,7 +229,7 @@ export const Home = () => {
               </div>
               <div className="sm:w-[395px] md:h-[537px] p-4 relative flex justify-center sm:block">
                 <img src="img/mais_branco.svg" className="absolute top-0 right-0 w-36 hidden md:flex" alt="" />
-                <img src="img/Monica.jpg" className="md:absolute bottom-0 left-0 w-80 h-[450px] object-cover" alt="" />
+                <img src="img/Monica.webp" className="md:absolute bottom-0 left-0 w-80 h-[450px] object-cover" alt="" />
               </div>
             </div>
 

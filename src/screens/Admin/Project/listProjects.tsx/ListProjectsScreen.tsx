@@ -89,7 +89,7 @@ const ListProjectsScreen = () => {
   };
   //@ts-ignore
   const filteredProjects = projects.filter(project =>
-    project.name.toLowerCase().includes(searchTerm.toLowerCase()) ||                                
+    project.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     project.description.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -147,12 +147,12 @@ const ListProjectsScreen = () => {
             {showModal && selectedProject && selectedProject.id === project.id && (
               <div className="absolute right-0 mt-2 w-48 bg-[#1E1D40] rounded-xl shadow-lg z-10 border border-[#D9B341]">
                 <div className="flex flex-col gap-4 p-2">
-                  <Link to={`/projetos/editProject?id=${project.id}`}><h1 className="flex gap-2 items-center" ><HiOutlinePencilAlt className="text-xl text-[#D9B341]" />Editar</h1></Link>
+                  {/* <Link to={`/projetos/editProject?id=${project.id}`}><h1 className="flex gap-2 items-center" ><HiOutlinePencilAlt className="text-xl text-[#D9B341]" /><p className="text-white">Editar</p></h1></Link> */}
                   <button className="flex gap-2 items-center" onClick={() => handleDeleteProject(project.id)}>
                     <HiOutlineXCircle className="text-xl text-[#D9B341]" />
-                    Excluir
+                    <p className="text-white">Excluir</p>
                   </button>
-                  <Link to={`/projetos/projetoId?id=${project.id}`}><h1 className="flex gap-2 items-center" ><HiOutlineArrowCircleRight className="text-xl text-[#D9B341]" />Ver projeto</h1></Link>
+                  <Link to={`/projetos/projetoId?id=${project.id}`}><h1 className="flex gap-2 items-center" ><HiOutlineArrowCircleRight className="text-xl text-[#D9B341]" /><p className="text-white">Ver projeto</p></h1></Link>
                 </div>
               </div>
             )}
