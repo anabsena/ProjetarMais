@@ -22,7 +22,6 @@ const ProjectAllScreen = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [projectsPerPage] = useState(10);
-  const [photoUrls, setPhotoUrls] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
@@ -33,18 +32,12 @@ const ProjectAllScreen = () => {
       try {
         const response = await projectControllerFindAll('', '', '', 1, 10);
         if (response.status === 200) {
-          //@ts-ignore
           const mappedProjects: Projects[] = response.data.data.map((project: Projects) => ({
             ...project,
             details: '',
           }));
 
           setProjects(mappedProjects);
-
-          const urls = mappedProjects.flatMap(project =>
-            project.ProjectPhotos.map(photo => BASE_IMAGE_URL + photo.photoUrl)
-          );
-          setPhotoUrls(urls);
           setIsLoading(false);
         } else {
           console.error("Error fetching projects:", response.message);
@@ -87,9 +80,9 @@ const ProjectAllScreen = () => {
   }
 
   return (
-    <div className="flex flex-col  mb-4">
+    <div className="flex flex-col mb-4">
       <img src="img/icon-arq.svg" className="absolute top-28 right-0 hidden sm:flex" alt="Icon" />
-      <div className="flex flex-col w-full items-start mt-28 lg:my-8 z-30 ">
+      <div className="flex flex-col w-full items-start mt-28 lg:my-8 z-30">
         <h1 className="uppercase text-[#2F2E59] text-4xl px-4" style={{ fontFamily: "Mulish, sans-serif" }}>
           Projetos
         </h1>
@@ -111,35 +104,40 @@ const ProjectAllScreen = () => {
           <div className="text-center text-primary mt-4" style={{ fontFamily: "Mulish, sans-serif" }}>
             Nenhum projeto encontrado
           </div>
-        ) : (currentProjects.map((project, index) => (
-          <div className="relative" key={project.id}
-            onMouseEnter={() => setHoverProjectId(project.id)}
-            onMouseLeave={() => setHoverProjectId(null)}>
-            <div className="rounded-lg overflow-hidden">
-              {photoUrls[index] ? (
-                <img
-                  src={photoUrls[index]}
-                  className='w-full h-64 object-cover rounded-t-xl'
-                  alt={project.name}
-                  loading="lazy"
-                />
-              ) : (
-                <div className="w-full h-64 bg-gray-200 rounded-t-xl"></div>
-              )}
-            </div>
-            <div className="">
-              <h2 className="text-xl text-center text-primary pt-4" style={{ fontFamily: "Mulish, sans-serif" }}>{project.name}</h2>
-            </div>
-            {hoverProjectId === project.id && (
-              <div className="absolute top-0 left-0 w-full h-64 bg-[#9BA1D1] rounded-lg bg-opacity-90 text-white p-2 flex flex-col justify-end items-start gap-4"
-                style={{ ...clipPathStyle, fontFamily: "Mulish, sans-serif" }}>
-                <Button variant={"inverseTwo"} className="mb-4" onClick={() => handleClickViewProject(project.id)}>
-                  Ver mais <HiArrowSmRight />
-                </Button>
+        ) : (
+          currentProjects.map((project) => {
+            const projectPhoto = project.ProjectPhotos[0]?.photoUrl ? BASE_IMAGE_URL + project.ProjectPhotos[0].photoUrl : null;
+
+            return (
+              <div className="relative" key={project.id}
+                onMouseEnter={() => setHoverProjectId(project.id)}
+                onMouseLeave={() => setHoverProjectId(null)}>
+                <div className="rounded-lg overflow-hidden">
+                  {projectPhoto ? (
+                    <img
+                      src={projectPhoto}
+                      className='w-full h-64 object-cover rounded-t-xl'
+                      alt={project.name}
+                      loading="lazy"
+                    />
+                  ) : (
+                    <div className="w-full h-64 bg-gray-200 rounded-t-xl"></div>
+                  )}
+                </div>
+                <div className="">
+                  <h2 className="text-xl text-center text-primary pt-4" style={{ fontFamily: "Mulish, sans-serif" }}>{project.name}</h2>
+                </div>
+                {hoverProjectId === project.id && (
+                  <div className="absolute top-0 left-0 w-full h-64 bg-[#9BA1D1] rounded-lg bg-opacity-90 text-white p-2 flex flex-col justify-end items-start gap-4"
+                    style={{ ...clipPathStyle, fontFamily: "Mulish, sans-serif" }}>
+                    <Button variant={"inverseTwo"} className="mb-4" onClick={() => handleClickViewProject(project.id)}>
+                      Ver mais <HiArrowSmRight />
+                    </Button>
+                  </div>
+                )}
               </div>
-            )}
-          </div>
-        ))
+            );
+          })
         )}
       </div>
 
