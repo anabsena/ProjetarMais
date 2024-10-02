@@ -46,13 +46,13 @@ const AboutUsScreen = () => {
                     <p className="lg:w-1/2 text-center md:text-lg">Nós oferecemos um design personalizado e exclusivo, criando projetos únicos que refletem as necessidades e preferências individuais de cada cliente, resultando em espaços distintos e memoráveis. Além disso, adotamos uma abordagem multidisciplinar, integrando diversas áreas como arquitetura, design de interiores, paisagismo e engenharia para proporcionar soluções abrangentes e integradas aos nossos clientes. Priorizamos a experiência do cliente em todas as etapas do processo, garantindo sua satisfação desde o primeiro contato até a entrega final do projeto. Nosso compromisso com a qualidade e detalhamento é evidente em cada aspecto do projeto, assegurando excelência em todas as etapas, desde a concepção até a execução.</p>
                 </div>
             </div>
-            <div className="w-full flex gap-32 items-center justify-center p-8 relative mt-8 text-[#2F2E59]">
+            <div className="w-full flex md:gap-32 items-center justify-center p-8 relative mt-8 text-[#2F2E59]">
                 <LazyLoad height={200} offset={100}>
                     <img src="img/img-escritorio-meninas.webp" className="w-96 hidden lg:flex rounded-xl" alt="" />
                 </LazyLoad>
-                <div className="flex flex-col justify-center lg:text-start text-center w-full gap-8">
+                <div className="flex flex-col justify-center lg:text-start text-center w-full sm:w-96 gap-8">
                     <h1 className="text-3xl font-normal" style={{ fontFamily: "Mulish, sans-serif" }}>Nossa parceria</h1>
-                    <p  style={{ fontFamily: "Mulish, sans-serif" }}>Nos conhecemos em 2018 ainda na faculdade, mas não estudando juntas e sim através de uma carona de Maringá para Ivaiporã. Desde lá, fortalecemos nossa amizade e tivemos algumas experiências profissionais juntas, até encontrarmos um momento oportuno para ter o nosso escritório.</p>
+                    <p className="sm:w-96" style={{ fontFamily: "Mulish, sans-serif" }}>Nos conhecemos em 2018 ainda na faculdade, mas não estudando juntas e sim através de uma carona de Maringá para Ivaiporã. Desde lá, fortalecemos nossa amizade e tivemos algumas experiências profissionais juntas, até encontrarmos um momento oportuno para ter o nosso escritório.</p>
                     <LazyLoad height={200} offset={100}>
                         <img src="img/img-foto-meninas-reuniao.webp" className="w-full md:w-auto rounded-xl" alt="" />
                     </LazyLoad>
