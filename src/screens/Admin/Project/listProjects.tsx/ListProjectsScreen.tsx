@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import useProjectHook from "../../../../hooks/useProjectHook";
-import { HiOutlineArrowCircleRight, HiOutlineDotsVertical, HiOutlineOfficeBuilding, HiOutlinePencilAlt, HiOutlinePlus, HiOutlineXCircle, HiSearch } from "react-icons/hi";
+import { HiOutlineArrowCircleRight, HiOutlineDotsVertical, HiOutlineOfficeBuilding, HiOutlinePlus, HiOutlineXCircle, HiSearch } from "react-icons/hi";
 import { Button } from "../../../../components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import LoadingSpinner from "../../../../components/loading";

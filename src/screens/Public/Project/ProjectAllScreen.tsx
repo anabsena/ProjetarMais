@@ -32,6 +32,7 @@ const ProjectAllScreen = () => {
       try {
         const response = await projectControllerFindAll('', '', '', 1, 10);
         if (response.status === 200) {
+          //@ts-ignore
           const mappedProjects: Projects[] = response.data.data.map((project: Projects) => ({
             ...project,
             details: '',
