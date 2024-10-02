@@ -50,9 +50,9 @@ const AboutUsScreen = () => {
                 <LazyLoad height={200} offset={100}>
                     <img src="img/img-escritorio-meninas.webp" className="w-96 hidden lg:flex rounded-xl" alt="" />
                 </LazyLoad>
-                <div className="flex flex-col justify-center lg:text-start text-center w-full sm:w-96 gap-8">
+                <div className="flex flex-col justify-center lg:text-start text-center w-full gap-8">
                     <h1 className="text-3xl font-normal" style={{ fontFamily: "Mulish, sans-serif" }}>Nossa parceria</h1>
-                    <p className="sm:w-96" style={{ fontFamily: "Mulish, sans-serif" }}>Nos conhecemos em 2018 ainda na faculdade, mas não estudando juntas e sim através de uma carona de Maringá para Ivaiporã. Desde lá, fortalecemos nossa amizade e tivemos algumas experiências profissionais juntas, até encontrarmos um momento oportuno para ter o nosso escritório.</p>
+                    <p  style={{ fontFamily: "Mulish, sans-serif" }}>Nos conhecemos em 2018 ainda na faculdade, mas não estudando juntas e sim através de uma carona de Maringá para Ivaiporã. Desde lá, fortalecemos nossa amizade e tivemos algumas experiências profissionais juntas, até encontrarmos um momento oportuno para ter o nosso escritório.</p>
                     <LazyLoad height={200} offset={100}>
                         <img src="img/img-foto-meninas-reuniao.webp" className="w-full md:w-auto rounded-xl" alt="" />
                     </LazyLoad>
