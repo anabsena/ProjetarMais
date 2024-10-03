@@ -1,15 +1,16 @@
 import { Navigate } from "react-router-dom";
-import ListProjects from "../screens/Admin/Project/listProjects.tsx/ListProjects";
-import ListAdmin from "../screens/Admin/User/listAdmin/ListAdmin";
-import CreateProject from "../screens/Admin/Project/CreateProject/CreateProject";
-import CreateCategory from "../screens/Admin/Project/Category/CreateCategory/CreateCategory";
-import ListCategory from "../screens/Admin/Project/Category/ListCategory/ListCategory";
-import ListCategoryId from "../screens/Admin/Project/Category/ListCategoryId/ListCategoryId";
-import ViewProject from "../screens/Admin/Project/ViewProject/ViewProject";
-import UpdateCategory from "../screens/Admin/Project/Category/UpdateCategory/UpdateCategory";
-import ProjectIdAdmin from "../screens/Admin/Project/ProjectId/ProjectId";
-import NewUser from "../screens/Admin/User/NewUser/NewUser";
-import UpdateProject from "../screens/Admin/Project/UpdateProject/UpdateProejct";
+import PrivateTemplate from "../components/template-private";
+import ListProjectsScreen from "../screens/Admin/Project/listProjects.tsx/ListProjectsScreen";
+import ProjectidAdminScreen from "../screens/Admin/Project/ProjectId/ProejctIdScreen";
+import UpdateProjectScreen from "../screens/Admin/Project/UpdateProject/UpdateProjectScreen";
+import ListAdminScreen from "../screens/Admin/User/listAdmin/ListAdminScreen";
+import CreateProjectScreen from "../screens/Admin/Project/CreateProject/CreateProjectScreen";
+import CreateCategoryScreen from "../screens/Admin/Project/Category/CreateCategory/CreateCategoryScreen";
+import ListCategoryScreen from "../screens/Admin/Project/Category/ListCategory/ListCategoryScreen";
+import ListCategoryIdScreen from "../screens/Admin/Project/Category/ListCategoryId/ListCategoryIdScreen";
+import { UpdateCategoryScreen } from "../screens/Admin/Project/Category/UpdateCategory/UpdateCategoryScreen";
+import NewUserScreen from "../screens/Admin/User/NewUser/NewUserScreen";
+import ViewProjectScreen from "../screens/Admin/Project/ViewProject/ViewProjectScreen";
 
 export default function PrivateRoutes() {
   return [
@@ -19,47 +20,47 @@ export default function PrivateRoutes() {
     },
     {
       path: "/projects",
-      element: <ListProjects />,
+      element: <PrivateTemplate><ListProjectsScreen /></PrivateTemplate>,
     },
     {
       path: "/projetos/projetoId",
-      element: <ProjectIdAdmin />,
+      element: <PrivateTemplate><ProjectidAdminScreen /></PrivateTemplate>,
     },
     {
       path: "/projetos/editProject",
-      element: <UpdateProject />,
+      element: <PrivateTemplate><UpdateProjectScreen /></PrivateTemplate>,
     },
     {
       path: "/admin",
-      element: <ListAdmin />,
+      element: <PrivateTemplate><ListAdminScreen /></PrivateTemplate>,
     },
     {
       path: "/new-project",
-      element: <CreateProject />,
+      element: <PrivateTemplate><CreateProjectScreen /></PrivateTemplate>,
     },
     {
       path: "/new-category",
-      element: <CreateCategory />,
+      element: <PrivateTemplate><CreateCategoryScreen /></PrivateTemplate>,
     },
     {
       path: "/categorys",
-      element: <ListCategory />,
+      element: <PrivateTemplate><ListCategoryScreen /></PrivateTemplate>,
     },
     {
       path: "/categoryId",
-      element: <ListCategoryId />,
+      element: <PrivateTemplate><ListCategoryIdScreen /></PrivateTemplate>,
     },
     {
       path: "/update-category",
-      element: <UpdateCategory />,
+      element: <PrivateTemplate><UpdateCategoryScreen /></PrivateTemplate>,
     },
     {
       path: "/new-user",
-      element: <NewUser />,
+      element: <PrivateTemplate><NewUserScreen /></PrivateTemplate>,
     },
     {
       path: "/project",
-      element: <ViewProject />,
+      element: <PrivateTemplate><ViewProjectScreen /></PrivateTemplate>,
     },
   ];
 }
