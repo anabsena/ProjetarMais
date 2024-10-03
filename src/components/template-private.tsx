@@ -12,7 +12,7 @@ const PrivateTemplate = ({ children }: PrivateTemplateProps) => {
       <Header />
       <div className="flex">
         <Menu />
-        <div className="h-[calc(100vh-4rem)] overflow-auto w-full">
+        <div className="h-[calc(100vh-4rem)] overflow-auto w-full p-8 flex flex-col items-center">
           {children}
         </div>
       </div>

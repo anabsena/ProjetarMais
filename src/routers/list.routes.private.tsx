@@ -3,14 +3,14 @@ import PrivateTemplate from "../components/template-private";
 import ListProjectsScreen from "../screens/Admin/Project/listProjects.tsx/ListProjectsScreen";
 import ProjectidAdminScreen from "../screens/Admin/Project/ProjectId/ProejctIdScreen";
 import UpdateProjectScreen from "../screens/Admin/Project/UpdateProject/UpdateProjectScreen";
-import ListAdminScreen from "../screens/Admin/User/listAdmin/ListAdminScreen";
 import CreateProjectScreen from "../screens/Admin/Project/CreateProject/CreateProjectScreen";
 import CreateCategoryScreen from "../screens/Admin/Project/Category/CreateCategory/CreateCategoryScreen";
 import ListCategoryScreen from "../screens/Admin/Project/Category/ListCategory/ListCategoryScreen";
 import ListCategoryIdScreen from "../screens/Admin/Project/Category/ListCategoryId/ListCategoryIdScreen";
 import { UpdateCategoryScreen } from "../screens/Admin/Project/Category/UpdateCategory/UpdateCategoryScreen";
-import NewUserScreen from "../screens/Admin/User/NewUser/NewUserScreen";
 import ViewProjectScreen from "../screens/Admin/Project/ViewProject/ViewProjectScreen";
+import ListAdmin from "../screens/Admin/User/listAdmin/ListAdmin";
+import NewUser from "../screens/Admin/User/NewUser/NewUser";
 
 export default function PrivateRoutes() {
   return [
@@ -32,7 +32,7 @@ export default function PrivateRoutes() {
     },
     {
       path: "/admin",
-      element: <PrivateTemplate><ListAdminScreen /></PrivateTemplate>,
+      element: <PrivateTemplate><ListAdmin /></PrivateTemplate>,
     },
     {
       path: "/new-project",
@@ -56,7 +56,7 @@ export default function PrivateRoutes() {
     },
     {
       path: "/new-user",
-      element: <PrivateTemplate><NewUserScreen /></PrivateTemplate>,
+      element: <PrivateTemplate><NewUser /></PrivateTemplate>,
     },
     {
       path: "/project",
