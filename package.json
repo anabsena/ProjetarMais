@@ -22,6 +22,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "cmdk": "^0.2.0",
+    "formik": "^2.4.6",
     "localforage": "^1.10.0",
     "lucide-react": "^0.290.0",
     "match-sorter": "^6.3.1",
@@ -35,7 +36,8 @@
     "redux": "^5.0.1",
     "sort-by": "^1.2.0",
     "tailwind-merge": "^1.14.0",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@types/node": "^20.8.9",
