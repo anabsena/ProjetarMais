@@ -154,10 +154,10 @@ const Services = () => {
                   className="flex flex-col items-center text-decoration-none w-24"
                 >
                   <div className="flex flex-col items-center">
-                    <div className="bg-[#9BA1D1] p-2 rounded-full w-28 h-28 flex justify-center items-center shadow-md hover:shadow-xl transition-shadow duration-300">
+                    <div className="bg-[#9BA1D1] p-2 rounded-full w-32 h-32 flex justify-center items-center shadow-md hover:shadow-xl transition-shadow duration-300">
                       <div className="border-2 border-[#F4E393] p-4 rounded-full flex justify-center items-center w-full h-full">
                         {categoryIcons[category.name] || (
-                          <HiOutlineOfficeBuilding className="text-4xl transition-transform duration-300 hover:scale-150" />
+                          <HiOutlineOfficeBuilding className="text-5xl transition-transform duration-300 hover:scale-150" />
                         )}
                       </div>
                     </div>
@@ -172,7 +172,7 @@ const Services = () => {
       </div>
       <div className="w-full mt-4">
      
-        <div className="w-full p-4 flex justify-center gap-4 xl:px-72">
+        <div className="w-full p-4 flex flex-col lg:flex-row justify-center gap-4 xl:px-72">
           {projects &&
             projects.map((project, index) => (
               <div key={project.id} className="relative rounded-lg overflow-hidden flex flex-col w-full ">
