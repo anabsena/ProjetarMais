@@ -21,16 +21,16 @@ const ProjectAllScreen = () => {
   const [hoverProjectId, setHoverProjectId] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [projectsPerPage] = useState(10);
+const [pages, setPages]=useState()
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
-
+const projectsPerPage = 10
   const clipPathStyle = { clipPath: 'polygon(0% 0%, 100% 100%, 80% 100%, 0% 100%)' };
 
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const response = await projectControllerFindAll('', '', '', 1, 10);
+        const response = await projectControllerFindAll('', '', '', 1, pages?.totalItems);
         if (response.status === 200) {
           //@ts-ignore
           const mappedProjects: Projects[] = response.data.data.map((project: Projects) => ({
@@ -39,6 +39,7 @@ const ProjectAllScreen = () => {
           }));
 
           setProjects(mappedProjects);
+          setPages(response.data?.pageInfo)
           setIsLoading(false);
         } else {
           console.error("Error fetching projects:", response.message);
@@ -70,7 +71,7 @@ const ProjectAllScreen = () => {
   const indexOfLastProject = currentPage * projectsPerPage;
   const indexOfFirstProject = indexOfLastProject - projectsPerPage;
   const currentProjects = filteredProjects.slice(indexOfFirstProject, indexOfLastProject);
-  const totalPages = Math.ceil(filteredProjects.length / projectsPerPage);
+ 
 
   const handleClickViewProject = (projectId: string) => {
     navigate(`/projetos/projeto?id=${projectId}`);
@@ -142,9 +143,9 @@ const ProjectAllScreen = () => {
         )}
       </div>
 
-      {totalPages > 1 && (
+      {pages.totalPages > 1 && (
         <div className="mt-4">
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+          {Array.from({ length: pages.totalPages }, (_, i) => i + 1).map((page) => (
             <button
               key={page}
               onClick={() => paginate(page)}

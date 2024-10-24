@@ -22,17 +22,14 @@ import { HiOutlineBuildingOffice } from "react-icons/hi2";
 import { IoHomeOutline } from "react-icons/io5";
 
 const Services = () => {
-  const [category, setCategory] = useState<ResponseCategoryDto[]>();
-  const [projects, setProjects] = useState<ResponseProjectDto[]>();
+  const [category, setCategory] = useState<ResponseCategoryDto[]>([]);
+  const [projects, setProjects] = useState<ResponseProjectDto[]>([]);
   const [photoOne, setPhotoOne] = useState<ResponsePhotoDto[]>([]);
-  let sliderRef = useRef<Slider | null>(null);
-  const next = () => {
-    sliderRef.current?.slickNext();
-  };
+  const sliderRef = useRef<Slider | null>(null);
+  
+  const next = () => sliderRef.current?.slickNext();
+  const previous = () => sliderRef.current?.slickPrev();
 
-  const previous = () => {
-    sliderRef.current?.slickPrev();
-  };
   const settings = {
     dots: false,
     arrows: false,
@@ -68,16 +65,15 @@ const Services = () => {
         const response = await categoryControllerFindAll("", 1, 10);
         if (response.status === 200) {
           setCategory(response.data?.data);
-          console.log(response)
         }
       } catch (error) {}
     };
 
     const fetchProjects = async () => {
       try {
-        const response = await projectControllerFindAll("", "", "", 1, 4);
+        const response = await projectControllerFindAll("", "", "", 1, 3);
         if (response.status === 200) {
-          const lastThreeProjects = response.data?.data.slice(-4);
+          const lastThreeProjects = response.data?.data.slice(-3);
           const photoUrls =
             lastThreeProjects &&
             lastThreeProjects.map((project: any) => {
@@ -101,13 +97,15 @@ const Services = () => {
     fetchCategory();
     fetchProjects();
   }, []);
+  
   const categoryIcons = {
-    "Interiores Residencial ": <IoHomeOutline className="text-4xl transition-transform duration-300 hover:scale-150" />,
+    "Interiores Residencial": <IoHomeOutline className="text-4xl transition-transform duration-300 hover:scale-150" />,
     "Interiores comercial": <HiOutlineBuildingOffice className="text-4xl transition-transform duration-300 hover:scale-150" />,
     "Paisagismo": <PiFlowerLotus className="text-4xl transition-transform duration-300 hover:scale-150" />,
     "Comercial": <HiOutlineOfficeBuilding className="text-4xl transition-transform duration-300 hover:scale-150" />,
     "Residencial": <IoHomeOutline className="text-4xl transition-transform duration-300 hover:scale-150" />,
   };
+
   return (
     <div
       style={{
@@ -115,7 +113,7 @@ const Services = () => {
         backgroundRepeat: "repeat",
         backgroundSize: "cover",
       }}
-      className="flex flex-col justify-start items-center min-h-screen w-full gap-8 z-10"
+      className="flex flex-col justify-start items-center min-h-screen w-full gap-4 z-10 relative"
     >
       <div className="flex flex-col w-auto items-center mt-4 z-30">
         <h1
@@ -126,7 +124,7 @@ const Services = () => {
         </h1>
         <img src="img/separador-title.svg" alt="" className="mb-8 w-full" />
       </div>
-      <div className="flex gap-4 max-h-10">
+      <div className="flex gap-4 max-h-10 ">
         <button
           onClick={previous}
           className="rounded-full border border-[#9BA1D1] hover:bg-[#9BA1D1] flex items-center justify-center p-2 cursor-pointer"
@@ -135,7 +133,7 @@ const Services = () => {
         </button>
         <button
           onClick={next}
-          className="rounded-full border border-[#9BA1D1]  hover:bg-[#9BA1D1] flex items-center justify-center p-2 cursor-pointer"
+          className="rounded-full border border-[#9BA1D1] hover:bg-[#9BA1D1] flex items-center justify-center p-2 cursor-pointer"
         >
           <HiChevronRight className="text-[#9BA1D1] hover:text-white" />
         </button>
@@ -158,10 +156,10 @@ const Services = () => {
                   <div className="flex flex-col items-center">
                     <div className="bg-[#9BA1D1] p-2 rounded-full w-28 h-28 flex justify-center items-center shadow-md hover:shadow-xl transition-shadow duration-300">
                       <div className="border-2 border-[#F4E393] p-4 rounded-full flex justify-center items-center w-full h-full">
-                      {categoryIcons[category.name] || (
-                        <HiOutlineOfficeBuilding className="text-4xl transition-transform duration-300 hover:scale-150" />
+                        {categoryIcons[category.name] || (
+                          <HiOutlineOfficeBuilding className="text-4xl transition-transform duration-300 hover:scale-150" />
                         )}
-                        </div>
+                      </div>
                     </div>
                     <h1 className="text-lg text-center text-primary mt-1">
                       {category.name}
@@ -172,30 +170,28 @@ const Services = () => {
           </Slider>
         </div>
       </div>
-      <div className="w-full p-4 mt-4">
-        <div className="flex flex-col items-start mt-4 z-30">
-          <h1
-            className="uppercase text-[#2F2E59] font-bold text-4xl"
-            style={{ fontFamily: "Adam, sans-serif" }}
-          >
-            Projetos
-          </h1>
-          <img src="img/separador-title-project.svg" className="mb-8" alt="" />
-        </div>
-        <div className="grid grid-cols-1 lg:grid-cols-3 2xl:grid-cols-4 sm:h-64 md:px-32 gap-12">
+      <div className="w-full mt-4">
+     
+        <div className="w-full p-4 flex justify-center gap-4 xl:px-72">
           {projects &&
             projects.map((project, index) => (
-              <div
-                key={project.id}
-                className="rounded-lg overflow-hidden flex flex-col text-center"
-              >
+              <div key={project.id} className="relative rounded-lg overflow-hidden flex flex-col w-full ">
                 <img
                   src={photoOne[index]}
-                  className="w-full h-64 object-cover"
+                  className="w-full h-64 object-cover transition duration-300 ease-in-out transform hover:scale-105"
                   alt=""
                   loading="lazy"
                 />
-                <h1 className="text-xl text-primary">{project.name}</h1>
+                <div className=" p-4 absolute inset-0 bg-gradient-to-t from-black to-transparent z-20 flex flex-col justify-end items-start opacity-0 hover:opacity-100 transition-opacity duration-300 text-start">
+                  <h1 className="text-xl text-white">{project.name}</h1>
+                  <Button
+                    variant={"inverseTwo"}
+                    onClick={() => navigate(`/projetos/projeto?id=${project.id}`)}
+                    className="mt-2"
+                  >
+                    Ver Projeto <HiArrowSmRight />
+                  </Button>
+                </div>
               </div>
             ))}
         </div>
