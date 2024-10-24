@@ -21,7 +21,7 @@ const ProjectAllScreen = () => {
   const [hoverProjectId, setHoverProjectId] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-const [pages, setPages]=useState()
+  const [pages, setPages]=useState()
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 const projectsPerPage = 10
@@ -30,7 +30,7 @@ const projectsPerPage = 10
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const response = await projectControllerFindAll('', '', '', 1, pages?.totalItems);
+        const response = await projectControllerFindAll('', '', '', 1, 100);
         if (response.status === 200) {
           //@ts-ignore
           const mappedProjects: Projects[] = response.data.data.map((project: Projects) => ({
@@ -39,8 +39,8 @@ const projectsPerPage = 10
           }));
 
           setProjects(mappedProjects);
-          setPages(response.data?.pageInfo)
           setIsLoading(false);
+          setPages(response.data)
         } else {
           console.error("Error fetching projects:", response.message);
           setIsLoading(false);
@@ -71,7 +71,7 @@ const projectsPerPage = 10
   const indexOfLastProject = currentPage * projectsPerPage;
   const indexOfFirstProject = indexOfLastProject - projectsPerPage;
   const currentProjects = filteredProjects.slice(indexOfFirstProject, indexOfLastProject);
- 
+  const totalPages = Math.ceil(filteredProjects.length / projectsPerPage);
 
   const handleClickViewProject = (projectId: string) => {
     navigate(`/projetos/projeto?id=${projectId}`);
@@ -143,9 +143,9 @@ const projectsPerPage = 10
         )}
       </div>
 
-      {pages.totalPages > 1 && (
+      {totalPages > 1 && (
         <div className="mt-4">
-          {Array.from({ length: pages.totalPages }, (_, i) => i + 1).map((page) => (
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
             <button
               key={page}
               onClick={() => paginate(page)}

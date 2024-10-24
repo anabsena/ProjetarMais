@@ -113,7 +113,7 @@ const Services = () => {
         backgroundRepeat: "repeat",
         backgroundSize: "cover",
       }}
-      className="flex flex-col justify-start items-center min-h-screen w-full gap-4 z-10 relative"
+      className="flex flex-col justify-center items-center min-h-screen w-full gap-4 z-10 relative"
     >
       <div className="flex flex-col w-auto items-center mt-4 z-30">
         <h1
