@@ -8,6 +8,7 @@ import ProjectAllScreen from "../screens/Public/Project/ProjectAllScreen";
 import ProjectidScreen from "../screens/Public/Project/ProjectId/ProejctIdScreen";
 import ProjectCategoryScreen from "../screens/Public/Project/ProjectCategory/ProjectCategoryScreen";
 import ServicesScreen from "../screens/Public/Sevices/ServicesScreen";
+import HomeNew from "../screens/Public/home/HomeNew";
 
 
 export default function PublicRoute() {
@@ -18,7 +19,7 @@ export default function PublicRoute() {
     },
     {
       path: '/home',
-      element: <Home />,
+      element: <HomeNew />,
     },
     {
       path: '/sign-in',
