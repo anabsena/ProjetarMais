@@ -5,16 +5,19 @@ import HeaderHome from "./HeaderHome";
 interface PublicLayoutProps {
     children: ReactNode;
 }
+
 const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
     return (
-        <div className="min-h-screen overflow-hidden bg-[#F2F4FF]">
-            <div className="lg:bg-[#545C99]  lg:w-full lg:h-28">
+        <div className="flex flex-col min-h-screen bg-[#F2F4FF]">
+            <header className="lg:bg-[#545C99] lg:w-full lg:h-28">
                 <HeaderHome />
-            </div>
-            <div className="">
-                <main>{children}</main>
-            </div>
-            <Footer />
+            </header>
+            <main className="flex-grow">
+                {children}
+            </main>
+            <footer>
+                <Footer />
+            </footer>
         </div>
     );
 };

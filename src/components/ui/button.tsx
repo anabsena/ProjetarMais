@@ -18,7 +18,7 @@ const buttonVariants = cva(
           "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
-        inverse: 'text-secondary bg-white font-medium border rounded-xl px-2 shadow-inner border-secondary',
+        inverse: 'text-secondary font-medium border rounded-xl px-2 shadow-inner border-secondary',
         inverseTwo: 'text-[#2F2E59] bg-gradient-to-r from-yellow-400 to-yellow-500 font-medium rounded-xl shadow-inner '
       },
       size: {

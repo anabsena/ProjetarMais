@@ -3,7 +3,6 @@ import {
   HiArrowSmRight,
   HiChevronLeft,
   HiChevronRight,
-  HiOutlineHome,
   HiOutlineOfficeBuilding,
 } from "react-icons/hi";
 import { Link, useNavigate } from "react-router-dom";
@@ -22,11 +21,15 @@ import { HiOutlineBuildingOffice } from "react-icons/hi2";
 import { IoHomeOutline } from "react-icons/io5";
 
 const Services = () => {
-  const [category, setCategory] = useState<ResponseCategoryDto[]>([]);
-  const [projects, setProjects] = useState<ResponseProjectDto[]>([]);
-  const [photoOne, setPhotoOne] = useState<ResponsePhotoDto[]>([]);
+  const [category, setCategory] = useState<ResponseCategoryDto[] | undefined>(
+    []
+  );
+  const [projects, setProjects] = useState<ResponseProjectDto[] | undefined>(
+    []
+  );
+  const [photoOne, setPhotoOne] = useState<ResponsePhotoDto[] | undefined>([]);
   const sliderRef = useRef<Slider | null>(null);
-  
+
   const next = () => sliderRef.current?.slickNext();
   const previous = () => sliderRef.current?.slickPrev();
 
@@ -97,13 +100,23 @@ const Services = () => {
     fetchCategory();
     fetchProjects();
   }, []);
-  
+
   const categoryIcons = {
-    "Interiores Residencial": <IoHomeOutline className="text-4xl transition-transform duration-300 hover:scale-150" />,
-    "Interiores comercial": <HiOutlineBuildingOffice className="text-4xl transition-transform duration-300 hover:scale-150" />,
-    "Paisagismo": <PiFlowerLotus className="text-4xl transition-transform duration-300 hover:scale-150" />,
-    "Comercial": <HiOutlineOfficeBuilding className="text-4xl transition-transform duration-300 hover:scale-150" />,
-    "Residencial": <IoHomeOutline className="text-4xl transition-transform duration-300 hover:scale-150" />,
+    "Interiores Residencial": (
+      <IoHomeOutline className="text-4xl transition-transform duration-300 hover:scale-150" />
+    ),
+    "Interiores comercial": (
+      <HiOutlineBuildingOffice className="text-4xl transition-transform duration-300 hover:scale-150" />
+    ),
+    Paisagismo: (
+      <PiFlowerLotus className="text-4xl transition-transform duration-300 hover:scale-150" />
+    ),
+    Comercial: (
+      <HiOutlineOfficeBuilding className="text-4xl transition-transform duration-300 hover:scale-150" />
+    ),
+    Residencial: (
+      <IoHomeOutline className="text-4xl transition-transform duration-300 hover:scale-150" />
+    ),
   };
 
   return (
@@ -156,6 +169,7 @@ const Services = () => {
                   <div className="flex flex-col items-center">
                     <div className="bg-[#9BA1D1] p-2 rounded-full w-32 h-32 flex justify-center items-center shadow-md hover:shadow-xl transition-shadow duration-300">
                       <div className="border-2 border-[#F4E393] p-4 rounded-full flex justify-center items-center w-full h-full">
+                        {/* @ts-ignore */}
                         {categoryIcons[category.name] || (
                           <HiOutlineOfficeBuilding className="text-5xl transition-transform duration-300 hover:scale-150" />
                         )}
@@ -171,12 +185,15 @@ const Services = () => {
         </div>
       </div>
       <div className="w-full mt-4">
-     
         <div className="w-full p-4 flex flex-col lg:flex-row justify-center gap-4 xl:px-72">
           {projects &&
             projects.map((project, index) => (
-              <div key={project.id} className="relative rounded-lg overflow-hidden flex flex-col w-full ">
+              <div
+                key={project.id}
+                className="relative rounded-lg overflow-hidden flex flex-col w-full "
+              >
                 <img
+                  //  @ts-ignore
                   src={photoOne[index]}
                   className="w-full h-64 object-cover transition duration-300 ease-in-out transform hover:scale-105"
                   alt=""
@@ -186,7 +203,9 @@ const Services = () => {
                   <h1 className="text-xl text-white">{project.name}</h1>
                   <Button
                     variant={"inverseTwo"}
-                    onClick={() => navigate(`/projetos/projeto?id=${project.id}`)}
+                    onClick={() =>
+                      navigate(`/projetos/projeto?id=${project.id}`)
+                    }
                     className="mt-2"
                   >
                     Ver Projeto <HiArrowSmRight />

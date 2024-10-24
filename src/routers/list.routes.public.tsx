@@ -1,14 +1,13 @@
 import { Navigate } from "react-router-dom";
-import { Home } from "../screens";
 import SignIn from "../screens/Admin/loginAdmin/SignIn";
 import PublicLayout from "../components/template";
 import AboutUsScreen from "../screens/Public/AboutUs/AboutUseScreen";
 import ContactScreen from "../screens/Public/Contact/ContactScreen";
-import ProjectAllScreen from "../screens/Public/Project/ProjectAllScreen";
 import ProjectidScreen from "../screens/Public/Project/ProjectId/ProejctIdScreen";
 import ProjectCategoryScreen from "../screens/Public/Project/ProjectCategory/ProjectCategoryScreen";
 import ServicesScreen from "../screens/Public/Sevices/ServicesScreen";
 import HomeNew from "../screens/Public/home/HomeNew";
+import ProjectAllNew from "../screens/Public/Project/ProjectAllNew";
 
 
 export default function PublicRoute() {
@@ -39,7 +38,7 @@ export default function PublicRoute() {
     },
     {
       path: '/projetos',
-      element: <PublicLayout><ProjectAllScreen /></PublicLayout>,
+      element: <PublicLayout><ProjectAllNew /></PublicLayout>,
     },
     {
       path: '/projetos/projeto',
