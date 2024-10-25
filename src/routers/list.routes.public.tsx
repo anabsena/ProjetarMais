@@ -1,58 +1,52 @@
-
 import { Navigate } from "react-router-dom";
-import { Home } from "../screens";
 import SignIn from "../screens/Admin/loginAdmin/SignIn";
-import AboutUs from "../screens/Public/AboutUs/AboutUs";
-import Contact from "../screens/Public/Contact/Contact";
-import Services from "../screens/Public/Sevices/Services";
-import ProjectAll from "../screens/Public/Project/ProjectAll";
-import ProjectId from "../screens/Public/Project/ProjectId/ProjectId";
-import ProjectCategory  from "../screens/Public/Project/ProjectCategory/ProjectCategory";
+import PublicLayout from "../components/template";
+import AboutUsScreen from "../screens/Public/AboutUs/AboutUseScreen";
+import ContactScreen from "../screens/Public/Contact/ContactScreen";
+import ProjectidScreen from "../screens/Public/Project/ProjectId/ProejctIdScreen";
+import ProjectCategoryScreen from "../screens/Public/Project/ProjectCategory/ProjectCategoryScreen";
+import ServicesScreen from "../screens/Public/Sevices/ServicesScreen";
+import HomeNew from "../screens/Public/home/HomeNew";
+import ProjectAllNew from "../screens/Public/Project/ProjectAllNew";
 
 
 export default function PublicRoute() {
-  return {
-    children: [
-      {
-        path: "*",
-        element: <Navigate to="/home" />,
-      },
-      {
-        path: '/home',
-        element: <Home />,
-      },
-      {
-        path: '/sign-in',
-        element: <SignIn />,
-      },
-      {
-        path: '/sobre-nos',
-        element: <AboutUs />,
-      },
-      {
-        path: '/contato',
-        element: <Contact />,
-      },
-      {
-        path: '/serviços',
-        element: <Services />,
-      },
-      {
-        path: '/projetos',
-        element: <ProjectAll />,
-      },
-      {
-        path: '/projetos/projeto',
-        element: <ProjectId />,
-      },
-      {
-        path: '/serviços/projeto',
-        element: <ProjectCategory />,
-      }
-
-
-
-
-    ]
-  };
+  return [
+    {
+      path: "*",
+      element: <Navigate to="/home" replace />,
+    },
+    {
+      path: '/home',
+      element: <HomeNew />,
+    },
+    {
+      path: '/sign-in',
+      element: <SignIn />,
+    },
+    {
+      path: '/sobre-nos',
+      element: <PublicLayout><AboutUsScreen /></PublicLayout>,
+    },
+    {
+      path: '/contato',
+      element: <PublicLayout><ContactScreen /></PublicLayout>,
+    },
+    {
+      path: '/serviços',
+      element: <PublicLayout><ServicesScreen /></PublicLayout>,
+    },
+    {
+      path: '/projetos',
+      element: <PublicLayout><ProjectAllNew /></PublicLayout>,
+    },
+    {
+      path: '/projetos/projeto',
+      element: <PublicLayout><ProjectidScreen /></PublicLayout>,
+    },
+    {
+      path: '/serviços/projeto',
+      element: <PublicLayout><ProjectCategoryScreen /></PublicLayout>,
+    }
+  ];
 }

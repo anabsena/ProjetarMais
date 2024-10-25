@@ -1,7 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+@import '~slick-carousel/slick/slick.css';
+@import '~slick-carousel/slick/slick-theme.css';
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -115,3 +116,4 @@
     @apply bg-background text-foreground;
   }
 }
+
