@@ -1,3 +1,3 @@
-import { Home } from "./Public/home/Home";
+import HomeNew from "../screens/Public/home/HomeNew";
 
-export { Home };
+export { HomeNew };
