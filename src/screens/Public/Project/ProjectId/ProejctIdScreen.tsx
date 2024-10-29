@@ -28,8 +28,10 @@ const ProjectidScreen = () => {
                 console.error("Error fetching project:", error);
             }
         };
+        // Rolar para o topo da página
+        window.scrollTo(0, 0);
         fetchProject();
-    }, []);
+    }, [projectId]); // Adicionando projectId como dependência para garantir que o efeito seja executado corretamente quando o ID do projeto mudar
 
     const renderSpecificDetails = (details: string) => {
         if (!details) return null;
@@ -70,8 +72,9 @@ const ProjectidScreen = () => {
     return (
         <div className="flex flex-col items-center mb-4 min-h-[100vh]">
             <img src="/img/icon-arq.svg" className="absolute top-28 right-0 hidden lg:block" alt="Icon" />
-            <div className="flex flex-col w-full items-start mt-28 lg:my-8 z-30 px-4">
-                <h1 className="uppercase text-[#2F2E59] text-4xl" style={{ fontFamily: "Mulish, sans-serif" }}>
+            <div className="flex flex-col w-full items-start mt-24 lg:my-8 z-30 px-4">
+                <h1 className="uppercase text-[#2F2E59] text-3xl flex-wrap" 
+                    style={{ fontFamily: "Mulish, sans-serif", wordBreak: "break-word", overflow: "hidden", whiteSpace: "normal" }}>
                     {project?.name || ''}
                 </h1>
                 <img src="/img/separador-title-project.svg" alt="Separador" className="" />
@@ -84,14 +87,14 @@ const ProjectidScreen = () => {
                     <span>{renderSpecificDetails(project?.especificDetails || '')}</span>
                 </div>
             </div>
-            <div className="grid grid-cols-1 lg:grid-cols-3 2xl:grid-cols-4 h-auto px-4 md:px-32 gap-12 flex-grow">
+            <div className="flex flex-wrap justify-center gap-2 xl:px-64 p-8">
                 {photoUrls.map((url, index) => (
                     <LazyLoad key={index} height={200} offset={100} once>
-                        <div className="rounded-xl h-64 cursor-pointer" onClick={() => handleImageClick(index)}>
+                        <div className="rounded-lg h-64 cursor-pointer w-full" onClick={() => handleImageClick(index)}>
                             <img
                                 src={url}
                                 alt={`Project photo ${index + 1}`}
-                                className="w-full h-full rounded-xl object-cover"
+                                className="w-full h-full rounded-lg object-cover"
                                 loading="lazy"
                             />
                         </div>
