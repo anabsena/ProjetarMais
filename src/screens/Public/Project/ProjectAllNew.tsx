@@ -15,6 +15,7 @@ import {
   IoIosArrowDroprightCircle,
 } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
+import useQuery from "../../../hooks/useQuery";
 
 interface CategorysResponse {
   id: string;
@@ -47,13 +48,28 @@ const ProjectAllNew = () => {
     perPage: 12,
   });
   const navigate = useNavigate();
+  const query = useQuery();
+  const categoryId = query.get('id');
   const [typingTimeout, setTypingTimeout] = useState<null | ReturnType<typeof setTimeout>>(null);
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+  useEffect(() => {
+    if (categoryId) {
+      setFilters((prev) => ({
+        ...prev,
+        selectedCategory: categoryId,
+      }));
+      setPageInfo((prev) => ({ ...prev, currentPage: 1 }));
+    }
+  }, [categoryId]);
   const fetchProjects = async () => {
     try {
       const { searchQuery, selectedCategory } = filters;
       const { perPage, currentPage } = pageInfo;
-
+  
       let response;
+      
       if (selectedCategory) {
         response = await categoryControllerFindOne(selectedCategory);
         // @ts-ignore
@@ -66,7 +82,7 @@ const ProjectAllNew = () => {
           currentPage,
           perPage
         );
-      // @ts-ignore
+        // @ts-ignore
         const { data, pageInfo: responsePageInfo } = response.data;
         setProjects(data);
         setPageInfo((prev) => ({
@@ -79,6 +95,7 @@ const ProjectAllNew = () => {
       console.error("Erro ao buscar projetos", error);
     }
   };
+  
 
   const fetchCategories = async () => {
     try {
@@ -93,7 +110,6 @@ const ProjectAllNew = () => {
 
   useEffect(() => {
     fetchProjects();
-    fetchCategories();
   }, [pageInfo.currentPage, filters.selectedCategory]);
 
   const handleFilterChange = (e:any) => {
@@ -207,14 +223,14 @@ const ProjectAllNew = () => {
           <IoSearchOutline className="absolute text-gray-300 text-2xl right-2 " />
         </div>
       </div>
-      <div className="flex  flex-wrap justify-center gap-2 xl:px-64 p-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-center gap-2 xl:px-64 p-8">
         {projects &&
           projects.map((project) => {
             const projectPhoto = project.ProjectPhotos[0]?.photoUrl
               ? BASE_IMAGE_URL + project.ProjectPhotos[0].photoUrl
               : null;
             return (
-              <div className="w-full sm:w-1/3 xl:w-1/5" key={project.id}>
+              <div className="rounded-lg overflow-hidden relative" key={project.id}>
                 <div className="rounded-lg overflow-hidden relative">
                   {projectPhoto ? (
                     <img

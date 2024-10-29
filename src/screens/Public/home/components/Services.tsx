@@ -162,7 +162,7 @@ const Services = () => {
             {category &&
               category.map((category) => (
                 <Link
-                  to={`/serviços/projeto?id=${category.id}`}
+                  to={`/projetos?id=${category.id}`}
                   key={category.id}
                   className="flex flex-col items-center text-decoration-none w-24"
                 >
