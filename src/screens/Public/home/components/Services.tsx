@@ -219,6 +219,7 @@ const Services = () => {
         variant={"inverseTwo"}
         onClick={() => navigate("/projetos")}
         size={"lg"}
+        className="mb-4"
       >
         Ver todos <HiArrowSmRight />
       </Button>

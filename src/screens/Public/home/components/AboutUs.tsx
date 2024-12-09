@@ -26,8 +26,11 @@ const AboutUs = () => {
           <div className="p-4  md:w-1/2 z-30 xl:mr-96 2xl:mr-64">
             <img src="img/img-escritorio-home.png" className=" " alt="" />
           </div>
-          <div className="h-96 w-full md:w-1/2 2xl:w-2/5 md:absolute md:right-0 z-10">
+          <div className="h-96 w-full md:w-1/2 2xl:w-2/5 md:absolute md:right-0 z-10 hidden md:block">
             <img src="/img/sobre-nos.png" alt="" className="w-full object-cover" />
+          </div>
+          <div className="h-96 w-full md:hidden flex">
+            <img src="/img/sobre-nos-mobile.png" alt="" className="w-full object-cover" />
           </div>
 
         </div>
