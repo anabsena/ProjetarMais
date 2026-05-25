@@ -5,13 +5,13 @@ import { Button } from "../../../../components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import LoadingSpinner from "../../../../components/loading";
 import usePhotoHook from "../../../../hooks/usePhotoHook";
-import { ResponseProjectDto } from "../../../../services/api-back";
+import { FirebaseProject } from "../../../../services/firebase/types";
 
 const ListProjectsScreen = () => {
   const { projectControllerFindAll, projectControllerDelete, projectControllerFindOne } = useProjectHook();
   const { photoControllerDelete } = usePhotoHook()
 
-  const [projects, setProjects] = useState<ResponseProjectDto[] | undefined>([]);
+  const [projects, setProjects] = useState<FirebaseProject[] | undefined>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [projectsPerPage] = useState(10);

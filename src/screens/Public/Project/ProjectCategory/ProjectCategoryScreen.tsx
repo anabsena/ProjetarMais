@@ -4,7 +4,7 @@ import LoadingSpinner from "../../../../components/loading";
 import { Button } from "../../../../components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { HiArrowSmRight } from "react-icons/hi";
-import { BASE_IMAGE_URL } from "../../../../constants/app.constant";
+import { getProjectCoverImageSrc } from "../../../../utils/image";
 
 
 const ProjectCategoryScreen = () => {
@@ -28,11 +28,7 @@ const ProjectCategoryScreen = () => {
           const fetchedProjects = response.data.Project || [];
           setProjects(fetchedProjects);
 
-          const urls = fetchedProjects.map((project: any) => {
-            const photoFirst = project.ProjectPhotos[0]?.photoUrl
-            if (!photoFirst) return null;
-            return BASE_IMAGE_URL + photoFirst
-          });
+          const urls = fetchedProjects.map((project: any) => getProjectCoverImageSrc(project));
 
           setPhotoUrls(urls);
           setIsLoading(false);
