@@ -5,12 +5,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button } from "../../../../../components/ui/button";  // Importando o componente de LoadingSpinner
 import { limitCharacter } from "../../../../../utils/limitCharacter";
 import LoadingSpinner from "../../../../../components/loading";
-import { ResponseCategoryDto } from "../../../../../services/api-back";
+import { FirebaseCategory } from "../../../../../services/firebase/types";
 
 const ListCategoryScreen = () => {
   const { categoryControllerFindAll, categoryControllerDelete } = useCategoryHook();
 
-  const [categories, setCategories] = useState<ResponseCategoryDto[]>([]);
+  const [categories, setCategories] = useState<FirebaseCategory[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [categoriesPerPage] = useState(10);

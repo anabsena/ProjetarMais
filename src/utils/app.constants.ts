@@ -1,1 +1,1 @@
-export const BASE_IMAGE_URL = 'https://projetar-mais-bucket.s3.amazonaws.com/'
+export const BASE_IMAGE_URL = ''

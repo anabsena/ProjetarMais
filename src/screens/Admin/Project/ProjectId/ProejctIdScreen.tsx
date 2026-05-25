@@ -3,7 +3,7 @@ import useQuery from "../../../../hooks/useQuery";
 import useProjectHook from "../../../../hooks/useProjectHook";
 import { HiOutlineForward } from "react-icons/hi2";
 import LoadingSpinner from "../../../../components/loading";
-import { BASE_IMAGE_URL } from "../../../../constants/app.constant";
+import { getProjectGalleryImageSrcs } from "../../../../utils/image";
 // Importando o componente de loading
 
 const ProjectidAdminScreen = () => {
@@ -21,8 +21,7 @@ const ProjectidAdminScreen = () => {
                     const response = await projectControllerFindOne(projectId);
                     setProject(response.data);
                     //@ts-ignore
-                    const projectPhotos = response.data.ProjectPhotos || [];
-                    const urls = projectPhotos.map((photo: any) => BASE_IMAGE_URL + photo.photoUrl);
+                    const urls = getProjectGalleryImageSrcs(response.data);
                     setPhotoUrls(urls);
                     setIsLoading(false);
                 }

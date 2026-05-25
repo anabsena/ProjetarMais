@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import useUserHook from "../../../../hooks/useUserHook";
-import { ResponseUserDto } from "../../../../services/api-back";
+import { FirebaseUserProfile } from "../../../../services/firebase/types";
 import { Button } from "../../../../components/ui/button";
 import { HiOutlineDotsVertical, HiOutlinePlus, HiOutlineUserCircle, HiOutlineXCircle, HiSearch } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
@@ -9,12 +9,12 @@ const ListAdmin = () => {
     const { userControllerFindAll, userControllerDelete } = useUserHook();
     const navigate = useNavigate()
 
-    const [users, setUsers] = useState<ResponseUserDto[]>([]);
+    const [users, setUsers] = useState<FirebaseUserProfile[]>([]);
     const [searchTerm, setSearchTerm] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const [usersPerPage] = useState(10);
     const [showModal, setShowModal] = useState(false);
-    const [selectedUser, setSelectedUser] = useState<ResponseUserDto | null>(null);
+    const [selectedUser, setSelectedUser] = useState<FirebaseUserProfile | null>(null);
     const [isDeleted, setIsDeleted] = useState(false);
     useEffect(() => {
         const fecthUser = async () => {
@@ -37,7 +37,7 @@ const ListAdmin = () => {
         setSearchTerm(event.target.value);
         setCurrentPage(1);
     };
-    const handleOpenModal = (user: ResponseUserDto) => {
+    const handleOpenModal = (user: FirebaseUserProfile) => {
         setSelectedUser(user);
         setShowModal(true);
     };

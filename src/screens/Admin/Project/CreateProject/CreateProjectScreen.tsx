@@ -28,18 +28,35 @@ const CreateProjectScreen = () => {
     const allDetails = [especificDetails, ...details];
     const especificDetailsString = allDetails.join('|');
     const response = await projectControllerCreate(name, description, especificDetailsString, projectCategoryId);
+
     if (response?.status === 201 && response.data?.id) {
-      await photosProject(response.data?.id);
+      const photoResponse = await photosProject(response.data.id);
+
+      if (photoResponse?.status === "error") {
+        alert(photoResponse.message);
+        return;
+      }
+
       navigate('/projects');
+    } else {
+      alert(response?.message || "Erro ao criar projeto.");
     }
   };
 
   const photosProject = async (projectId: string) => {
     for (const image of selectedImages) {
       const response = await photoControllerCreate(projectId, image);
-      if (response?.status === 'success') {
+
+      if (response?.status === "error") {
+        return response;
       }
     }
+
+    return {
+      status: 200,
+      message: "OK",
+      data: null,
+    };
   };
 
   useEffect(() => {
